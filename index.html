@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Jachai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans" as="style" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap" rel="stylesheet" /> 
+  <link rel="stylesheet" href="./icons/icofont/icofont.min.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./exam.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['\\[','\\]'], ['$$','$$']]
+      }
+    };
+    </script>
+</head>
+<body>
+  <div class="header">
+    <div class="avatar"><img src="https://lh3.googleusercontent.com/-zzfX-X_czXw/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclqtjASK3VPbjQGlgqu7wTNXLoASQ/s48-c/photo.jpg" /></div>
+    <div class="title">যাচাই!</div>
+    <div class="myscore"><i class="icofont-badge"></i><span class="count">404</span></div>
+  </div>
+<main>
+  <div class="ld"><div class="loader"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div></div>
+  <div class="app" id="app">
+   
+  </div>
+</main>
+
+
+<!-- partial -->
+  <script src='https://cdn.rawgit.com/krasimir/navigo/master/lib/navigo.min.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.all.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-storage.js"></script>
+  <script>
+    var firebaseConfig = {
+    apiKey: "AIzaSyAx0Oc2oSJA2anwfHseJZqwuAdnojI6jvY",
+    authDomain: "live-exam-7c7a8.firebaseapp.com",
+    databaseURL: "https://live-exam-7c7a8.firebaseio.com",
+    projectId: "live-exam-7c7a8",
+    storageBucket: "live-exam-7c7a8.appspot.com",
+    messagingSenderId: "577429915483",
+    appId: "1:577429915483:web:4fafe4a69bab7b1b063c7e",
+    measurementId: "G-6834S6GV1W"
+  };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    var store = firebase.firestore();
+    var db = firebase.database();
+  </script>
+  <script  src="./script.js"></script>
+
+</body>
+</html>
