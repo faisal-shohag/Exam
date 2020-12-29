@@ -1,6 +1,6 @@
 .questions{
     position: relative;
-    font-family: 'Google Sans', Kalpurush;
+    font-family: Google Sans, 'Kalpurush';
 }
 
 
@@ -237,7 +237,7 @@
 .exam-title{
     font-size: 19px;
     text-align: center;
-    font-family: 'Google Sans', Siyam Rupali;
+    font-family: 'Google Sans', 'Siyam Rupali';
     font-weight: bold;
     color: #fff;
     background: var(--purple);
@@ -247,7 +247,7 @@
 
 .exam-details{
     text-align: center;
-    font-family: 'Google Sans', Siyam Rupali;
+    font-family: 'Google Sans', 'Siyam Rupali';
 }
 
 .score{
