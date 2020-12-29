@@ -118,18 +118,18 @@ a{
 .exam{
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0, .2);
-  margin: 10px 5px;
+  margin: 5px 0px;
   text-align: center;
   border-radius: 5px;
   position: relative;
   background: #fff;
   overflow: hidden;
   font-family: Google Sans, 'SiyamRupali';
-  /* height: 85px; */
-  /* width: 100%; */
+  height: 85px;
+  width: 100%;
   }
   
   .at{
@@ -158,6 +158,7 @@ a{
   
   .author{
       color: #666464;
+      font-size: 10px;
   }
  
   .exam .logo{
