@@ -20,7 +20,6 @@ $(".lds-ellipsis div").css(
 );
 
 //console.log(Colors[Math.floor(Math.random()*11)])
-
 (function (window, Navigo) {
   const Router = (function (root, useHash, hash, Navigo) {
     class Router extends Navigo {
