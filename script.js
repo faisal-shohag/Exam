@@ -267,9 +267,9 @@ $(".lds-ellipsis div").css(
     };
 
     //Page not found!
-    Router.notFound(function () {
-      app.innerHTML = `404; Opps! You're in a wrong place!`;
-    });
+    // Router.notFound(function () {
+    //   app.innerHTML = `404; Opps! You're in a wrong place!`;
+    // });
 
     //Hooks
     Router.hooks({
