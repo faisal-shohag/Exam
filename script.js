@@ -59,8 +59,8 @@ $(".lds-ellipsis div").css(
     Router.routes = {
       "/": function () {
         app.innerHTML = `
-        <div style="font-family: Kalpurush;" class="menu-title">বিষয়</div>
-        <div style="font-family: Kalpurush;"  class="menu">
+        <div class="menu-title">বিষয়</div>
+        <div class="menu">
         <a href="#!"><div class="item">বাংলা</div></a>
         <a href="#!"><div class="item">English</div></a>
         <a href="#!"><div class="item">ICT</div></a>
@@ -118,8 +118,8 @@ $(".lds-ellipsis div").css(
           let myexam = exam.val();
           $(".ld").hide();
           app.innerHTML = `
-          <div style="font-family: Kalpurush;"  class="exam-container">
-          <div style="font-family: Kalpurush;"  class="exam-title">${myexam.details.name}</div>
+          <div class="exam-container">
+          <div class="exam-title">${myexam.details.name}</div>
           <div style="display: none;" class="score">
           <div class="mark"></div>
           <div class="score-wa"></div>
