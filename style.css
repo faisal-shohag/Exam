@@ -250,7 +250,7 @@ a{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 98%;
+  width: 90%;
   height: 100%;
   z-index: 999;
 }
