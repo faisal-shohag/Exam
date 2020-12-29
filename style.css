@@ -128,7 +128,7 @@ a{
   position: relative;
   background: #fff;
   overflow: hidden;
-  font-family: 'Siyam Rupali', sans-serif;
+  font-family: 'Hind Siliguri', sans-serif;
   /* height: 85px; */
   /* width: 100%; */
   }
@@ -250,7 +250,7 @@ a{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 98%;
   height: 100%;
   z-index: 999;
 }
@@ -269,7 +269,9 @@ header > p, main {
 }
 
 
-
+main{
+  position: relative;
+}
 
 ul {
   background: rgb(33, 33, 33);
