@@ -99,7 +99,7 @@ html, body {
 }
 .header .myscore .count{
   font-family: Google Sans;
-  background: #ced0d3;
+  background: #ebbfda;
   color: rgb(24, 21, 21);
   border-radius: 9px;
   padding: 2px;
@@ -107,6 +107,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 50px;
 }
 
 .header .myscore .icofont-badge{
