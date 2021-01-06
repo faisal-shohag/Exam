@@ -1,6 +1,4 @@
-*, *:before, *:after {
-  box-sizing: border-box;
-}
+
 
 @import url('https://cdn.rawgit.com/sh4hids/bangla-web-fonts/lal-sabuj-normal/stylesheet.css');
 @import url('https://fonts.maateen.me/siyam-rupali/font.css');
@@ -74,18 +72,7 @@ html, body {
   z-index: 99;
 }
 
-.header .avatar{
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-}
 
-.header .avatar img{
-  height: 40px;
-  width: 40px;
-}
 
 .header .title{
   font-family: 'Hind Siliguri', sans-serif;
@@ -99,7 +86,7 @@ html, body {
 }
 .header .myscore .count{
   font-family: Google Sans;
-  background: #ebbfda;
+  background: #f1e2ec;
   color: rgb(24, 21, 21);
   border-radius: 9px;
   padding: 0px;
@@ -122,7 +109,7 @@ a{
 .exam{
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0, .2);
   margin: 5px 0px;
@@ -132,7 +119,7 @@ a{
   background: #fff;
   overflow: hidden;
   font-family: Google Sans, 'SiyamRupali';
-  height: 85px;
+  height: 65px;
   width: 100%;
   }
   
@@ -165,7 +152,7 @@ a{
       font-size: 10px;
   }
  
-  .exam .logo{
+ .logo{
    height: 50px;
    width: 50px;
    display: flex;
@@ -176,16 +163,31 @@ a{
    /* border: 2px solid var(--teal); */
    color: #fff;
    background: var(--teal);
+   margin-right: 20px;
   }
+
+  .avatar .logo{
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    border-radius: 50%;
+    border: 2px solid #d4d0d0;
+    color: #fff;
+    background: var(--teal);
+    margin-right: 20px;
+   }
   
   .exam .title{
-    font-size: 17px;
+    font-size: 15px;
     font-weight: bold;
     color: #000;
   }
   
   .exam .others{
-    font-size: 13px;
+    font-size: 10px;
     color: #000;
   }
 
@@ -294,8 +296,12 @@ ul li a:active, ul li a:hover {
 .menu-title{
   font-size: 20px;
   font-weight: bold;
-  margin: 5px 5px;
+  margin: 5px 10px;
   font-family: Google Sans, 'Hind Siliguri';
+}
+
+.menu-title i{
+  font-size: 25px;
 }
 
 .menu{
@@ -303,7 +309,8 @@ ul li a:active, ul li a:hover {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  
+  background: #fff;
+  padding: 5px;
 }
 
 .item{
@@ -328,7 +335,7 @@ ul li a:active, ul li a:hover {
   font-weight: bold;
   background: #8E2DE2;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, #4A00E0, #8E2DE2); 
-  background: linear-gradient(to top, #4A00E0, #8E2DE2);
+  background: linear-gradient(to top, #6a2ee2, #8E2DE2);
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -336,4 +343,31 @@ ul li a:active, ul li a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0, .3);
+}
+
+.btn{
+  font-family: Kalpurush;
+}
+
+.warning{
+  color: var(--danger);
+  text-align: center;
+  font-style: italic;
+}
+
+.state-item{
+  font-size: 15px;
+  padding: 3px;
+  position: relative;
+}
+.state-item i{
+  font-size: 23px;
+}
+
+.state-item .count{
+  font-weight: bold;
+  padding: 3px;
+  position: absolute;
+  right: 45%;
 }

@@ -12,8 +12,10 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap" rel="stylesheet" /> 
   <link rel="stylesheet" href="./icons/icofont/icofont.min.css" />
+  <link rel="stylesheet" href="https://fir-ui-demo-84a6c.firebaseapp.com/dist/firebaseui.css" />
   <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="./exam.css" />
+
   <script>
     window.MathJax = {
       tex: {
@@ -25,7 +27,7 @@
 </head>
 <body>
   <div class="header">
-    <div class="avatar"><img src="https://lh3.googleusercontent.com/-zzfX-X_czXw/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclqtjASK3VPbjQGlgqu7wTNXLoASQ/s48-c/photo.jpg" /></div>
+    <a href="#!/profile"><div class="avatar"></div></a>
     <div class="title">যাচাই!</div>
     <div class="myscore"><i class="icofont-badge"></i><span class="count">404</span></div>
   </div>
@@ -33,8 +35,13 @@
 
   <div class="app" id="app">
     <div class="ld"><div class="loader"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div></div>
+  
   </div>
 </main>
+
+
+
+
 
 
 <!-- partial -->
@@ -66,7 +73,11 @@
     var store = firebase.firestore();
     var db = firebase.database();
   </script>
+  <script src="https://fir-ui-demo-84a6c.firebaseapp.com/common.js"></script>
+  <script src="https://fir-ui-demo-84a6c.firebaseapp.com/dist/firebaseui.js"></script>
   <script  src="./script.js"></script>
+  <script src="./firebaseauth.js"></script>
+  
 
 </body>
 </html>
