@@ -97,7 +97,7 @@ html, body {
   width: 50px;
 }
 
-.header .myscore .icofont-badge{
+.header .myscore i{
   font-size: 20px;
   color: gold;
 }
@@ -369,5 +369,19 @@ ul li a:active, ul li a:hover {
   font-weight: bold;
   padding: 3px;
   position: absolute;
-  right: 45%;
+  right: 40%;
+  color: var(--danger);
+}
+
+.userName{
+  font-weight: bold;
+  padding: 4px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0, .2);
+}
+
+.group{
+  color: var(--orange);
+  padding-top: 5px;
+  font-size: 14px;
 }
