@@ -39,6 +39,7 @@ function getUiConfig() {
                 practiceScore: 0,
                 totalPracExam: 0,
                 totalExam: 0,
+                examScoreTotal: 0,
                 notification: {
                   key123:{
                     text: 'Welcome to Jachai!',
@@ -189,7 +190,7 @@ function getUiConfig() {
     user ? handleSignedInUser(user) : handleSignedOutUser();
 
     if(user){
-        console.log('Signed In');
+        //console.log('Signed In');
         $('.signBtn').show();
         $('.logState').html(``);
         //router.navigate('/');
@@ -229,13 +230,13 @@ function getUiConfig() {
            etotalPracExam = set.val().totalPracExam;
             $('.state').html(`
         <div class="state-item">
-        <i class="icofont-paperclip"></i> মোট লাইভ পরীক্ষা দিয়েছোঃ <span class="count ex"> ${set.val().totalExam} </span> 
+        <i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalExam} </span> 
         </div>
         <div class="state-item">
         <i class="icofont-badge"></i> তোমার লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().score} </span> 
         </div>
         <div class="state-item">
-        <i class="icofont-thunder-light"></i> মোট প্রাকটিস পরীক্ষা দিয়েছোঃ <span class="count ex"> ${set.val().totalPracExam} </span> 
+        <i class="icofont-thunder-light"></i> মোট প্রাকটিস এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalPracExam} </span> 
         </div>
         <div class="state-item">
         <i class="icofont-hand-thunder"></i> তোমার প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().practiceScore} </span> 
@@ -296,7 +297,7 @@ function getUiConfig() {
    * Initializes the app.
    */
   var initApp = function() {
-    console.log(window.location.hash)
+   // console.log(window.location.hash)
     if(window.location.hash === '#!/login'){
     document.getElementById('sign-out').addEventListener('click', function() {
     

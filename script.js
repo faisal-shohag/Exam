@@ -127,7 +127,7 @@ $(document).ready(function(){
         //console.log(params);
         $(".ld").show();
         //console.log('Exams')
-        console.log(params);
+       // console.log(params);
         db.ref("jachai/exams/"+params.id).on("value", (pracs) => {
           $(".ld").hide();
           var allExams = [];
@@ -142,7 +142,7 @@ $(document).ready(function(){
   `;
    for (let i = allExams.length - 1; i >= 0; i--) { 
   document.querySelector('.examLists').innerHTML += `
-  <a  href="#!/exam/${examsKeys[i]}">
+ 
   <div class="exam">
   <div class="at">${getRelativeTime(allExams[i].details.at)}</div>
   <div class="class">${allExams[i].details.class}</div>
@@ -156,9 +156,11 @@ $(document).ready(function(){
           } টি | সময়ঃ ${allExams[i].details.duration} মিনিট | স্কোরঃ ${
               allExams[i].questions.length
             } | নেগেটিভঃ ${allExams[i].details.negative}</div>
-          <small class="author"><i>by ${allExams[i].details.author}</i></small>
+          <small class="author"><i>author: ${allExams[i].details.author}</i></small></br>
+          <a  href="#!/exam/${examsKeys[i]}"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
+          <a  href="#!/leaderboard/${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>লিডারবোর্ড</button> </a>
       </div>
-  </div></a>
+  </div>
   `
           }
         });
@@ -263,9 +265,15 @@ $(document).ready(function(){
           $("#submit")
             .off()
             .click(function () {
+
+              let foundKey = false;
             db.ref('jachai/users/'+userUID+'/practiceExams/'+myexam.details.sub+'/'+params.id).on('value', keyMatch=>{
-            console.log(keyMatch.val());
+            //console.log(keyMatch.val());
              if(keyMatch.val()===null){
+                 foundKey = true;
+             }
+
+             if(foundKey){
               Swal.fire({
               title: `তুমি কি নিশ্চিত?`,
               text: `তোমার স্কোর সাবমিট হবে। এই পরীক্ষাটির জন্য দ্বিতীয়বার তোমার স্কোর আর যোগ হবে না!`,
@@ -303,6 +311,7 @@ $(document).ready(function(){
                     break;
                    }else found =false;
                 }
+
                 if(!found){
                   wrong++; 
                   // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'}); 
@@ -594,7 +603,10 @@ $(document).ready(function(){
         <h5>
         </span>
         <i class="icofont-bars"></i>প্রোফাইল পরিসংখ্যান</h5>
-        <h6 class="userName"><span class="user-gender-icon"></span> <span class="username"></span></br>
+        <h6 class="userName">
+        <span class="user-gender-icon"></span> 
+        <span class="username"></span>
+        </br>
         <span class="group"></span>
         </h6>     
 <div class="state">
