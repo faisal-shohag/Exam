@@ -369,7 +369,7 @@ ul li a:active, ul li a:hover {
   font-weight: bold;
   padding: 3px;
   position: absolute;
-  right: 40%;
+  right: 30%;
   color: var(--danger);
 }
 
