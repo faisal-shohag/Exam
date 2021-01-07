@@ -26,6 +26,63 @@
  var epscore = 0;
  var etotalExam = 0;
  var etotalPracExam =0;
+
+ function getData() {
+   if(userUID===undefined){
+     router.navigate('/');
+   }else{
+  db.ref('jachai/users/'+userUID).on('value', set=>{
+   //console.log(userUID)
+    if(window.location.hash === '#!/login'){
+      $('.phone').text(set.val().phone)
+    }
+
+    if(window.location.hash === '#!/setprofile'){
+        $('.mi').html(`<i class="icofont-school-bag prefix"></i> <b>Class:</b> ${set.val().stdclass}</br>
+        <i class="icofont-group" prefix></i> <b>Group:</b> ${set.val().group}</br>
+        <i class="icofont-group-students prefix"></i> <b>Gender:</b> ${set.val().gender}
+        `)
+     $('#rusername').val(set.val().username);
+     $('#rschool').val(set.val().school);
+     $('#gender').val(set.val().gender);
+     $('#rclasss').val(set.val().stdclass);
+     $('#rgroup').val(set.val().group);
+     $('#rdistrict').val(set.val().district);
+      }
+
+  if(window.location.hash === '#!/profile'){
+     $('.group').html(`<i class="icofont-ui-user-group"></i> ${set.val().group}`)
+     $('.username').text(set.val().username);
+    if(set.val().gender === 'male'){
+      $('.user-gender-icon').html(`<i class="icofont-student-alt"></i>`)
+    }else{
+      $('.user-gender-icon').html(`<i class="icofont-student"></i>`)
+    }
+    
+   escore = set.val().score;
+   epscore = set.val().practiceScore;
+   etotalExam = set.val().totalExam;
+   etotalPracExam = set.val().totalPracExam;
+    $('.state').html(`
+<div class="state-item">
+<i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalExam} </span> 
+</div>
+<div class="state-item">
+<i class="icofont-badge"></i> তোমার লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().score} </span> 
+</div>
+<div class="state-item">
+<i class="icofont-thunder-light"></i> মোট প্রাকটিস এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalPracExam} </span> 
+</div>
+<div class="state-item">
+<i class="icofont-hand-thunder"></i> তোমার প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().practiceScore} </span> 
+</div>
+    `)
+
+  }
+})
+   
+   }
+ }
 function getUiConfig() {
     return {
       'callbacks': {
@@ -188,7 +245,6 @@ function getUiConfig() {
     $('#loading').hide();
     $('#loaded').show();
     user ? handleSignedInUser(user) : handleSignedOutUser();
-
     if(user){
         //console.log('Signed In');
         $('.signBtn').show();
@@ -200,55 +256,26 @@ function getUiConfig() {
                 //console.log('User is not ready!');
                 router.navigate('/setprofile');
             }else{
-
               $('.avatar').html(`<div class="logo" style="background: ${logoColor(
                 firstLetter(set.val().username)
               )}">${firstLetter(set.val().username)}</div>`)
-              $('.mi').html(`<i class="icofont-school-bag prefix"></i> <b>Class:</b> ${set.val().stdclass}</br>
-              <i class="icofont-group" prefix></i> <b>Group:</b> ${set.val().group}</br>
-              <i class="icofont-group-students prefix"></i> <b>Gender:</b> ${set.val().gender}
-              `)
-             $('#rusername').val(set.val().username);
-             $('#rschool').val(set.val().school);
-             $('#gender').val(set.val().gender);
-             $('#rclasss').val(set.val().stdclass);
-             $('#rgroup').val(set.val().group);
-             $('#rdistrict').val(set.val().district);
-             $('.group').html(`<i class="icofont-ui-user-group"></i> ${set.val().group}`)
-             $('.username').text(set.val().username);
-            if(set.val().gender === 'male'){
-              $('.user-gender-icon').html(`<i class="icofont-student-alt"></i>`)
-            }else{
-              $('.user-gender-icon').html(`<i class="icofont-student"></i>`)
+              $('.tsc').text(set.val().score);
+              $('.psc').text(set.val().practiceScore);
+               
             }
-            }
-           $('.tsc').text(set.val().score);
-           escore = set.val().score;
-           $('.psc').text(set.val().practiceScore);
-           epscore = set.val().practiceScore;
-           etotalExam = set.val().totalExam;
-           etotalPracExam = set.val().totalPracExam;
-            $('.state').html(`
-        <div class="state-item">
-        <i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalExam} </span> 
-        </div>
-        <div class="state-item">
-        <i class="icofont-badge"></i> তোমার লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().score} </span> 
-        </div>
-        <div class="state-item">
-        <i class="icofont-thunder-light"></i> মোট প্রাকটিস এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalPracExam} </span> 
-        </div>
-        <div class="state-item">
-        <i class="icofont-hand-thunder"></i> তোমার প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().practiceScore} </span> 
-        </div>
-            `)
+        
+          
+
         })
+      
     }else{
         console.log('Signed out');
         $('.signBtn').hide();
         $('.logState').html(`<h5>তুমি এখন লগ আউট! লগইন করো জলদি!</h5>`)
        // router.navigate('/login');
     }
+
+  
 
   });
 
