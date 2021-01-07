@@ -728,10 +728,6 @@ $(document).ready(function(){
            }else{
              $('.user-gender-icon').html(`<i class="icofont-student"></i>`)
            }
-          escore = set.val().score;
-          epscore = set.val().practiceScore;
-          etotalExam = set.val().totalExam;
-          etotalPracExam = set.val().totalPracExam;
            $('.state').html(`
        <div class="state-item">
        <i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalExam} </span> 
@@ -750,7 +746,7 @@ $(document).ready(function(){
       }
     });
 
-
+    
       }
     };
 

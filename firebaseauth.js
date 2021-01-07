@@ -145,10 +145,6 @@ function getUiConfig() {
 
 
     //return foundUID;
-   
-
-
-  
   // Listen to change in auth state so it displays the correct UI for when
   // the user is signed in or not.
   firebase.auth().onAuthStateChanged(function(user) {
@@ -168,11 +164,11 @@ function getUiConfig() {
               )}">${firstLetter(set.val().username)}</div>`)
               $('.tsc').text(set.val().score);
               $('.psc').text(set.val().practiceScore);
-               
+              epscore = set.val().practiceScore;
+              escore = set.val().score;
+              etotalExam = set.val().totalExam;
+              etotalPracExam = set.val().totalPracExam;
             }
-        
-          
-
         })
       
     }else{
