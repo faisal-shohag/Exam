@@ -26,6 +26,11 @@
  var epscore = 0;
  var etotalExam = 0;
  var etotalPracExam =0;
+
+// if(userUID===undefined){
+//      router.navigate('/');
+//    }
+
 function getUiConfig() {
     return {
       'callbacks': {
@@ -137,6 +142,12 @@ function getUiConfig() {
    * Displays the UI for a signed out user.
    */
   
+
+
+    //return foundUID;
+   
+
+
   
   // Listen to change in auth state so it displays the correct UI for when
   // the user is signed in or not.

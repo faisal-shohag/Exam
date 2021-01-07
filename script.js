@@ -23,11 +23,6 @@ let Colors = {
     }
   });
 
- router.hooks({
-   before: function(done, params){
-     //location.reload();
-   }
- })
 // Random Color
 $(".header").css("background-color", Colors[Math.floor(Math.random() * 11)]);
 $(".lds-ellipsis div").css(
@@ -114,7 +109,7 @@ $(document).ready(function(){
         <div style="text-align: center;">আই.কিউ</div>
         </div></div></a>
 
-        <a href="index.html#!/exams/practice"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+        <a href="/#!/exams/practice"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <center><div class="bfontIcon">অ</div></center>
         <div style="text-align: center;">অন্যান্য</div>
         </div></div></a>
@@ -670,8 +665,10 @@ $(document).ready(function(){
               
               console.log(userUID);
             } 
-        })
+        });
 
+  firebase.auth().onAuthStateChanged(function(user) {
+          if(user){
         db.ref('jachai/users/'+userUID).on('value', set=>{
           $('.mi').html(`<i class="icofont-school-bag prefix"></i> <b>Class:</b> ${set.val().stdclass}</br>
                <i class="icofont-group" prefix></i> <b>Group:</b> ${set.val().group}</br>
@@ -684,13 +681,15 @@ $(document).ready(function(){
             $('#rgroup').val(set.val().group);
             $('#rdistrict').val(set.val().district);
        });
+      }
+      })
         
       },
       "/profile": function() {
         app.innerHTML=`
         <div class="login">
         <a href="#!/setprofile"><div style="float:right; color: #000; font-size: 14px; margin-left: 10px;">
-        <i class="icofont-edit"></i>প্রোফাইল এডিট</div></a> 
+        <i class="icofont-edit"></i>প্রোফাইল সেট</div></a> 
         <a href="#!/login"><div style="float:right; color: #000; font-size: 14px;">
         <i class="icofont-logout"></i> সাইনআউট </div></a>
         <h5>
@@ -719,6 +718,8 @@ $(document).ready(function(){
         </div>
         </div>
         `
+        firebase.auth().onAuthStateChanged(function(user) {
+          if(user){
   db.ref('jachai/users/'+userUID).on('value', set=>{    
             $('.group').html(`<i class="icofont-ui-user-group"></i> ${set.val().group}`)
             $('.username').text(set.val().username);
@@ -746,6 +747,10 @@ $(document).ready(function(){
        </div>
            `)
        })
+      }
+    });
+
+
       }
     };
 
