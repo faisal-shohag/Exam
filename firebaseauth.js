@@ -26,10 +26,6 @@
  var epscore = 0;
  var etotalExam = 0;
  var etotalPracExam =0;
-if(userUID===undefined && window.location.hash!='!#/login'){
-     router.navigate('/');
-   }
- 
 function getUiConfig() {
     return {
       'callbacks': {
@@ -114,87 +110,37 @@ function getUiConfig() {
   var ui = new firebaseui.auth.AuthUI(firebase.auth());
   // Disable auto-sign in.
 //i.disableAutoSignIn();
-  
-  
-  /**
-   * @return {string} The URL of the FirebaseUI standalone widget.
-   */
-  function getWidgetUrl() {
-    return '/widget#recaptcha=' + getRecaptchaMode() + '&emailSignInMethod=' +
-        getEmailSignInMethod();
-  }
-  
+
+
   
   /**
    * Redirects to the FirebaseUI widget.
    */
-  var signInWithRedirect = function() {
-    window.location.assign(getWidgetUrl());
-  };
+  // var signInWithRedirect = function() {
+  //   window.location.assign(getWidgetUrl());
+  // };
   
   
   /**
    * Open a popup with the FirebaseUI widget.
    */
-  var signInWithPopup = function() {
-    window.open(getWidgetUrl(), 'Sign In', 'width=985,height=735');
-  };
+  // var signInWithPopup = function() {
+  //   window.open(getWidgetUrl(), 'Sign In', 'width=985,height=735');
+  // };
   
   
   /**
-   * Displays the UI for a signed in user.
-   * @param {!firebase.User} user
-   */
-  var handleSignedInUser = function(user) {
-    $('#loading').hide();
-    $('#loaded').show();
-    //   console.log(user);
-    //   db.ref('jachai/users/'+user.uid+'/').update({
-    //       phoneNumber: user.phoneNumber,
-    //       creationTime: user.metadata.creationTime,
-    //       lastSignInTime: user.metadata.lastSignInTime,
-    //     setStatus: false
-    // });
-    $('#user-signed-in').show();
-   $('#user-signed-out').hide();
-    // document.getElementById('name').textContent = user.displayName;
-    // document.getElementById('email').textContent = user.email;
-    $('#phone').html(`
-  <b><i class="icofont-smart-phone prefix"></i> Phone:</b> ${user.phoneNumber}`);
-
-    if (user.photoURL) {
-      var photoURL = user.photoURL;
-      // Append size to the photo URL for Google hosted images to avoid requesting
-      // the image with its original resolution (using more bandwidth than needed)
-      // when it is going to be presented in smaller size.
-      if ((photoURL.indexOf('googleusercontent.com') != -1) ||
-          (photoURL.indexOf('ggpht.com') != -1)) {
-        photoURL = photoURL + '?sz=' +
-            document.getElementById('photo').clientHeight;
-      }
-      document.getElementById('photo').src = photoURL;
-      document.getElementById('photo').style.display = 'block';
-    } else {
-      //$('#photo').style.display = 'none';
-    }
-  };
+ 
   
   
   /**
    * Displays the UI for a signed out user.
    */
-  var handleSignedOutUser = function() {
-    $('#user-signed-in').hide;
-    $('#user-signed-out').show;
-    ui.start('#firebaseui-container', getUiConfig());
-  };
+  
   
   // Listen to change in auth state so it displays the correct UI for when
   // the user is signed in or not.
   firebase.auth().onAuthStateChanged(function(user) {
-    $('#loading').hide();
-    $('#loaded').show();
-    user ? handleSignedInUser(user) : handleSignedOutUser();
     if(user){
         //console.log('Signed In');
         $('.signBtn').show();
@@ -222,11 +168,7 @@ function getUiConfig() {
         console.log('Signed out');
         $('.signBtn').hide();
         $('.logState').html(`<h5>তুমি এখন লগ আউট! লগইন করো জলদি!</h5>`)
-       // router.navigate('/login');
     }
-
-  
-
   });
 
   
@@ -236,24 +178,16 @@ function getUiConfig() {
   /**
    * Deletes the user's account.
    */
-  var deleteAccount = function() {
-    firebase.auth().currentUser.delete().catch(function(error) {
-      if (error.code == 'auth/requires-recent-login') {
-        // The user's credential is too old. She needs to sign in again.
-        firebase.auth().signOut().then(function() {
-          setTimeout(function() {
-            alert('Please sign in again to delete your account.');
-          }, 1);
-        });
-      }
-    });
-  };
+
   
   
   /**
    * Handles when the user changes the reCAPTCHA or email signInMethod config.
    */
-  function handleConfigChange() {
+  
+  
+  
+  /**function handleConfigChange() {
     var newRecaptchaValue = document.querySelector(
         'input[name="recaptcha"]:checked').value;
     var newEmailSignInMethodValue = document.querySelector(
@@ -266,26 +200,9 @@ function getUiConfig() {
     ui.reset();
     ui.start('#firebaseui-container', getUiConfig());
   }
-  
-  
-  /**
    * Initializes the app.
    */
-  var initApp = function() {
-   if(window.location.hash === '#!/login'){
-    document.getElementById('sign-out').addEventListener('click', function() {
-      firebase.auth().signOut();
-      window.location.reload();
-    });
-    document.getElementById('delete-account').addEventListener(
-        'click', function() {
-          deleteAccount();
-          window.location.reload();
-        });
-   }
-  };
-  
-  window.addEventListener('load', initApp);
+
 
   function getTimea(){
     let date = new Date();

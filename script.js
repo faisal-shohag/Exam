@@ -20,8 +20,6 @@ let Colors = {
  firebase.auth().onAuthStateChanged(function(user) {
   if(!user){
       router.navigate('/login');
-      //console.log('User')
-       // console.log('Signed out');
     }
   });
 
@@ -448,11 +446,100 @@ $(document).ready(function(){
   </div>
 </div>
         `;
-        //getData();
-        document.getElementById('sign-out').addEventListener('click', function() {
-          firebase.auth().signOut();
+
+          /**
+   * @return {string} The URL of the FirebaseUI standalone widget.
+   */
+  function getWidgetUrl() {
+    return '/widget#recaptcha=' + getRecaptchaMode() + '&emailSignInMethod=' +
+        getEmailSignInMethod();
+  }
+  
+
+          /**
+   * Displays the UI for a signed in user.
+   * @param {!firebase.User} user
+   */
+       var handleSignedInUser = function(user) {
+         $('#loading').hide();
+         $('#loaded').show();
+         $('#user-signed-in').show();
+        $('#user-signed-out').hide();
+         // document.getElementById('name').textContent = user.displayName;
+         // document.getElementById('email').textContent = user.email;
+         $('#phone').html(`
+       <b><i class="icofont-smart-phone prefix"></i> Phone:</b> ${user.phoneNumber}`);
+     
+         if (user.photoURL) {
+           var photoURL = user.photoURL;
+           // Append size to the photo URL for Google hosted images to avoid requesting
+           // the image with its original resolution (using more bandwidth than needed)
+           // when it is going to be presented in smaller size.
+           if ((photoURL.indexOf('googleusercontent.com') != -1) ||
+               (photoURL.indexOf('ggpht.com') != -1)) {
+             photoURL = photoURL + '?sz=' +
+                 document.getElementById('photo').clientHeight;
+           }
+           document.getElementById('photo').src = photoURL;
+           document.getElementById('photo').style.display = 'block';
+         }
+       };
+
+        var handleSignedOutUser = function() {
+          $('#user-signed-in').hide;
+          $('#user-signed-out').show;
+          ui.start('#firebaseui-container', getUiConfig());
+        };
+
+        firebase.auth().onAuthStateChanged(function(user) {
+          $('#loading').hide();
+          $('#loaded').show();
+          user ? handleSignedInUser(user) : handleSignedOutUser();
+        })
+
+        var deleteAccount = function() {
+          firebase.auth().currentUser.delete().catch(function(error) {
+            if (error.code == 'auth/requires-recent-login') {
+              // The user's credential is too old. She needs to sign in again.
+              firebase.auth().signOut().then(function() {
+                setTimeout(function() {
+                  alert('Please sign in again to delete your account.');
+                }, 1);
+              });
+            }
+          });
+        };
+
+        function handleConfigChange() {
+          var newRecaptchaValue = document.querySelector(
+              'input[name="recaptcha"]:checked').value;
+          var newEmailSignInMethodValue = document.querySelector(
+              'input[name="emailSignInMethod"]:checked').value;
+          location.replace(
+              location.pathname + '#recaptcha=' + newRecaptchaValue +
+              '&emailSignInMethod=' + newEmailSignInMethodValue);
+        
+          // Reset the inline widget so the config changes are reflected.
+          ui.reset();
+          ui.start('#firebaseui-container', getUiConfig());
+        }
+
+          var initApp = function() {
+    document.getElementById('sign-out').addEventListener('click', function() {
+      firebase.auth().signOut();
+      window.location.reload();
+    });
+    document.getElementById('delete-account').addEventListener(
+        'click', function() {
+          deleteAccount();
           window.location.reload();
         });
+  };
+  
+  window.addEventListener('load', initApp);
+
+
+        
       },
       "/setprofile": function () {
         app.innerHTML = `
