@@ -12,19 +12,21 @@ let Colors = {
   10: "var(--dark)",
 };
 
-firebase.auth().onAuthStateChanged(function(user) {
+
+
+  
+ var router = new Navigo(null, true, "#!");
+
+ firebase.auth().onAuthStateChanged(function(user) {
   if(!user){
       router.navigate('/login');
        // console.log('Signed out');
     }
   });
 
-  
- var router = new Navigo(null, true, "#!");
-
  router.hooks({
    before: function(done, params){
-     location.reload();
+     //location.reload();
    }
  })
 // Random Color
