@@ -85,6 +85,8 @@ function getUiConfig() {
         // Called when the user has been successfully signed in.
         'signInSuccessWithAuthResult': function(authResult, redirectUrl) {
          console.log(authResult);
+         if(authResult.additionalUserInfo.isNewUser){
+         authResult.user
             db.ref('jachai/users/'+authResult.user.uid+'/').update({
               phoneNumber: authResult.user.phoneNumber,
               setStatus: false,
@@ -101,10 +103,7 @@ function getUiConfig() {
                 },
                 notificationStatus: true
           });
-          
-        
-              
-          
+        }
           // Do not redirect.
           return false;
         }

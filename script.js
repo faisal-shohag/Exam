@@ -580,6 +580,8 @@ $(document).ready(function(){
               console.log(userUID);
             } 
         })
+
+        getData();
         
       },
       "/profile": function() {
