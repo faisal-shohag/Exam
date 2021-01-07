@@ -20,6 +20,7 @@ let Colors = {
  firebase.auth().onAuthStateChanged(function(user) {
   if(!user){
       router.navigate('/login');
+      //console.log('User')
        // console.log('Signed out');
     }
   });
@@ -447,7 +448,7 @@ $(document).ready(function(){
   </div>
 </div>
         `;
-        getData();
+        //getData();
       },
       "/setprofile": function () {
         app.innerHTML = `
@@ -630,11 +631,14 @@ $(document).ready(function(){
     //Hooks
     Router.hooks({
       before: function (done, params) {
-        //console.log('Pre-route hook');
+        console.log('Pre-route hook');
         //location.reload();
-        //console.log(window.location.hash)
-        // let Hash = (window.location.hash).split('/');
-        // Hash = Hash[Hash.length-2];
+        console.log(window.location.hash)
+        let Hash = (window.location.hash).split('/');
+        Hash = Hash[Hash.length-1];
+        if(Hash === 'login'){
+          location.reload();
+        }
         done();
       
       },

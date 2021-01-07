@@ -33,10 +33,6 @@
    }else{
   db.ref('jachai/users/'+userUID).on('value', set=>{
    //console.log(userUID)
-    if(window.location.hash === '#!/login'){
-      $('.phone').text(set.val().phone)
-    }
-
     if(window.location.hash === '#!/setprofile'){
         $('.mi').html(`<i class="icofont-school-bag prefix"></i> <b>Class:</b> ${set.val().stdclass}</br>
         <i class="icofont-group" prefix></i> <b>Group:</b> ${set.val().group}</br>
@@ -324,10 +320,9 @@ function getUiConfig() {
    * Initializes the app.
    */
   var initApp = function() {
-   // console.log(window.location.hash)
-    if(window.location.hash === '#!/login'){
+    //console.log(window.location.hash)
+   if(window.location.hash === '#!/login'){
     document.getElementById('sign-out').addEventListener('click', function() {
-    
       firebase.auth().signOut();
       window.location.reload();
     });
@@ -336,7 +331,7 @@ function getUiConfig() {
           deleteAccount();
           window.location.reload();
         });
-    }
+   }
   };
   
   window.addEventListener('load', initApp);
