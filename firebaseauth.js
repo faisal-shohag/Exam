@@ -27,64 +27,23 @@
  var etotalExam = 0;
  var etotalPracExam =0;
 
- function getData() {
+
    if(userUID===undefined){
      router.navigate('/');
-   }else{
-  db.ref('jachai/users/'+userUID).on('value', set=>{
-   //console.log(userUID)
-    if(window.location.hash === '#!/setprofile'){
-        $('.mi').html(`<i class="icofont-school-bag prefix"></i> <b>Class:</b> ${set.val().stdclass}</br>
-        <i class="icofont-group" prefix></i> <b>Group:</b> ${set.val().group}</br>
-        <i class="icofont-group-students prefix"></i> <b>Gender:</b> ${set.val().gender}
-        `)
-     $('#rusername').val(set.val().username);
-     $('#rschool').val(set.val().school);
-     $('#gender').val(set.val().gender);
-     $('#rclasss').val(set.val().stdclass);
-     $('#rgroup').val(set.val().group);
-     $('#rdistrict').val(set.val().district);
-      }
-
-  if(window.location.hash === '#!/profile'){
-     $('.group').html(`<i class="icofont-ui-user-group"></i> ${set.val().group}`)
-     $('.username').text(set.val().username);
-    if(set.val().gender === 'male'){
-      $('.user-gender-icon').html(`<i class="icofont-student-alt"></i>`)
-    }else{
-      $('.user-gender-icon').html(`<i class="icofont-student"></i>`)
-    }
-    
-   escore = set.val().score;
-   epscore = set.val().practiceScore;
-   etotalExam = set.val().totalExam;
-   etotalPracExam = set.val().totalPracExam;
-    $('.state').html(`
-<div class="state-item">
-<i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalExam} </span> 
-</div>
-<div class="state-item">
-<i class="icofont-badge"></i> তোমার লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().score} </span> 
-</div>
-<div class="state-item">
-<i class="icofont-thunder-light"></i> মোট প্রাকটিস এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalPracExam} </span> 
-</div>
-<div class="state-item">
-<i class="icofont-hand-thunder"></i> তোমার প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().practiceScore} </span> 
-</div>
-    `)
-
-  }
-})
-   
    }
- }
+ 
+
+
 function getUiConfig() {
     return {
       'callbacks': {
         // Called when the user has been successfully signed in.
         'signInSuccessWithAuthResult': function(authResult, redirectUrl) {
-         console.log(authResult);
+         //console.log(authResult);
+         if (authResult.user) {
+          handleSignedInUser(authResult.user);
+        }
+         if (authResult.additionalUserInfo){
          if(authResult.additionalUserInfo.isNewUser){
          authResult.user
             db.ref('jachai/users/'+authResult.user.uid+'/').update({
@@ -104,6 +63,7 @@ function getUiConfig() {
                 notificationStatus: true
           });
         }
+      }
           // Do not redirect.
           return false;
         }
