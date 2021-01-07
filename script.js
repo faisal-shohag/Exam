@@ -525,7 +525,7 @@ $(document).ready(function(){
       </div>
 
         <div class="input-field">
-        <span class="materif(window.location.hash === '#!/setprofile')ial-icons prefix">location_city</span>
+        <span class="material-icons prefix">location_city</span>
         <input type="text" id="rdistrict" />
         <label for="rdistrict">District</label>
         </div>
