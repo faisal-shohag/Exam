@@ -13,6 +13,11 @@ let Colors = {
 };
 
 
+let subName = {
+  'bangla': 'বাংলা',
+  'english': 'English',
+  'ict': 'ICT'
+}
 
   
  var router = new Navigo(null, true, "#!");
@@ -82,7 +87,7 @@ $(document).ready(function(){
         <div class="menu-title"><i class="icofont-read-book"></i> বিষয়</div>
         <div class="menu">
        
-        <a href="#!"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+        <a href="#!/chapter/bangla"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <div class="bfontIcon">ব</div>
         <div>বাংলা</div>
         </div></div></a>
@@ -118,8 +123,34 @@ $(document).ready(function(){
         `;
       },
      "/chapter/:id": function name(params) {
+      app.innerHTML = `
+      <div class="menu-title"><i class="icofont-read-book"></i> ${subName[params.id]}</div>
+<div class="chapterList"></div>
+`
+db.ref('jachai/exams/'+params.id).on('value', exams=>{
+         //console.log(exams.key)
+         $('.chapterList').html('');
+         exams.forEach(exam=>{
+           console.log(exam.key);
+           console.log(exam.val().name);
 
-       
+           document.querySelector('.chapterList').innerHTML+=
+            `
+            <div style="display:flex; align-items: center; padding: 5px;" class="card">
+
+            <div class="logo" style="background: ${logoColor(
+              firstLetter(exam.val().name)
+            )}">${firstLetter(exam.val().name)}</div>
+            <div class="details">
+          <div style="font-size: 17px;" class="title">${exam.val().name}</div>
+          </div>
+
+          </div>
+            `
+           
+         })
+          
+})
      },
       //Other EXAM LISTS
       "/exams/:id": function (params) {
