@@ -26,20 +26,15 @@
  var epscore = 0;
  var etotalExam = 0;
  var etotalPracExam =0;
-
-
-   if(userUID===undefined){
+if(userUID===undefined && window.location.hash!='!#/login'){
      router.navigate('/');
    }
  
-
-
 function getUiConfig() {
     return {
       'callbacks': {
         // Called when the user has been successfully signed in.
         'signInSuccessWithAuthResult': function(authResult, redirectUrl) {
-         //console.log(authResult);
          if (authResult.user) {
           handleSignedInUser(authResult.user);
         }
@@ -246,8 +241,6 @@ function getUiConfig() {
       if (error.code == 'auth/requires-recent-login') {
         // The user's credential is too old. She needs to sign in again.
         firebase.auth().signOut().then(function() {
-          // The timeout allows the message to be displayed after the UI has
-          // changed to the signed out state.
           setTimeout(function() {
             alert('Please sign in again to delete your account.');
           }, 1);
@@ -279,7 +272,6 @@ function getUiConfig() {
    * Initializes the app.
    */
   var initApp = function() {
-    //console.log(window.location.hash)
    if(window.location.hash === '#!/login'){
     document.getElementById('sign-out').addEventListener('click', function() {
       firebase.auth().signOut();

@@ -449,6 +449,10 @@ $(document).ready(function(){
 </div>
         `;
         //getData();
+        document.getElementById('sign-out').addEventListener('click', function() {
+          firebase.auth().signOut();
+          window.location.reload();
+        });
       },
       "/setprofile": function () {
         app.innerHTML = `
@@ -666,11 +670,11 @@ $(document).ready(function(){
     //Hooks
     Router.hooks({
       before: function (done, params) {
-        let Hash = (window.location.hash).split('/');
-        Hash = Hash[Hash.length-1];
-        if(Hash === 'login'){
-          location.reload();
-        }
+        // let Hash = (window.location.hash).split('/');
+        // Hash = Hash[Hash.length-1];
+        // if(Hash === 'login'){
+        //   location.reload();
+        // }
         done();
       
       },
