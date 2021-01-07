@@ -114,23 +114,20 @@ $(document).ready(function(){
         </div></div></a>
 
         <a href="index.html#!/exams/practice"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <center><div class="bfontIcon">আ</div></center>
+        <center><div class="bfontIcon">অ</div></center>
         <div style="text-align: center;">অন্যান্য</div>
         </div></div></a>
         </div>
         </div>
         `;
       },
-      // EXAM LISTS
-      "/exams/:id": function (params) {
-        //console.log(params);
-        $(".ld").show();
+     "/chapter/:id": function name(params) {
+
        
-        //console.log('Exams')
-       // console.log(params);
+     },
+      //Other EXAM LISTS
+      "/exams/:id": function (params) {
         db.ref("jachai/exams/"+params.id).on("value", (pracs) => {
-          $(".ld").hide();
-          
           var allExams = [];
           var examsKeys = [];
           pracs.forEach((prac) => {
@@ -168,11 +165,8 @@ $(document).ready(function(){
       },
       // EACH EXAM
       "/exam/:id": function (params) {
-        $(".ld").show();
-        
         db.ref("jachai/exams/practice/" + params.id).on("value", (exam) => {
           let myexam = exam.val();
-          $(".ld").hide();
           app.innerHTML = `
           <div class="exam-container">
           <div class="exam-title">${myexam.details.name}</div>
@@ -265,15 +259,11 @@ $(document).ready(function(){
 
           jQuery(document).ready(function($) {
 
-            if (window.history && window.history.pushState) {
-          
-             // window.history.pushState('forward', null, './#forward');
-          
+            if (window.history && window.history.pushState) { 
+             // window.history.pushState('forward', null, './#forward');       
               $(window).on('popstate', function() {
                 clearInterval(timer);
                 $('.timer').html('');
-                //alert('Back button was pressed.');
-
               });
           
             }
@@ -283,7 +273,6 @@ $(document).ready(function(){
           $("#submit")
             .off()
             .click(function () {
-
               let foundKey = false;
             db.ref('jachai/users/'+userUID+'/practiceExams/'+myexam.details.sub+'/'+params.id).on('value', keyMatch=>{
             //console.log(keyMatch.val());
@@ -424,9 +413,7 @@ $(document).ready(function(){
       "/login": function () {
         app.innerHTML = ` 
         <div class="login">
-        <h5> <i class="icofont-unlocked"></i> সাইনইন/সাইন আউট</h5>
-        
-        
+        <h5> <i class="icofont-unlocked"></i> সাইনইন/সাইন আউট</h5>   
   <div id="loaded" class="hidden">
     <div id="main">
       <div id="user-signed-in" class="hidden">
@@ -590,7 +577,6 @@ $(document).ready(function(){
               console.log(userUID);
             } 
         })
-            getData();
         
       },
       "/profile": function() {
