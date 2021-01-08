@@ -26,6 +26,8 @@
  var epscore = 0;
  var etotalExam = 0;
  var etotalPracExam =0;
+ var myusername='';
+ var college='';
 
 // if(userUID===undefined){
 //      router.navigate('/');
@@ -168,6 +170,8 @@ function getUiConfig() {
               escore = set.val().score;
               etotalExam = set.val().totalExam;
               etotalPracExam = set.val().totalPracExam;
+              myusername = set.val().username;
+              college = set.val().college;
             }
         })
       

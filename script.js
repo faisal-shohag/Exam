@@ -11,7 +11,7 @@ let Colors = {
   9: "var(--info)",
   10: "var(--dark)",
 };
-console.log(window.location)
+//console.log(window.location)
 if(window.location.hash ===""){
   window.location.hash='#!';
 }
@@ -19,7 +19,8 @@ if(window.location.hash ===""){
 let subName = {
   'bangla': 'বাংলা',
   'english': 'English',
-  'ict': 'ICT'
+  'ict': 'ICT',
+  'civics1': 'পৌরনীতি ১ম পত্র'
 }
 
   
@@ -106,6 +107,11 @@ $(document).ready(function(){
         <center><div class="bfontIcon">ত</div></center>
         <div style="text-align: center;">ICT</div>
         </div></div></a>
+         
+        <a href="#!/chapter/civics1"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+        <center><div class="bfontIcon">প</div></center>
+        <div style="text-align: center;">পৌরনীতি ১ম পত্র</div>
+        </div></div></a>
 
          <a href="#!"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <center><div class="bfontIcon">সা</div></center>
@@ -131,7 +137,6 @@ $(document).ready(function(){
 <div class="chapterList"></div>
 `
 db.ref('jachai/exams/'+params.id).on('value', exams=>{
-         //console.log(exams.key)
          let chapters = [];
          let chapterName = [];
          
@@ -144,9 +149,6 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
          for(let i=0; i<chapters.length; i++){
            db.ref('jachai/exams/'+params.id+'/'+chapters[i]+'/exams').on('value', e=>{
              e.forEach(ee=>{
-              // console.log('key: '+ee.key);
-              // console.log(ee.val());
-             //
              document.querySelector('.chapterList').innerHTML+=
             `
             <a href="#!/chapter/examlist/${params.id}_${chapters[i]}_${chapterName[i]}">
@@ -183,11 +185,10 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
       document.querySelector('.examLists').innerHTML += `
      
       <div class="exam">
-      <div class="at">${getRelativeTime(allExams[i].details.at)}</div>
-      <div class="class">${allExams[i].details.class}</div>
+      <div class="class"><i class="icofont-star"></i> ${allExams[i].questions.length}</div>
           <div class="logo" style="background: ${logoColor(
-            firstLetter(allExams[i].details.sub)
-          )}">${firstLetter(allExams[i].details.sub)}</div>
+            firstLetter(allExams[i].details.name)
+          )}">${firstLetter(allExams[i].details.name)}</div>
           <div class="details">
               <div class="title">${allExams[i].details.name}</div>
               <div class="others">প্রশ্নঃ ${
@@ -195,15 +196,66 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
               } টি | সময়ঃ ${allExams[i].details.duration} মিনিট | স্কোরঃ ${
                   allExams[i].questions.length
                 } | নেগেটিভঃ ${allExams[i].details.negative}</div>
-              <small class="author"><i>author: ${allExams[i].details.author}</i></small></br>
+              <small class="author"><i class="icofont-wall-clock"></i> ${getRelativeTime(allExams[i].details.at)} <i class="icofont-fountain-pen"></i> <i>author: ${allExams[i].details.author}</i></small></br>
               <a  href="#!/chapter/exam/${params.id}_${examsKeys[i]}"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
-              <a  href="#!/leaderboard/${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>লিডারবোর্ড</button> </a>
+              <a  href="#!/leaderboard/${params.id}_${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>স্কোর বোর্ড</button> </a>
           </div>
       </div>
       `
               }
             });
           },
+    "leaderboard/:id": function (params) {
+      
+      app.innerHTML = `
+      <h5><i class="icofont-users-alt-5"></i> স্কোর বোর্ড </h5>
+      <div class="scoreboard"></div>
+      `
+      db.ref('jachai/exams/leaderboard/'+params.id).on('value', scores=> {
+        let scoreArr = []
+        let scorehtml = document.querySelector('.scoreboard');
+        scorehtml.innerHTML =''
+   //     console.log(scores.val())
+        if(scores.val() == null){
+           scorehtml = `
+           <div class="empty">
+           <div class="empty-content">
+           <div calss="empty-icon"><i class="icofont-foot-print"></i></div>
+           <div class="emptytext">কোথাও কেউ নেই!</div>
+           </div>
+           </div>
+           `
+        }else{
+       
+        scores.forEach(score => {
+          //console.log(score.val());
+          scoreArr.push(score.val());
+        });
+
+        scoreArr.sort(function(a, b){
+          return b.score - a.score;
+        });
+        for(let s=0; s<scoreArr.length; s++){
+          let k=s+1;
+          scorehtml.innerHTML += `
+          <div class="scoreboard-score">
+          <div class="position">${k}</div>
+          <div class="logo" style="background: ${logoColor(
+            firstLetter(scoreArr[s].username)
+          )}">${firstLetter(scoreArr[s].username)}</div>
+           <div class="score-details">
+           <div class="score-username">${scoreArr[s].username}</div>
+           <div class="time">${scoreArr[s].time.min}:${scoreArr[s].time.sec}</div>
+           </div>
+           <div class="score-obtained">${scoreArr[s].score}</div>
+          </div>
+          `
+        }
+      }
+        //console.log(scoreArr)
+      })
+
+      },
     "chapter/exam/:id": function (params) {
              let eAddr = (params.id).split('_');
              //console.log(eAddr);
@@ -386,6 +438,20 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
              sec: 60-sec
             }
           });
+
+          db.ref('jachai/exams/leaderboard/'+params.id).push({
+            score: score,
+            totalQ: questions.length,
+            wrong: wrong,
+            userkey: userUID,
+            username: myusername,
+            na: questions.length-(score+wrong),
+            school: college,
+            time: {
+             min: (initialMin-1)-minute,
+             sec: 60-sec
+            }
+          });
           db.ref('jachai/users/'+userUID).update({practiceScore: epscore+score, totalPracExam: etotalPracExam+1});
                       Swal.fire('সাবমিট হয়েছে!', '', 'success');
                     }
@@ -460,9 +526,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
   `;
    for (let i = allExams.length - 1; i >= 0; i--) { 
   document.querySelector('.examLists').innerHTML += `
- 
   <div class="exam">
-  <div class="at">${getRelativeTime(allExams[i].details.at)}</div>
   <div class="class">${allExams[i].details.class}</div>
       <div class="logo" style="background: ${logoColor(
         firstLetter(allExams[i].details.sub)
@@ -474,7 +538,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
           } টি | সময়ঃ ${allExams[i].details.duration} মিনিট | স্কোরঃ ${
               allExams[i].questions.length
             } | নেগেটিভঃ ${allExams[i].details.negative}</div>
-          <small class="author"><i>author: ${allExams[i].details.author}</i></small></br>
+            <small class="author"><i class="icofont-wall-clock"></i> ${getRelativeTime(allExams[i].details.at)} <i class="icofont-fountain-pen"></i> <i>author: ${allExams[i].details.author}</i></small></br>
           <a  href="#!/exam/${examsKeys[i]}"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
           <a  href="#!/leaderboard/${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>লিডারবোর্ড</button> </a>
       </div>
@@ -1021,7 +1085,9 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
         <i class="icofont-bars"></i>প্রোফাইল পরিসংখ্যান</h5>
         <h6 class="userName">
         <span class="user-gender-icon"></span> 
-        <span class="username"></span>
+        <span style="font-size: 17px" class="username"></span>
+        </br>
+        <span class="school"></span>
         </br>
         <span class="group"></span>
         </h6>     
@@ -1052,6 +1118,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
            }else{
              $('.user-gender-icon').html(`<i class="icofont-student"></i>`)
            }
+           $('.school').html(`<i class="icofont-institution"></i> ${set.val().school}`)
            $('.state').html(`
        <div class="state-item">
        <i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalExam} </span> 

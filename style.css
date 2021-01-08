@@ -315,13 +315,13 @@ ul li a:active, ul li a:hover {
 
 .item{
    text-align: center;
-   font-size: 17px;
+   font-size: 13px;
    padding: 10px;
    color: #000;
    border-radius: 3px;
    background: #fff;
    margin: 5px 3px;
-   height: 60px;
+   height: auto;
    width: 100px;
    display: flex;
    align-items: center;
@@ -344,6 +344,7 @@ ul li a:active, ul li a:hover {
   justify-content: center;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0,0,0, .3);
+  font-size: 20px;
 }
 
 .btn{
@@ -400,4 +401,59 @@ ul li a:active, ul li a:hover {
 .chapters .title{
   font-size: 20px;
   color: #000;
+}
+
+.scoreboard-score{
+  display: flex;
+  position: relative;
+  align-items: center;
+  margin: 5px 5px;
+  background: #fff;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.scoreboard-score .position{
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+.scoreboard-score .logo{
+  height: 27px;
+  width: 30px;
+  font-size: 13px;
+}
+
+.score-details{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.score-details .time{
+  color: var(--danger);
+  font-weight: bold;
+  margin-right: 5px;
+  padding: 3px;
+  background: var(--teal);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 10px;
+}
+
+.score-obtained{
+  position: absolute;
+  right: 20%;
+  font-size: 17px;
+  height: 30px;
+  width: 30px;
+  background: var(--dark);
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
