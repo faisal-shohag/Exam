@@ -157,7 +157,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
              e.forEach(ee=>{
              document.querySelector('.chapterList').innerHTML+=
             `
-            <a href="#!/chapter/examlist/${params.id}_${chapters[i]}_${chapterName[i]}">
+            <a href="#!/chapter/examlist/${params.id}|${chapters[i]}|${chapterName[i]}">
             <div class="chapters">
             <div class="logo" style="background: ${logoColor(
               firstLetter(chapterName[i])
@@ -174,7 +174,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
      },
            //subject EXAM LISTS
       "/chapter/examlist/:id": function (params) {
-             var addr = (params.id).split('_');
+             var addr = (params.id).split('|');
             db.ref("jachai/exams/"+addr[0]+'/'+addr[1]+'/exams').on("value", (pracs) => {
               var allExams = [];
               var examsKeys = [];
@@ -203,8 +203,8 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
                   allExams[i].questions.length
                 } | নেগেটিভঃ ${allExams[i].details.negative}</div>
               <small class="author"><i class="icofont-wall-clock"></i> ${getRelativeTime(allExams[i].details.at)} <i class="icofont-fountain-pen"></i> <i>author: ${allExams[i].details.author}</i></small></br>
-              <a  href="#!/chapter/exam/${params.id}_${examsKeys[i]}"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
-              <a  href="#!/leaderboard/${params.id}_${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>স্কোর বোর্ড</button> </a>
+              <a  href="#!/chapter/exam/${params.id}|${examsKeys[i]}"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
+              <a  href="#!/leaderboard/${params.id}|${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>স্কোর বোর্ড</button> </a>
           </div>
       </div>
       `
@@ -263,7 +263,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
 
       },
     "chapter/exam/:id": function (params) {
-             let eAddr = (params.id).split('_');
+             let eAddr = (params.id).split('|');
              //console.log(eAddr);
             db.ref("jachai/exams/" + eAddr[0]+'/'+eAddr[1]+'/exams/'+eAddr[3]).on("value", (exam) => {
               let myexam = exam.val();
