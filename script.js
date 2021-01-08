@@ -234,7 +234,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
         for(let s=0; s<scoreArr.length; s++){
           let k=s+1;
           scorehtml.innerHTML += `
-          <div class="scoreboard-score">
+        <a href="#!/user/${scoreArr[s].userKey}"> <div class="scoreboard-score">
           <div class="position">${k}</div>
           <div class="logo" style="background: ${logoColor(
             firstLetter(scoreArr[s].username)
@@ -244,7 +244,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
            <div class="time">${scoreArr[s].time.min}:${scoreArr[s].time.sec}</div>
            </div>
            <div class="score-obtained">${scoreArr[s].score}</div>
-          </div>
+          </div></a>
           `
         }
       
@@ -784,11 +784,62 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
             });
         });
       },
-      "/user/:id": function (id) {
-        app.innerHTML = `<h2>User Profile</h2>`;
-      },
-      "/profile/:id": function (id) {
-        app.innerHTML = `<h2>Logged in user's profile</h2>`;
+      "/user/:id": function (params) {
+        app.innerHTML=`
+        <div class="login">
+        <h5>
+        </span>
+        <i class="icofont-bars"></i>প্রোফাইল পরিসংখ্যান</h5>
+        <h6 class="userName">
+        <span class="user-gender-icon"></span> 
+        <span style="font-size: 17px" class="username"></span>
+        </br>
+        <span class="school"></span>
+        </br>
+        <span class="group"></span>
+        </h6>     
+<div class="state">
+  <center>
+  <div class="preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+  </center>
+        </div>
+        </div>
+        `
+  db.ref('jachai/users/'+params.id).on('value', set=>{    
+            $('.group').html(`<i class="icofont-ui-user-group"></i> ${set.val().group}`)
+            $('.username').text(set.val().username);
+           if(set.val().gender === 'male'){
+             $('.user-gender-icon').html(`<i class="icofont-student-alt"></i>`)
+           }else{
+             $('.user-gender-icon').html(`<i class="icofont-student"></i>`)
+           }
+           $('.school').html(`<i class="icofont-institution"></i> ${set.val().school}`)
+           $('.state').html(`
+       <div class="state-item">
+       <i class="icofont-paperclip"></i> মোট লাইভ এক্সামঃ <span class="count ex"> ${set.val().totalExam} </span> 
+       </div>
+       <div class="state-item">
+       <i class="icofont-badge"></i> লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().score} </span> 
+       </div>
+       <div class="state-item">
+       <i class="icofont-thunder-light"></i> প্রাকটিস এক্সামঃ <span class="count ex"> ${set.val().totalPracExam} </span> 
+       </div>
+       <div class="state-item">
+       <i class="icofont-hand-thunder"></i>প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().practiceScore} </span> 
+       </div>
+           `)
+       })
+      
       },
 
       "/login": function () {
