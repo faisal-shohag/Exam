@@ -214,7 +214,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
           },
     "leaderboard/:id": function (params) {
 
-      console.log(params.id);
+     // console.log(params.id);
       app.innerHTML = `
       <h5><i class="icofont-users-alt-5"></i> স্কোর বোর্ড </h5>
       <div class="scoreboard"></div>
@@ -224,7 +224,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
         let scorehtml = document.querySelector('.scoreboard');
         scorehtml.innerHTML =''
         scores.forEach(score => {
-          console.log(score.val());
+          //console.log(score.val());
           scoreArr.push(score.val());
         });
 
