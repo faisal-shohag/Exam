@@ -168,7 +168,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
               var allExams = [];
               var examsKeys = [];
               app.innerHTML = `
-              <div class="menu-title"><i class="icofont-read-book"></i> ${addr[2]}</div>
+              <div class="menu-title"><i class="icofont-read-book"></i> ${subName[addr[0]]}<i class="icofont-bubble-right"></i>${addr[2]}</div>
    <div class="examLists"></div>
     `;
               pracs.forEach((prac) => {
