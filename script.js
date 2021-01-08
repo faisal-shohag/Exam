@@ -11,8 +11,11 @@ let Colors = {
   9: "var(--info)",
   10: "var(--dark)",
 };
-
-
+console.log(window.location)
+if(window.location.hash ===""){
+  window.location.hash='#!';
+}
+//window.location.hash = '#!';
 let subName = {
   'bangla': 'বাংলা',
   'english': 'English',
