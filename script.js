@@ -48,6 +48,7 @@ $(document).ready(function(){
 });
       
 
+
 //console.log(Colors[Math.floor(Math.random()*11)])
 (function (window, Navigo) {
   const Router = (function (root, useHash, hash, Navigo) {
@@ -204,7 +205,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
                 } | নেগেটিভঃ ${allExams[i].details.negative}</div>
               <small class="author"><i class="icofont-wall-clock"></i> ${getRelativeTime(allExams[i].details.at)} <i class="icofont-fountain-pen"></i> <i>author: ${allExams[i].details.author}</i></small></br>
               <a  href="#!/chapter/exam/${params.id}|${examsKeys[i]}"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
-              <a  href="#!/leaderboard/${params.id}|${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>স্কোর বোর্ড</button> </a>
+              <a  href="#!/leaderboard/${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>স্কোর বোর্ড</button> </a>
           </div>
       </div>
       `
@@ -212,29 +213,18 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
             });
           },
     "leaderboard/:id": function (params) {
-      
+
+      console.log(params.id);
       app.innerHTML = `
       <h5><i class="icofont-users-alt-5"></i> স্কোর বোর্ড </h5>
       <div class="scoreboard"></div>
       `
-      db.ref('jachai/exams/leaderboard/'+params.id).on('value', scores=> {
+      db.ref('jachai/leaderboard/'+params.id).on('value', scores=> {
         let scoreArr = []
         let scorehtml = document.querySelector('.scoreboard');
         scorehtml.innerHTML =''
-   //     console.log(scores.val())
-        if(scores.val() == null){
-           scorehtml = `
-           <div class="empty">
-           <div class="empty-content">
-           <div calss="empty-icon"><i class="icofont-foot-print"></i></div>
-           <div class="emptytext">কোথাও কেউ নেই!</div>
-           </div>
-           </div>
-           `
-        }else{
-       
         scores.forEach(score => {
-          //console.log(score.val());
+          console.log(score.val());
           scoreArr.push(score.val());
         });
 
@@ -257,7 +247,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
           </div>
           `
         }
-      }
+      
         //console.log(scoreArr)
       })
 
@@ -444,8 +434,9 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
              sec: 60-sec
             }
           });
+          db.ref('jachai/users/'+userUID).update({practiceScore: epscore+score, totalPracExam: etotalPracExam+1});
 
-          db.ref('jachai/exams/leaderboard/'+params.id).push({
+          db.ref('jachai/leaderboard/'+eAddr[3]).push({
             score: score,
             totalQ: questions.length,
             wrong: wrong,
@@ -458,7 +449,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
              sec: 60-sec
             }
           });
-          db.ref('jachai/users/'+userUID).update({practiceScore: epscore+score, totalPracExam: etotalPracExam+1});
+          
                       Swal.fire('সাবমিট হয়েছে!', '', 'success');
                     }
                   })
@@ -1230,3 +1221,4 @@ function validation(string){
 function reload(){
   location.reload();
 }
+
