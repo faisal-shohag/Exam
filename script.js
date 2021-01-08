@@ -20,7 +20,8 @@ let subName = {
   'bangla': 'বাংলা',
   'english': 'English',
   'ict': 'ICT',
-  'civics1': 'পৌরনীতি ১ম পত্র'
+  'civics1': 'পৌরনীতি ১ম পত্র',
+  'civics2': 'পৌরনীতি ২য়  পত্র'
 }
 
   
@@ -111,6 +112,11 @@ $(document).ready(function(){
         <a href="#!/chapter/civics1"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <center><div class="bfontIcon">প</div></center>
         <div style="text-align: center;">পৌরনীতি ১ম পত্র</div>
+        </div></div></a>
+
+        <a href="#!/chapter/civics2"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+        <center><div class="bfontIcon">প</div></center>
+        <div style="text-align: center;">পৌরনীতি ২য়  পত্র</div>
         </div></div></a>
 
          <a href="#!"><div class="item" style="border-top: 2px solid var(--purple);"><div>
