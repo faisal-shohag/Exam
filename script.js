@@ -11,29 +11,6 @@ let Colors = {
   9: "var(--info)",
   10: "var(--dark)",
 };
-//console.log(window.location)
-if(window.location.hash ===""){
-  window.location.hash='#!';
-}
-//window.location.hash = '#!';
-let subName = {
-  'bangla': 'বাংলা',
-  'english': 'English',
-  'ict': 'ICT',
-  'civics1': 'পৌরনীতি ১ম পত্র',
-  'civics2': 'পৌরনীতি ২য়  পত্র',
-  'economics1': 'অর্থনীতি ১ম পত্র',
-  'economics2': 'অর্থনীতি ২য় পত্র'
-}
-
-  
- var router = new Navigo(null, true, "#!");
-
- firebase.auth().onAuthStateChanged(function(user) {
-  if(!user){
-      router.navigate('/login');
-    }
-  });
 
 // Random Color
 $(".header").css("background-color", Colors[Math.floor(Math.random() * 11)]);
@@ -42,16 +19,34 @@ $(".lds-ellipsis div").css(
   Colors[Math.floor(Math.random() * 11)]
 );
 
-$(document).ready(function(){
-  $('.sidenav').sidenav();
+$(document).ready(function () {
+  $(".sidenav").sidenav();
 });
-$(document).ready(function(){
-  $('select').formSelect();
+$(document).ready(function () {
+  $("select").formSelect();
 });
-      
 
+let subName = {
+  bangla: "বাংলা",
+  english: "English",
+  ict: "ICT",
+  civics1: "পৌরনীতি ১ম পত্র",
+  civics2: "পৌরনীতি ২য়  পত্র",
+  economics1: "অর্থনীতি ১ম পত্র",
+  economics2: "অর্থনীতি ২য় পত্র",
+};
 
-//console.log(Colors[Math.floor(Math.random()*11)])
+var router = new Navigo(null, true, "#!");
+firebase.auth().onAuthStateChanged(function (user) {
+  if (!user) {
+    router.navigate("/login");
+  }
+});
+
+if (window.location.hash === "") {
+  window.location.hash = "#!";
+}
+
 (function (window, Navigo) {
   const Router = (function (root, useHash, hash, Navigo) {
     class Router extends Navigo {
@@ -135,27 +130,32 @@ $(document).ready(function(){
         </div>
         `;
       },
-     "/chapter/:id": function name(params) {
-      app.innerHTML = `
-      <div class="menu-title"><i class="icofont-read-book"></i> ${subName[params.id]}</div>
+      "/chapter/:id": function name(params) {
+        app.innerHTML = `
+      <div class="menu-title"><i class="icofont-read-book"></i> ${
+        subName[params.id]
+      }</div>
 <div class="chapterList"></div>
-`
-db.ref('jachai/exams/'+params.id).on('value', exams=>{
-         let chapters = [];
-         let chapterName = [];
-         
-         $('.chapterList').html('');
-         exams.forEach(exam=>{
-           chapters.push(exam.key);
-           chapterName.push(exam.val().name);
-         });
+`;
+        db.ref("jachai/exams/" + params.id).on("value", (exams) => {
+          let chapters = [];
+          let chapterName = [];
 
-         for(let i=0; i<chapters.length; i++){
-           db.ref('jachai/exams/'+params.id+'/'+chapters[i]+'/exams').on('value', e=>{
-             e.forEach(ee=>{
-             document.querySelector('.chapterList').innerHTML+=
-            `
-            <a href="#!/chapter/examlist/${params.id}|${chapters[i]}|${chapterName[i]}">
+          $(".chapterList").html("");
+          exams.forEach((exam) => {
+            chapters.push(exam.key);
+            chapterName.push(exam.val().name);
+          });
+
+          for (let i = 0; i < chapters.length; i++) {
+            db.ref(
+              "jachai/exams/" + params.id + "/" + chapters[i] + "/exams"
+            ).on("value", (e) => {
+              e.forEach((ee) => {
+                document.querySelector(".chapterList").innerHTML += `
+            <a href="#!/chapter/examlist/${params.id}|${chapters[i]}|${
+                  chapterName[i]
+                }">
             <div class="chapters">
             <div class="logo" style="background: ${logoColor(
               firstLetter(chapterName[i])
@@ -163,33 +163,38 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
             <div class="details">
           <div class="title">${chapterName[i]}</div>
           </div>
-          </div></a>` 
-             })
-           })
-         }
-          
-})
-     },
-           //subject EXAM LISTS
+          </div></a>`;
+              });
+            });
+          }
+        });
+      },
+      //subject EXAM LISTS
       "/chapter/examlist/:id": function (params) {
-             var addr = (params.id).split('|');
-            db.ref("jachai/exams/"+addr[0]+'/'+addr[1]+'/exams').on("value", (pracs) => {
-              var allExams = [];
-              var examsKeys = [];
-              app.innerHTML = `
-              <div class="menu-title"><i class="icofont-read-book"></i> ${subName[addr[0]]}<i class="icofont-bubble-right"></i>${addr[2]}</div>
+        var addr = params.id.split("|");
+        db.ref("jachai/exams/" + addr[0] + "/" + addr[1] + "/exams").on(
+          "value",
+          (pracs) => {
+            var allExams = [];
+            var examsKeys = [];
+            app.innerHTML = `
+              <div class="menu-title"><i class="icofont-read-book"></i> ${
+                subName[addr[0]]
+              }<i class="icofont-bubble-right"></i>${addr[2]}</div>
    <div class="examLists"></div>
     `;
-              pracs.forEach((prac) => {
-                allExams.push(prac.val());
-                examsKeys.push(prac.key);
-              });
-             
-       for (let i = allExams.length - 1; i >= 0; i--) { 
-      document.querySelector('.examLists').innerHTML += `
+            pracs.forEach((prac) => {
+              allExams.push(prac.val());
+              examsKeys.push(prac.key);
+            });
+
+            for (let i = allExams.length - 1; i >= 0; i--) {
+              document.querySelector(".examLists").innerHTML += `
      
       <div class="exam">
-      <div class="class"><i class="icofont-star"></i> ${allExams[i].questions.length}</div>
+      <div class="class"><i class="icofont-star"></i> ${
+        allExams[i].questions.length
+      }</div>
           <div class="logo" style="background: ${logoColor(
             firstLetter(allExams[i].details.name)
           )}">${firstLetter(allExams[i].details.name)}</div>
@@ -198,39 +203,47 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
               <div class="others">প্রশ্নঃ ${
                 allExams[i].questions.length
               } টি | সময়ঃ ${allExams[i].details.duration} মিনিট | স্কোরঃ ${
-                  allExams[i].questions.length
-                } | নেগেটিভঃ ${allExams[i].details.negative}</div>
-              <small class="author"><i class="icofont-wall-clock"></i> ${getRelativeTime(allExams[i].details.at)} <i class="icofont-fountain-pen"></i> <i>author: ${allExams[i].details.author}</i></small></br>
-              <a  href="#!/chapter/exam/${params.id}|${examsKeys[i]}"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
-              <a  href="#!/leaderboard/${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>স্কোর বোর্ড</button> </a>
+                allExams[i].questions.length
+              } | নেগেটিভঃ ${allExams[i].details.negative}</div>
+              <small class="author"><i class="icofont-wall-clock"></i> ${getRelativeTime(
+                allExams[i].details.at
+              )} <i class="icofont-fountain-pen"></i> <i>author: ${
+                allExams[i].details.author
+              }</i></small></br>
+              <a  href="#!/chapter/exam/${params.id}|${
+                examsKeys[i]
+              }"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
+              <a  href="#!/leaderboard/${
+                examsKeys[i]
+              }"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>স্কোর বোর্ড</button> </a>
           </div>
       </div>
-      `
-              }
-            });
-          },
-    "leaderboard/:id": function (params) {
-
-     // console.log(params.id);
-      app.innerHTML = `
+      `;
+            }
+          }
+        );
+      },
+      "leaderboard/:id": function (params) {
+        // console.log(params.id);
+        app.innerHTML = `
       <h5><i class="icofont-users-alt-5"></i> স্কোর বোর্ড </h5>
       <div class="scoreboard"></div>
-      `
-      db.ref('jachai/leaderboard/'+params.id).on('value', scores=> {
-        let scoreArr = []
-        let scorehtml = document.querySelector('.scoreboard');
-        scorehtml.innerHTML =''
-        scores.forEach(score => {
-          //console.log(score.val());
-          scoreArr.push(score.val());
-        });
+      `;
+        db.ref("jachai/leaderboard/" + params.id).on("value", (scores) => {
+          let scoreArr = [];
+          let scorehtml = document.querySelector(".scoreboard");
+          scorehtml.innerHTML = "";
+          scores.forEach((score) => {
+            //console.log(score.val());
+            scoreArr.push(score.val());
+          });
 
-        scoreArr.sort(function(a, b){
-          return b.score - a.score;
-        });
-        for(let s=0; s<scoreArr.length; s++){
-          let k=s+1;
-          scorehtml.innerHTML += `
+          scoreArr.sort(function (a, b) {
+            return b.score - a.score;
+          });
+          for (let s = 0; s < scoreArr.length; s++) {
+            let k = s + 1;
+            scorehtml.innerHTML += `
         <a href="#!/user/${scoreArr[s].userKey}"> <div class="scoreboard-score">
           <div class="position">${k}</div>
           <div class="logo" style="background: ${logoColor(
@@ -238,23 +251,26 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
           )}">${firstLetter(scoreArr[s].username)}</div>
            <div class="score-details">
            <div class="score-username">${scoreArr[s].username}</div>
-           <div class="time">${scoreArr[s].time.min}:${scoreArr[s].time.sec}</div>
+           <div class="time">${scoreArr[s].time.min}:${
+              scoreArr[s].time.sec
+            }</div>
            </div>
            <div class="score-obtained">${scoreArr[s].score}</div>
           </div></a>
-          `
-        }
-      
-        //console.log(scoreArr)
-      })
+          `;
+          }
 
+          //console.log(scoreArr)
+        });
       },
-    "chapter/exam/:id": function (params) {
-             let eAddr = (params.id).split('|');
-             //console.log(eAddr);
-            db.ref("jachai/exams/" + eAddr[0]+'/'+eAddr[1]+'/exams/'+eAddr[3]).on("value", (exam) => {
-              let myexam = exam.val();
-              app.innerHTML = `
+      "chapter/exam/:id": function (params) {
+        let eAddr = params.id.split("|");
+        //console.log(eAddr);
+        db.ref(
+          "jachai/exams/" + eAddr[0] + "/" + eAddr[1] + "/exams/" + eAddr[3]
+        ).on("value", (exam) => {
+          let myexam = exam.val();
+          app.innerHTML = `
               <div class="exam-container">
               <div class="exam-title">${myexam.details.name}</div>
               <div style="display: none;" class="score">
@@ -269,23 +285,29 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
               <div class="submit" id="submit">সাবমিট করো! </div>
               </div>
           `;
-          $('.exam-title').css('background', Colors[Math.floor(Math.random() * 11)]);
-          $('#submit').css('background', Colors[Math.floor(Math.random() * 11)]);
-              var ans = [],
-                exp = [],
-                userAns = [],
-                score = 0,
-                wrong = 0,
-                na = 0,
-                questions = shuffleArray(myexam.questions);
-             
-              $(".exam-nb").html(`${myexam.details.nb}`);
-    
-              for (let q = 0; q < myexam.questions.length; ++q) {
-                $(".score").hide();
-                ans.push((questions[q].ans + q * 4).toString());
-                exp.push(questions[q].ex);
-                document.querySelector(".exam-container .questions").innerHTML += `
+          $(".exam-title").css(
+            "background",
+            Colors[Math.floor(Math.random() * 11)]
+          );
+          $("#submit").css(
+            "background",
+            Colors[Math.floor(Math.random() * 11)]
+          );
+          var ans = [],
+            exp = [],
+            userAns = [],
+            score = 0,
+            wrong = 0,
+            na = 0,
+            questions = shuffleArray(myexam.questions);
+
+          $(".exam-nb").html(`${myexam.details.nb}`);
+
+          for (let q = 0; q < myexam.questions.length; ++q) {
+            $(".score").hide();
+            ans.push((questions[q].ans + q * 4).toString());
+            exp.push(questions[q].ex);
+            document.querySelector(".exam-container .questions").innerHTML += `
                <div class="q-wrap">
                       <div class="q-logo"></div>
                   <div class="question">
@@ -308,205 +330,277 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
                   <div class="explanation" id="exp-${q}"></div>
               </div>
                `;
-              }
-    
-              $(".opt").on("click", function () {
-                userAns.push($(this)[0].id);
-                $($(this)[0].parentNode.children[0]).off("click");
-                $($(this)[0].parentNode.children[1]).off("click");
-                $($(this)[0].parentNode.children[2]).off("click");
-                $($(this)[0].parentNode.children[3]).off("click");
-                $($(this)[0]).css({
-                  background: "var(--dark)",
-                  color: "var(--light)",
-                  "font-weight": "bold",
-                });
-              });
-    
-              //timer
-              var sec = 0;
-              var minute = myexam.details.duration;
-              var initialMin = myexam.details.duration;
-              var timer = setInterval(function () {
-                if (sec === 0) {
-                  minute--;
-                  sec = 60;
-                }
-                sec--;
-                if (minute <= 0 && sec <= 0) {
-                  $("#submit").click();
-                  $(".header .title").html(`<small>Ended!</small>`);
-                  clearInterval(timer);
-                } else {
-                  $(".header .title").html(
-                    `<div class="timer">${minute} : ${sec}</div>`
-                  );
-                }
-              }, 1000);
-    
-              jQuery(document).ready(function($) {
-    
-                if (window.history && window.history.pushState) { 
-                 // window.history.pushState('forward', null, './#forward');       
-                  $(window).on('popstate', function() {
-                    clearInterval(timer);
-                    $('.timer').html('');
-                  });
-              
-                }
-              });
-              
-              
-              $("#submit")
-                .off()
-                .click(function () {
-                  let foundKey = false;
-                db.ref('jachai/users/'+userUID+'/practiceExams/'+myexam.details.sub+'/'+params.id).on('value', keyMatch=>{
-                //console.log(keyMatch.val());
-                 if(keyMatch.val()===null){
-                     foundKey = true;
-                 }
-    
-                 if(foundKey){
-                  Swal.fire({
-                  title: `তুমি কি নিশ্চিত?`,
-                  text: `তোমার স্কোর সাবমিট হবে। এই পরীক্ষাটির জন্য দ্বিতীয়বার তোমার স্কোর আর যোগ হবে না!`,
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonText: 'হ্যাঁ',
-                  cancelButtonText: 'না'
-                  }).then(result=>{
-                    if(result.isConfirmed){
-                      clearInterval(timer);
-                  $("html, body").animate({ scrollTop: 0 }, "slow");
-                  $('#submit').hide();
-                  $('#again').show();
-                  let e;
-                  $(".explanation").show();
-                  for (let k = 0; k < ans.length; ++k) {
-                    e = k;
-                    e = "#exp-" + e;
-                    $(e).html(`<b style="color: green;">Solution:</b><br>${exp[k]}`);
-                    // $('#'+ans[k]).css({'background': 'var(--success)', 'color': 'var(--light)'});
-                    $("#" + ans[k] + " .st").addClass("cr");
-                    $($($($("#" + ans[k])[0].parentNode)[0].parentNode)[0]
-                        .children[0]
-                    ).html('<div class="not-ans"> <span class="material-icons">error</span></div>');
-                  }
-                  for(let i=0; i<userAns.length; ++i){
-                    found = false;
-                    for(let j=0; j<ans.length; ++j){
-                       if(userAns[i] === ans[j]){
-                        score++;
-                        // $('#'+userAns[i]).css({'background': 'var(--success)', 'color': 'var(--light)'});
-                        $('#'+userAns[i] + ' .st').addClass('cr');
-                        $($($($('#'+userAns[i])[0].parentNode)[0].parentNode)[0].children[0]).html('<div class="correct"> <span class="material-icons">verified</span> </div>');
-                        found = true;
-                        break;
-                       }else found =false;
-                    }
-    
-                    if(!found){
-                      wrong++; 
-                      // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'}); 
-                      $('#'+userAns[i] + ' .st').addClass('wa');
-                      //console.log($($('#'+userAns[i])[0].parentNode)[0].parentNode)
-                      $($($($('#'+userAns[i])[0].parentNode)[0].parentNode)[0].children[0]).html('<div class="wrong"> <span class="material-icons">highlight_off</span>  </div>');
-                    }
-                  }
-           
-                  $('.score').show();
-          $('.mark').html(`স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`);
-          $('.score-wa').html(`ভুল </br> <span class="score-num">${wrong}</span>`);
-          $('.score-na').html(`ফাঁকা </br> <span class="score-num">${questions.length-(score+wrong)}</span>`);
-          $('.score-time').html(`সময় <br> <span class="score-num">${(initialMin-1)-minute}:${60-sec}</span>`);
-    
-          db.ref('jachai/users/'+userUID+'/practiceExams/'+myexam.details.sub+'/'+params.id).push({
-            score: score,
-            totalQ: questions.length,
-            wrong: wrong,
-            na: questions.length-(score+wrong),
-            time: {
-             min: (initialMin-1)-minute,
-             sec: 60-sec
-            }
-          });
-          db.ref('jachai/users/'+userUID).update({practiceScore: epscore+score, totalPracExam: etotalPracExam+1});
+          }
 
-          db.ref('jachai/leaderboard/'+eAddr[3]).push({
-            score: score,
-            totalQ: questions.length,
-            wrong: wrong,
-            userKey: userUID,
-            username: myusername,
-            na: questions.length-(score+wrong),
-            time: {
-             min: (initialMin-1)-minute,
-             sec: 60-sec
+          $(".opt").on("click", function () {
+            userAns.push($(this)[0].id);
+            $($(this)[0].parentNode.children[0]).off("click");
+            $($(this)[0].parentNode.children[1]).off("click");
+            $($(this)[0].parentNode.children[2]).off("click");
+            $($(this)[0].parentNode.children[3]).off("click");
+            $($(this)[0]).css({
+              background: "var(--dark)",
+              color: "var(--light)",
+              "font-weight": "bold",
+            });
+          });
+
+          //timer
+          var sec = 0;
+          var minute = myexam.details.duration;
+          var initialMin = myexam.details.duration;
+          var timer = setInterval(function () {
+            if (sec === 0) {
+              minute--;
+              sec = 60;
+            }
+            sec--;
+            if (minute <= 0 && sec <= 0) {
+              $("#submit").click();
+              $(".header .title").html(`<small>Ended!</small>`);
+              clearInterval(timer);
+            } else {
+              $(".header .title").html(
+                `<div class="timer">${minute} : ${sec}</div>`
+              );
+            }
+          }, 1000);
+
+          jQuery(document).ready(function ($) {
+            if (window.history && window.history.pushState) {
+              // window.history.pushState('forward', null, './#forward');
+              $(window).on("popstate", function () {
+                clearInterval(timer);
+                $(".timer").html("");
+              });
             }
           });
-          
-                      Swal.fire('সাবমিট হয়েছে!', '', 'success');
+
+          $("#submit")
+            .off()
+            .click(function () {
+              let foundKey = false;
+              db.ref(
+                "jachai/users/" +
+                  userUID +
+                  "/practiceExams/" +
+                  myexam.details.sub +
+                  "/" +
+                  params.id
+              ).on("value", (keyMatch) => {
+                //console.log(keyMatch.val());
+                if (keyMatch.val() === null) {
+                  foundKey = true;
+                }
+
+                if (foundKey) {
+                  Swal.fire({
+                    title: `তুমি কি নিশ্চিত?`,
+                    text: `তোমার স্কোর সাবমিট হবে। এই পরীক্ষাটির জন্য দ্বিতীয়বার তোমার স্কোর আর যোগ হবে না!`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "হ্যাঁ",
+                    cancelButtonText: "না",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      clearInterval(timer);
+                      $("html, body").animate({ scrollTop: 0 }, "slow");
+                      $("#submit").hide();
+                      $("#again").show();
+                      let e;
+                      $(".explanation").show();
+                      for (let k = 0; k < ans.length; ++k) {
+                        e = k;
+                        e = "#exp-" + e;
+                        $(e).html(
+                          `<b style="color: green;">Solution:</b><br>${exp[k]}`
+                        );
+                        // $('#'+ans[k]).css({'background': 'var(--success)', 'color': 'var(--light)'});
+                        $("#" + ans[k] + " .st").addClass("cr");
+                        $(
+                          $($($("#" + ans[k])[0].parentNode)[0].parentNode)[0]
+                            .children[0]
+                        ).html(
+                          '<div class="not-ans"> <span class="material-icons">error</span></div>'
+                        );
+                      }
+                      for (let i = 0; i < userAns.length; ++i) {
+                        found = false;
+                        for (let j = 0; j < ans.length; ++j) {
+                          if (userAns[i] === ans[j]) {
+                            score++;
+                            // $('#'+userAns[i]).css({'background': 'var(--success)', 'color': 'var(--light)'});
+                            $("#" + userAns[i] + " .st").addClass("cr");
+                            $(
+                              $(
+                                $($("#" + userAns[i])[0].parentNode)[0]
+                                  .parentNode
+                              )[0].children[0]
+                            ).html(
+                              '<div class="correct"> <span class="material-icons">verified</span> </div>'
+                            );
+                            found = true;
+                            break;
+                          } else found = false;
+                        }
+
+                        if (!found) {
+                          wrong++;
+                          // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'});
+                          $("#" + userAns[i] + " .st").addClass("wa");
+                          //console.log($($('#'+userAns[i])[0].parentNode)[0].parentNode)
+                          $(
+                            $(
+                              $($("#" + userAns[i])[0].parentNode)[0].parentNode
+                            )[0].children[0]
+                          ).html(
+                            '<div class="wrong"> <span class="material-icons">highlight_off</span>  </div>'
+                          );
+                        }
+                      }
+
+                      $(".score").show();
+                      $(".mark").html(
+                        `স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
+                      );
+                      $(".score-wa").html(
+                        `ভুল </br> <span class="score-num">${wrong}</span>`
+                      );
+                      $(".score-na").html(
+                        `ফাঁকা </br> <span class="score-num">${
+                          questions.length - (score + wrong)
+                        }</span>`
+                      );
+                      $(".score-time").html(
+                        `সময় <br> <span class="score-num">${
+                          initialMin - 1 - minute
+                        }:${60 - sec}</span>`
+                      );
+
+                      db.ref(
+                        "jachai/users/" +
+                          userUID +
+                          "/practiceExams/" +
+                          myexam.details.sub +
+                          "/" +
+                          params.id
+                      ).push({
+                        score: score,
+                        totalQ: questions.length,
+                        wrong: wrong,
+                        na: questions.length - (score + wrong),
+                        time: {
+                          min: initialMin - 1 - minute,
+                          sec: 60 - sec,
+                        },
+                      });
+                      db.ref("jachai/users/" + userUID).update({
+                        practiceScore: epscore + score,
+                        totalPracExam: etotalPracExam + 1,
+                      });
+
+                      db.ref("jachai/leaderboard/" + eAddr[3]).push({
+                        score: score,
+                        totalQ: questions.length,
+                        wrong: wrong,
+                        userKey: userUID,
+                        username: myusername,
+                        na: questions.length - (score + wrong),
+                        time: {
+                          min: initialMin - 1 - minute,
+                          sec: 60 - sec,
+                        },
+                      });
+
+                      Swal.fire("সাবমিট হয়েছে!", "", "success");
                     }
-                  })
+                  });
                   //end
-                }else{
+                } else {
                   clearInterval(timer);
                   $("html, body").animate({ scrollTop: 0 }, "slow");
-                  $('#submit').hide();
-                  $('#again').show();
+                  $("#submit").hide();
+                  $("#again").show();
                   let e;
                   $(".explanation").show();
                   for (let k = 0; k < ans.length; ++k) {
                     e = k;
                     e = "#exp-" + e;
-                    $(e).html(`<b style="color: green;">Solution:</b><br>${exp[k]}`);
+                    $(e).html(
+                      `<b style="color: green;">Solution:</b><br>${exp[k]}`
+                    );
                     // $('#'+ans[k]).css({'background': 'var(--success)', 'color': 'var(--light)'});
                     $("#" + ans[k] + " .st").addClass("cr");
-                    $($($($("#" + ans[k])[0].parentNode)[0].parentNode)[0]
+                    $(
+                      $($($("#" + ans[k])[0].parentNode)[0].parentNode)[0]
                         .children[0]
-                    ).html('<div class="not-ans"> <span class="material-icons">error</span></div>');
+                    ).html(
+                      '<div class="not-ans"> <span class="material-icons">error</span></div>'
+                    );
                   }
-                  for(let i=0; i<userAns.length; ++i){
+                  for (let i = 0; i < userAns.length; ++i) {
                     found = false;
-                    for(let j=0; j<ans.length; ++j){
-                       if(userAns[i] === ans[j]){
+                    for (let j = 0; j < ans.length; ++j) {
+                      if (userAns[i] === ans[j]) {
                         score++;
                         // $('#'+userAns[i]).css({'background': 'var(--success)', 'color': 'var(--light)'});
-                        $('#'+userAns[i] + ' .st').addClass('cr');
-                        $($($($('#'+userAns[i])[0].parentNode)[0].parentNode)[0].children[0]).html('<div class="correct"> <span class="material-icons">verified</span> </div>');
+                        $("#" + userAns[i] + " .st").addClass("cr");
+                        $(
+                          $(
+                            $($("#" + userAns[i])[0].parentNode)[0].parentNode
+                          )[0].children[0]
+                        ).html(
+                          '<div class="correct"> <span class="material-icons">verified</span> </div>'
+                        );
                         found = true;
                         break;
-                       }else found =false;
+                      } else found = false;
                     }
-                    if(!found){
-                      wrong++; 
-                      // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'}); 
-                      $('#'+userAns[i] + ' .st').addClass('wa');
+                    if (!found) {
+                      wrong++;
+                      // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'});
+                      $("#" + userAns[i] + " .st").addClass("wa");
                       //console.log($($('#'+userAns[i])[0].parentNode)[0].parentNode)
-                      $($($($('#'+userAns[i])[0].parentNode)[0].parentNode)[0].children[0]).html('<div class="wrong"> <span class="material-icons">highlight_off</span>  </div>');
+                      $(
+                        $($($("#" + userAns[i])[0].parentNode)[0].parentNode)[0]
+                          .children[0]
+                      ).html(
+                        '<div class="wrong"> <span class="material-icons">highlight_off</span>  </div>'
+                      );
                     }
                   }
-           
-                  $('.score').show();
-          $('.mark').html(`স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`);
-          $('.score-wa').html(`ভুল </br> <span class="score-num">${wrong}</span>`);
-          $('.score-na').html(`ফাঁকা </br> <span class="score-num">${questions.length-(score+wrong)}</span>`);
-          $('.score-time').html(`সময় <br> <span class="score-num">${(initialMin-1)-minute}:${60-sec}</span>`);
-    
+
+                  $(".score").show();
+                  $(".mark").html(
+                    `স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
+                  );
+                  $(".score-wa").html(
+                    `ভুল </br> <span class="score-num">${wrong}</span>`
+                  );
+                  $(".score-na").html(
+                    `ফাঁকা </br> <span class="score-num">${
+                      questions.length - (score + wrong)
+                    }</span>`
+                  );
+                  $(".score-time").html(
+                    `সময় <br> <span class="score-num">${
+                      initialMin - 1 - minute
+                    }:${60 - sec}</span>`
+                  );
+
                   Swal.fire({
                     title: `তুমি পরীক্ষাটি আগেও দিয়েছিলে। এবার আর তোমার স্কোর যোগ হবে না!`,
-                    icon: 'success',
-                    confirmButtonText: 'আচ্ছা!',
-                    })
+                    icon: "success",
+                    confirmButtonText: "আচ্ছা!",
+                  });
                 }
-             })
-                });
+              });
             });
-          },
+        });
+      },
       //Other EXAM LISTS
       "/exams/:id": function (params) {
-        db.ref("jachai/exams/"+params.id).on("value", (pracs) => {
+        db.ref("jachai/exams/" + params.id).on("value", (pracs) => {
           var allExams = [];
           var examsKeys = [];
           pracs.forEach((prac) => {
@@ -517,8 +611,8 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
             <div class="menu-title"><i class="icofont-read-book"></i> অন্যান্য</div>
  <div class="examLists"></div>
   `;
-   for (let i = allExams.length - 1; i >= 0; i--) { 
-  document.querySelector('.examLists').innerHTML += `
+          for (let i = allExams.length - 1; i >= 0; i--) {
+            document.querySelector(".examLists").innerHTML += `
   <div class="exam">
   <div class="class">${allExams[i].details.class}</div>
       <div class="logo" style="background: ${logoColor(
@@ -531,12 +625,20 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
           } টি | সময়ঃ ${allExams[i].details.duration} মিনিট | স্কোরঃ ${
               allExams[i].questions.length
             } | নেগেটিভঃ ${allExams[i].details.negative}</div>
-            <small class="author"><i class="icofont-wall-clock"></i> ${getRelativeTime(allExams[i].details.at)} <i class="icofont-fountain-pen"></i> <i>author: ${allExams[i].details.author}</i></small></br>
-          <a  href="#!/exam/${examsKeys[i]}"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
-          <a  href="#!/leaderboard/${examsKeys[i]}"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>লিডারবোর্ড</button> </a>
+            <small class="author"><i class="icofont-wall-clock"></i> ${getRelativeTime(
+              allExams[i].details.at
+            )} <i class="icofont-fountain-pen"></i> <i>author: ${
+              allExams[i].details.author
+            }</i></small></br>
+          <a  href="#!/exam/${
+            examsKeys[i]
+          }"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
+          <a  href="#!/leaderboard/${
+            examsKeys[i]
+          }"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>লিডারবোর্ড</button> </a>
       </div>
   </div>
-  `
+  `;
           }
         });
       },
@@ -559,8 +661,14 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
           <div class="submit" id="submit">সাবমিট করো! </div>
           </div>
       `;
-      $('.exam-title').css('background', Colors[Math.floor(Math.random() * 11)]);
-      $('#submit').css('background', Colors[Math.floor(Math.random() * 11)]);
+          $(".exam-title").css(
+            "background",
+            Colors[Math.floor(Math.random() * 11)]
+          );
+          $("#submit").css(
+            "background",
+            Colors[Math.floor(Math.random() * 11)]
+          );
           var ans = [],
             exp = [],
             userAns = [],
@@ -568,7 +676,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
             wrong = 0,
             na = 0,
             questions = shuffleArray(myexam.questions);
-         
+
           $(".exam-nb").html(`${myexam.details.nb}`);
 
           for (let q = 0; q < myexam.questions.length; ++q) {
@@ -634,154 +742,226 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
             }
           }, 1000);
 
-          jQuery(document).ready(function($) {
-
-            if (window.history && window.history.pushState) { 
-             // window.history.pushState('forward', null, './#forward');       
-              $(window).on('popstate', function() {
+          jQuery(document).ready(function ($) {
+            if (window.history && window.history.pushState) {
+              // window.history.pushState('forward', null, './#forward');
+              $(window).on("popstate", function () {
                 clearInterval(timer);
-                $('.timer').html('');
+                $(".timer").html("");
               });
-          
             }
           });
-          
-          
+
           $("#submit")
             .off()
             .click(function () {
               let foundKey = false;
-            db.ref('jachai/users/'+userUID+'/practiceExams/'+myexam.details.sub+'/'+params.id).on('value', keyMatch=>{
-            //console.log(keyMatch.val());
-             if(keyMatch.val()===null){
-                 foundKey = true;
-             }
+              db.ref(
+                "jachai/users/" +
+                  userUID +
+                  "/practiceExams/" +
+                  myexam.details.sub +
+                  "/" +
+                  params.id
+              ).on("value", (keyMatch) => {
+                //console.log(keyMatch.val());
+                if (keyMatch.val() === null) {
+                  foundKey = true;
+                }
 
-             if(foundKey){
-              Swal.fire({
-              title: `তুমি কি নিশ্চিত?`,
-              text: `তোমার স্কোর সাবমিট হবে। এই পরীক্ষাটির জন্য দ্বিতীয়বার তোমার স্কোর আর যোগ হবে না!`,
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonText: 'হ্যাঁ',
-              cancelButtonText: 'না'
-              }).then(result=>{
-                if(result.isConfirmed){
+                if (foundKey) {
+                  Swal.fire({
+                    title: `তুমি কি নিশ্চিত?`,
+                    text: `তোমার স্কোর সাবমিট হবে। এই পরীক্ষাটির জন্য দ্বিতীয়বার তোমার স্কোর আর যোগ হবে না!`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "হ্যাঁ",
+                    cancelButtonText: "না",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      clearInterval(timer);
+                      $("html, body").animate({ scrollTop: 0 }, "slow");
+                      $("#submit").hide();
+                      $("#again").show();
+                      let e;
+                      $(".explanation").show();
+                      for (let k = 0; k < ans.length; ++k) {
+                        e = k;
+                        e = "#exp-" + e;
+                        $(e).html(
+                          `<b style="color: green;">Solution:</b><br>${exp[k]}`
+                        );
+                        // $('#'+ans[k]).css({'background': 'var(--success)', 'color': 'var(--light)'});
+                        $("#" + ans[k] + " .st").addClass("cr");
+                        $(
+                          $($($("#" + ans[k])[0].parentNode)[0].parentNode)[0]
+                            .children[0]
+                        ).html(
+                          '<div class="not-ans"> <span class="material-icons">error</span></div>'
+                        );
+                      }
+                      for (let i = 0; i < userAns.length; ++i) {
+                        found = false;
+                        for (let j = 0; j < ans.length; ++j) {
+                          if (userAns[i] === ans[j]) {
+                            score++;
+                            // $('#'+userAns[i]).css({'background': 'var(--success)', 'color': 'var(--light)'});
+                            $("#" + userAns[i] + " .st").addClass("cr");
+                            $(
+                              $(
+                                $($("#" + userAns[i])[0].parentNode)[0]
+                                  .parentNode
+                              )[0].children[0]
+                            ).html(
+                              '<div class="correct"> <span class="material-icons">verified</span> </div>'
+                            );
+                            found = true;
+                            break;
+                          } else found = false;
+                        }
+
+                        if (!found) {
+                          wrong++;
+                          // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'});
+                          $("#" + userAns[i] + " .st").addClass("wa");
+                          //console.log($($('#'+userAns[i])[0].parentNode)[0].parentNode)
+                          $(
+                            $(
+                              $($("#" + userAns[i])[0].parentNode)[0].parentNode
+                            )[0].children[0]
+                          ).html(
+                            '<div class="wrong"> <span class="material-icons">highlight_off</span>  </div>'
+                          );
+                        }
+                      }
+
+                      $(".score").show();
+                      $(".mark").html(
+                        `স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
+                      );
+                      $(".score-wa").html(
+                        `ভুল </br> <span class="score-num">${wrong}</span>`
+                      );
+                      $(".score-na").html(
+                        `ফাঁকা </br> <span class="score-num">${
+                          questions.length - (score + wrong)
+                        }</span>`
+                      );
+                      $(".score-time").html(
+                        `সময় <br> <span class="score-num">${
+                          initialMin - 1 - minute
+                        }:${60 - sec}</span>`
+                      );
+
+                      db.ref(
+                        "jachai/users/" +
+                          userUID +
+                          "/practiceExams/" +
+                          myexam.details.sub +
+                          "/" +
+                          params.id
+                      ).push({
+                        score: score,
+                        totalQ: questions.length,
+                        wrong: wrong,
+                        na: questions.length - (score + wrong),
+                        time: {
+                          min: initialMin - 1 - minute,
+                          sec: 60 - sec,
+                        },
+                      });
+                      db.ref("jachai/users/" + userUID).update({
+                        practiceScore: epscore + score,
+                        totalPracExam: etotalPracExam + 1,
+                      });
+                      Swal.fire("সাবমিট হয়েছে!", "", "success");
+                    }
+                  });
+                  //end
+                } else {
                   clearInterval(timer);
-              $("html, body").animate({ scrollTop: 0 }, "slow");
-              $('#submit').hide();
-              $('#again').show();
-              let e;
-              $(".explanation").show();
-              for (let k = 0; k < ans.length; ++k) {
-                e = k;
-                e = "#exp-" + e;
-                $(e).html(`<b style="color: green;">Solution:</b><br>${exp[k]}`);
-                // $('#'+ans[k]).css({'background': 'var(--success)', 'color': 'var(--light)'});
-                $("#" + ans[k] + " .st").addClass("cr");
-                $($($($("#" + ans[k])[0].parentNode)[0].parentNode)[0]
-                    .children[0]
-                ).html('<div class="not-ans"> <span class="material-icons">error</span></div>');
-              }
-              for(let i=0; i<userAns.length; ++i){
-                found = false;
-                for(let j=0; j<ans.length; ++j){
-                   if(userAns[i] === ans[j]){
-                    score++;
-                    // $('#'+userAns[i]).css({'background': 'var(--success)', 'color': 'var(--light)'});
-                    $('#'+userAns[i] + ' .st').addClass('cr');
-                    $($($($('#'+userAns[i])[0].parentNode)[0].parentNode)[0].children[0]).html('<div class="correct"> <span class="material-icons">verified</span> </div>');
-                    found = true;
-                    break;
-                   }else found =false;
-                }
+                  $("html, body").animate({ scrollTop: 0 }, "slow");
+                  $("#submit").hide();
+                  $("#again").show();
+                  let e;
+                  $(".explanation").show();
+                  for (let k = 0; k < ans.length; ++k) {
+                    e = k;
+                    e = "#exp-" + e;
+                    $(e).html(
+                      `<b style="color: green;">Solution:</b><br>${exp[k]}`
+                    );
+                    // $('#'+ans[k]).css({'background': 'var(--success)', 'color': 'var(--light)'});
+                    $("#" + ans[k] + " .st").addClass("cr");
+                    $(
+                      $($($("#" + ans[k])[0].parentNode)[0].parentNode)[0]
+                        .children[0]
+                    ).html(
+                      '<div class="not-ans"> <span class="material-icons">error</span></div>'
+                    );
+                  }
+                  for (let i = 0; i < userAns.length; ++i) {
+                    found = false;
+                    for (let j = 0; j < ans.length; ++j) {
+                      if (userAns[i] === ans[j]) {
+                        score++;
+                        // $('#'+userAns[i]).css({'background': 'var(--success)', 'color': 'var(--light)'});
+                        $("#" + userAns[i] + " .st").addClass("cr");
+                        $(
+                          $(
+                            $($("#" + userAns[i])[0].parentNode)[0].parentNode
+                          )[0].children[0]
+                        ).html(
+                          '<div class="correct"> <span class="material-icons">verified</span> </div>'
+                        );
+                        found = true;
+                        break;
+                      } else found = false;
+                    }
+                    if (!found) {
+                      wrong++;
+                      // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'});
+                      $("#" + userAns[i] + " .st").addClass("wa");
+                      //console.log($($('#'+userAns[i])[0].parentNode)[0].parentNode)
+                      $(
+                        $($($("#" + userAns[i])[0].parentNode)[0].parentNode)[0]
+                          .children[0]
+                      ).html(
+                        '<div class="wrong"> <span class="material-icons">highlight_off</span>  </div>'
+                      );
+                    }
+                  }
 
-                if(!found){
-                  wrong++; 
-                  // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'}); 
-                  $('#'+userAns[i] + ' .st').addClass('wa');
-                  //console.log($($('#'+userAns[i])[0].parentNode)[0].parentNode)
-                  $($($($('#'+userAns[i])[0].parentNode)[0].parentNode)[0].children[0]).html('<div class="wrong"> <span class="material-icons">highlight_off</span>  </div>');
-                }
-              }
-       
-              $('.score').show();
-      $('.mark').html(`স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`);
-      $('.score-wa').html(`ভুল </br> <span class="score-num">${wrong}</span>`);
-      $('.score-na').html(`ফাঁকা </br> <span class="score-num">${questions.length-(score+wrong)}</span>`);
-      $('.score-time').html(`সময় <br> <span class="score-num">${(initialMin-1)-minute}:${60-sec}</span>`);
+                  $(".score").show();
+                  $(".mark").html(
+                    `স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
+                  );
+                  $(".score-wa").html(
+                    `ভুল </br> <span class="score-num">${wrong}</span>`
+                  );
+                  $(".score-na").html(
+                    `ফাঁকা </br> <span class="score-num">${
+                      questions.length - (score + wrong)
+                    }</span>`
+                  );
+                  $(".score-time").html(
+                    `সময় <br> <span class="score-num">${
+                      initialMin - 1 - minute
+                    }:${60 - sec}</span>`
+                  );
 
-      db.ref('jachai/users/'+userUID+'/practiceExams/'+myexam.details.sub+'/'+params.id).push({
-        score: score,
-        totalQ: questions.length,
-        wrong: wrong,
-        na: questions.length-(score+wrong),
-        time: {
-         min: (initialMin-1)-minute,
-         sec: 60-sec
-        }
-      });
-      db.ref('jachai/users/'+userUID).update({practiceScore: epscore+score, totalPracExam: etotalPracExam+1});
-                  Swal.fire('সাবমিট হয়েছে!', '', 'success');
+                  Swal.fire({
+                    title: `তুমি পরীক্ষাটি আগেও দিয়েছিলে। এবার আর তোমার স্কোর যোগ হবে না!`,
+                    icon: "success",
+                    confirmButtonText: "আচ্ছা!",
+                  });
                 }
-              })
-              //end
-            }else{
-              clearInterval(timer);
-              $("html, body").animate({ scrollTop: 0 }, "slow");
-              $('#submit').hide();
-              $('#again').show();
-              let e;
-              $(".explanation").show();
-              for (let k = 0; k < ans.length; ++k) {
-                e = k;
-                e = "#exp-" + e;
-                $(e).html(`<b style="color: green;">Solution:</b><br>${exp[k]}`);
-                // $('#'+ans[k]).css({'background': 'var(--success)', 'color': 'var(--light)'});
-                $("#" + ans[k] + " .st").addClass("cr");
-                $($($($("#" + ans[k])[0].parentNode)[0].parentNode)[0]
-                    .children[0]
-                ).html('<div class="not-ans"> <span class="material-icons">error</span></div>');
-              }
-              for(let i=0; i<userAns.length; ++i){
-                found = false;
-                for(let j=0; j<ans.length; ++j){
-                   if(userAns[i] === ans[j]){
-                    score++;
-                    // $('#'+userAns[i]).css({'background': 'var(--success)', 'color': 'var(--light)'});
-                    $('#'+userAns[i] + ' .st').addClass('cr');
-                    $($($($('#'+userAns[i])[0].parentNode)[0].parentNode)[0].children[0]).html('<div class="correct"> <span class="material-icons">verified</span> </div>');
-                    found = true;
-                    break;
-                   }else found =false;
-                }
-                if(!found){
-                  wrong++; 
-                  // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'}); 
-                  $('#'+userAns[i] + ' .st').addClass('wa');
-                  //console.log($($('#'+userAns[i])[0].parentNode)[0].parentNode)
-                  $($($($('#'+userAns[i])[0].parentNode)[0].parentNode)[0].children[0]).html('<div class="wrong"> <span class="material-icons">highlight_off</span>  </div>');
-                }
-              }
-       
-              $('.score').show();
-      $('.mark').html(`স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`);
-      $('.score-wa').html(`ভুল </br> <span class="score-num">${wrong}</span>`);
-      $('.score-na').html(`ফাঁকা </br> <span class="score-num">${questions.length-(score+wrong)}</span>`);
-      $('.score-time').html(`সময় <br> <span class="score-num">${(initialMin-1)-minute}:${60-sec}</span>`);
-
-              Swal.fire({
-                title: `তুমি পরীক্ষাটি আগেও দিয়েছিলে। এবার আর তোমার স্কোর যোগ হবে না!`,
-                icon: 'success',
-                confirmButtonText: 'আচ্ছা!',
-                })
-            }
-         })
+              });
             });
         });
       },
       "/user/:id": function (params) {
-        app.innerHTML=`
+        app.innerHTML = `
         <div class="login">
         <h5>
         </span>
@@ -810,32 +990,43 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
   </center>
         </div>
         </div>
-        `
-  db.ref('jachai/users/'+params.id).on('value', set=>{    
-            $('.group').html(`<i class="icofont-ui-user-group"></i> ${set.val().group}`)
-            $('.username').text(set.val().username);
-           if(set.val().gender === 'male'){
-             $('.user-gender-icon').html(`<i class="icofont-student-alt"></i>`)
-           }else{
-             $('.user-gender-icon').html(`<i class="icofont-student"></i>`)
-           }
-           $('.school').html(`<i class="icofont-institution"></i> ${set.val().school}`)
-           $('.state').html(`
+        `;
+        db.ref("jachai/users/" + params.id).on("value", (set) => {
+          $(".group").html(
+            `<i class="icofont-ui-user-group"></i> ${set.val().group}`
+          );
+          $(".username").text(set.val().username);
+          if (set.val().gender === "male") {
+            $(".user-gender-icon").html(`<i class="icofont-student-alt"></i>`);
+          } else {
+            $(".user-gender-icon").html(`<i class="icofont-student"></i>`);
+          }
+          $(".school").html(
+            `<i class="icofont-institution"></i> ${set.val().school}`
+          );
+          $(".state").html(`
        <div class="state-item">
-       <i class="icofont-paperclip"></i> মোট লাইভ এক্সামঃ <span class="count ex"> ${set.val().totalExam} </span> 
+       <i class="icofont-paperclip"></i> মোট লাইভ এক্সামঃ <span class="count ex"> ${
+         set.val().totalExam
+       } </span> 
        </div>
        <div class="state-item">
-       <i class="icofont-badge"></i> লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().score} </span> 
+       <i class="icofont-badge"></i> লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${
+         set.val().score
+       } </span> 
        </div>
        <div class="state-item">
-       <i class="icofont-thunder-light"></i> প্রাকটিস এক্সামঃ <span class="count ex"> ${set.val().totalPracExam} </span> 
+       <i class="icofont-thunder-light"></i> প্রাকটিস এক্সামঃ <span class="count ex"> ${
+         set.val().totalPracExam
+       } </span> 
        </div>
        <div class="state-item">
-       <i class="icofont-hand-thunder"></i>প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().practiceScore} </span> 
+       <i class="icofont-hand-thunder"></i>প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${
+         set.val().practiceScore
+       } </span> 
        </div>
-           `)
-       })
-      
+           `);
+        });
       },
 
       "/login": function () {
@@ -874,98 +1065,114 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
 </div>
         `;
 
-          /**
-   * @return {string} The URL of the FirebaseUI standalone widget.
-   */
-  function getWidgetUrl() {
-    return '/widget#recaptcha=' + getRecaptchaMode() + '&emailSignInMethod=' +
-        getEmailSignInMethod();
-  }
-  
+        /**
+         * @return {string} The URL of the FirebaseUI standalone widget.
+         */
+        function getWidgetUrl() {
+          return (
+            "/widget#recaptcha=" +
+            getRecaptchaMode() +
+            "&emailSignInMethod=" +
+            getEmailSignInMethod()
+          );
+        }
 
-          /**
-   * Displays the UI for a signed in user.
-   * @param {!firebase.User} user
-   */
-       var handleSignedInUser = function(user) {
-         $('#loading').hide();
-         $('#loaded').show();
-         $('#user-signed-in').show();
-        $('#user-signed-out').hide();
-         // document.getElementById('name').textContent = user.displayName;
-         // document.getElementById('email').textContent = user.email;
-         $('#phone').html(`
+        /**
+         * Displays the UI for a signed in user.
+         * @param {!firebase.User} user
+         */
+        var handleSignedInUser = function (user) {
+          $("#loading").hide();
+          $("#loaded").show();
+          $("#user-signed-in").show();
+          $("#user-signed-out").hide();
+          // document.getElementById('name').textContent = user.displayName;
+          // document.getElementById('email').textContent = user.email;
+          $("#phone").html(`
        <b><i class="icofont-smart-phone prefix"></i> Phone:</b> ${user.phoneNumber}`);
-     
-         if (user.photoURL) {
-           var photoURL = user.photoURL;
-           // Append size to the photo URL for Google hosted images to avoid requesting
-           // the image with its original resolution (using more bandwidth than needed)
-           // when it is going to be presented in smaller size.
-           if ((photoURL.indexOf('googleusercontent.com') != -1) ||
-               (photoURL.indexOf('ggpht.com') != -1)) {
-             photoURL = photoURL + '?sz=' +
-                 document.getElementById('photo').clientHeight;
-           }
-           document.getElementById('photo').src = photoURL;
-           document.getElementById('photo').style.display = 'block';
-         }
-       };
 
-        var handleSignedOutUser = function() {
-          $('#user-signed-in').hide;
-          $('#user-signed-out').show;
-          ui.start('#firebaseui-container', getUiConfig());
+          if (user.photoURL) {
+            var photoURL = user.photoURL;
+            // Append size to the photo URL for Google hosted images to avoid requesting
+            // the image with its original resolution (using more bandwidth than needed)
+            // when it is going to be presented in smaller size.
+            if (
+              photoURL.indexOf("googleusercontent.com") != -1 ||
+              photoURL.indexOf("ggpht.com") != -1
+            ) {
+              photoURL =
+                photoURL +
+                "?sz=" +
+                document.getElementById("photo").clientHeight;
+            }
+            document.getElementById("photo").src = photoURL;
+            document.getElementById("photo").style.display = "block";
+          }
         };
 
-        firebase.auth().onAuthStateChanged(function(user) {
-          $('#loading').hide();
-          $('#loaded').show();
-          user ? handleSignedInUser(user) : handleSignedOutUser();
-        })
+        var handleSignedOutUser = function () {
+          $("#user-signed-in").hide;
+          $("#user-signed-out").show;
+          ui.start("#firebaseui-container", getUiConfig());
+        };
 
-        var deleteAccount = function() {
-          firebase.auth().currentUser.delete().catch(function(error) {
-            if (error.code == 'auth/requires-recent-login') {
-              // The user's credential is too old. She needs to sign in again.
-              firebase.auth().signOut().then(function() {
-                setTimeout(function() {
-                  alert('Please sign in again to delete your account.');
-                }, 1);
-              });
-            }
-          });
+        firebase.auth().onAuthStateChanged(function (user) {
+          $("#loading").hide();
+          $("#loaded").show();
+          user ? handleSignedInUser(user) : handleSignedOutUser();
+        });
+
+        var deleteAccount = function () {
+          firebase
+            .auth()
+            .currentUser.delete()
+            .catch(function (error) {
+              if (error.code == "auth/requires-recent-login") {
+                // The user's credential is too old. She needs to sign in again.
+                firebase
+                  .auth()
+                  .signOut()
+                  .then(function () {
+                    setTimeout(function () {
+                      alert("Please sign in again to delete your account.");
+                    }, 1);
+                  });
+              }
+            });
         };
 
         function handleConfigChange() {
           var newRecaptchaValue = document.querySelector(
-              'input[name="recaptcha"]:checked').value;
+            'input[name="recaptcha"]:checked'
+          ).value;
           var newEmailSignInMethodValue = document.querySelector(
-              'input[name="emailSignInMethod"]:checked').value;
+            'input[name="emailSignInMethod"]:checked'
+          ).value;
           location.replace(
-              location.pathname + '#recaptcha=' + newRecaptchaValue +
-              '&emailSignInMethod=' + newEmailSignInMethodValue);
-        
+            location.pathname +
+              "#recaptcha=" +
+              newRecaptchaValue +
+              "&emailSignInMethod=" +
+              newEmailSignInMethodValue
+          );
+
           // Reset the inline widget so the config changes are reflected.
           ui.reset();
-          ui.start('#firebaseui-container', getUiConfig());
+          ui.start("#firebaseui-container", getUiConfig());
         }
 
-
-    document.getElementById('sign-out').addEventListener('click', function() {
-      firebase.auth().signOut();
-      window.location.reload();
-    });
-    document.getElementById('delete-account').addEventListener(
-        'click', function() {
-          deleteAccount();
-          window.location.reload();
-        });
-  
-  
-
-
-        
+        document
+          .getElementById("sign-out")
+          .addEventListener("click", function () {
+            firebase.auth().signOut();
+            window.location.reload();
+          });
+        document
+          .getElementById("delete-account")
+          .addEventListener("click", function () {
+            deleteAccount();
+            window.location.reload();
+          });
       },
       "/setprofile": function () {
         app.innerHTML = `
@@ -1043,81 +1250,87 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
         </div>
         `;
 
-        $(document).ready(function(){
-          $('select').formSelect();
+        $(document).ready(function () {
+          $("select").formSelect();
         });
 
-        $('#registration').click(function(){
-          let username = $('#rusername').val();
-           let school = $('#rschool').val();
-            let stdclass = $('#rclass').val();
-            let group = $('#rgroup').val();
-            let gender = $('#gender').val();
-            let district = $('#rdistrict').val();
-            if(!validation(username)){
-              console.log('Please filled out!');
-              $('#rusername').focus();
-              $('.warning').html(`<b>Username</b> should not be empty!`);
-            }else if(!validation(school)){
-              $('#rschool').focus();
-              $('.warning').html(`<b>Institution</b> should not be empty!`);
-            }else if(!validation(stdclass)){
-              $('#rclass').focus();
-              $('.warning').html(`<b>Class</b> should not be empty!`);
-            }else if(!validation(group)){
-              $('#rgroup').focus();
-              $('.warning').html(`<b>Group</b> should not be empty!`);
-            }else if(!validation(gender)){
-              $('#gender').focus();
-              $('.warning').html(`<b>Gender</b> should not be empty!`);
-            }else if(!validation(district)){
-              $('#rdistrict').focus();
-              $('.warning').html(`<b>District</b> should not be empty!`);
-            }else{
-              let registrationInfo={
-                username: username,
-                school: school,
-                stdclass: stdclass,
-                district: district,
-                gender: gender,
-                group: group,
-                setStatus: true,
-                lastEditTime: getTime(),
+        $("#registration").click(function () {
+          let username = $("#rusername").val();
+          let school = $("#rschool").val();
+          let stdclass = $("#rclass").val();
+          let group = $("#rgroup").val();
+          let gender = $("#gender").val();
+          let district = $("#rdistrict").val();
+          if (!validation(username)) {
+            console.log("Please filled out!");
+            $("#rusername").focus();
+            $(".warning").html(`<b>Username</b> should not be empty!`);
+          } else if (!validation(school)) {
+            $("#rschool").focus();
+            $(".warning").html(`<b>Institution</b> should not be empty!`);
+          } else if (!validation(stdclass)) {
+            $("#rclass").focus();
+            $(".warning").html(`<b>Class</b> should not be empty!`);
+          } else if (!validation(group)) {
+            $("#rgroup").focus();
+            $(".warning").html(`<b>Group</b> should not be empty!`);
+          } else if (!validation(gender)) {
+            $("#gender").focus();
+            $(".warning").html(`<b>Gender</b> should not be empty!`);
+          } else if (!validation(district)) {
+            $("#rdistrict").focus();
+            $(".warning").html(`<b>District</b> should not be empty!`);
+          } else {
+            let registrationInfo = {
+              username: username,
+              school: school,
+              stdclass: stdclass,
+              district: district,
+              gender: gender,
+              group: group,
+              setStatus: true,
+              lastEditTime: getTime(),
+            };
+            db.ref("jachai/users/" + userUID).update(registrationInfo);
+            Swal.fire({
+              title: "প্রোফাইল সেট করা হয়েছে!",
+              icon: "success",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                router.navigate("/");
               }
-              db.ref('jachai/users/'+userUID).update(registrationInfo);
-              Swal.fire({
-                title: 'প্রোফাইল সেট করা হয়েছে!',
-                icon: 'success',
-              }).then(result=>{
-                if(result.isConfirmed){
-                  router.navigate('/');
-                }
-              })
-              
-              console.log(userUID);
-            } 
+            });
+
+            console.log(userUID);
+          }
         });
 
-  firebase.auth().onAuthStateChanged(function(user) {
-          if(user){
-        db.ref('jachai/users/'+userUID).on('value', set=>{
-          $('.mi').html(`<i class="icofont-school-bag prefix"></i> <b>Class:</b> ${set.val().stdclass}</br>
-               <i class="icofont-group" prefix></i> <b>Group:</b> ${set.val().group}</br>
-               <i class="icofont-group-students prefix"></i> <b>Gender:</b> ${set.val().gender}
-               `)
-            $('#rusername').val(set.val().username);
-            $('#rschool').val(set.val().school);
-            $('#gender').val(set.val().gender);
-            $('#rclasss').val(set.val().stdclass);
-            $('#rgroup').val(set.val().group);
-            $('#rdistrict').val(set.val().district);
-       });
-      }
-      })
-        
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            db.ref("jachai/users/" + userUID).on("value", (set) => {
+              $(".mi")
+                .html(`<i class="icofont-school-bag prefix"></i> <b>Class:</b> ${
+                set.val().stdclass
+              }</br>
+               <i class="icofont-group" prefix></i> <b>Group:</b> ${
+                 set.val().group
+               }</br>
+               <i class="icofont-group-students prefix"></i> <b>Gender:</b> ${
+                 set.val().gender
+               }
+               `);
+              $("#rusername").val(set.val().username);
+              $("#rschool").val(set.val().school);
+              $("#gender").val(set.val().gender);
+              $("#rclasss").val(set.val().stdclass);
+              $("#rgroup").val(set.val().group);
+              $("#rdistrict").val(set.val().district);
+            });
+          }
+        });
       },
-      "/profile": function() {
-        app.innerHTML=`
+      "/profile": function () {
+        app.innerHTML = `
         <div class="login">
         <a href="#!/setprofile"><div style="float:right; color: #000; font-size: 14px; margin-left: 10px;">
         <i class="icofont-edit"></i>প্রোফাইল সেট</div></a> 
@@ -1150,37 +1363,54 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
   </center>
         </div>
         </div>
+        `;
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            db.ref("jachai/users/" + userUID).on("value", (set) => {
+              $(".group").html(
+                `<i class="icofont-ui-user-group"></i> ${set.val().group}`
+              );
+              $(".username").text(set.val().username);
+              if (set.val().gender === "male") {
+                $(".user-gender-icon").html(
+                  `<i class="icofont-student-alt"></i>`
+                );
+              } else {
+                $(".user-gender-icon").html(`<i class="icofont-student"></i>`);
+              }
+              $(".school").html(
+                `<i class="icofont-institution"></i> ${set.val().school}`
+              );
+              $(".state").html(`
+       <div class="state-item">
+       <i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${
+         set.val().totalExam
+       } </span> 
+       </div>
+       <div class="state-item">
+       <i class="icofont-badge"></i> তোমার লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${
+         set.val().score
+       } </span> 
+       </div>
+       <div class="state-item">
+       <i class="icofont-thunder-light"></i> মোট প্রাকটিস এক্সাম দিয়েছোঃ <span class="count ex"> ${
+         set.val().totalPracExam
+       } </span> 
+       </div>
+       <div class="state-item">
+       <i class="icofont-hand-thunder"></i> তোমার প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${
+         set.val().practiceScore
+       } </span> 
+       </div>
+           `);
+            });
+          }
+        });
+      },
+      "/notifications": function(){
+        app.innerHTML = `
+        <h5> নোটিফিকেশান</h5>
         `
-        firebase.auth().onAuthStateChanged(function(user) {
-          if(user){
-  db.ref('jachai/users/'+userUID).on('value', set=>{    
-            $('.group').html(`<i class="icofont-ui-user-group"></i> ${set.val().group}`)
-            $('.username').text(set.val().username);
-           if(set.val().gender === 'male'){
-             $('.user-gender-icon').html(`<i class="icofont-student-alt"></i>`)
-           }else{
-             $('.user-gender-icon').html(`<i class="icofont-student"></i>`)
-           }
-           $('.school').html(`<i class="icofont-institution"></i> ${set.val().school}`)
-           $('.state').html(`
-       <div class="state-item">
-       <i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalExam} </span> 
-       </div>
-       <div class="state-item">
-       <i class="icofont-badge"></i> তোমার লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().score} </span> 
-       </div>
-       <div class="state-item">
-       <i class="icofont-thunder-light"></i> মোট প্রাকটিস এক্সাম দিয়েছোঃ <span class="count ex"> ${set.val().totalPracExam} </span> 
-       </div>
-       <div class="state-item">
-       <i class="icofont-hand-thunder"></i> তোমার প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${set.val().practiceScore} </span> 
-       </div>
-           `)
-       })
-      }
-    });
-
-    
       }
     };
 
@@ -1198,23 +1428,19 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
         //   location.reload();
         // }
         done();
-      
       },
       after: function (params, query) {
         //console.log('after');
       },
-      leave: function(params) {
+      leave: function (params) {
         //console.log('left');
         //window.location.reload();
-      }
+      },
     });
   };
 
   window.addEventListener("load", init, false);
 })(window, Navigo);
-
-
-      
 
 //first letter picker
 function firstLetter(str) {
@@ -1247,24 +1473,25 @@ function shuffleArray(array) {
   return array;
 }
 
-
-function getTime(){
+function getTime() {
   let date = new Date();
   return date.toString();
 }
 
-function validation(string){
-   if(string == null){
-     return false;  
-   }else if(string.match(/^\s*$/g)){
+function validation(string) {
+  if (string == null) {
     return false;
-  }else{
+  } else if (string.match(/^\s*$/g)) {
+    return false;
+  } else {
     return true;
   }
-
 }
 
-function reload(){
-  location.reload();
-}
+$('.footerIcon').click(function(){
+  $('.footertext').hide();
+  $($($(this)[0].parentNode)[0].lastElementChild).show();
+  $('.footerIcon').removeClass('footerIconActive');
+  $(this).addClass('footerIconActive');
+})
 
