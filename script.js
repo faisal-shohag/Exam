@@ -85,6 +85,10 @@ if (window.location.hash === "") {
 
     Router.routes = {
       "/": function () {
+        if($('.hm')[0].classList[3] === undefined){
+          $('.hm').addClass('footerIconActive');
+          $($($('.hm')[0].parentNode)[0].lastElementChild).show();
+        }
         app.innerHTML = `
         <div class="card">
         <div class="menu-title"><i class="icofont-read-book"></i> বিষয়</div>
@@ -1330,6 +1334,10 @@ if (window.location.hash === "") {
         });
       },
       "/profile": function () {
+        if($('.scr')[0].classList[3] === undefined){
+          $('.scr').addClass('footerIconActive');
+          $($($('.scr')[0].parentNode)[0].lastElementChild).show();
+        }
         app.innerHTML = `
         <div class="login">
         <a href="#!/setprofile"><div style="float:right; color: #000; font-size: 14px; margin-left: 10px;">
@@ -1366,7 +1374,7 @@ if (window.location.hash === "") {
         `;
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
-            db.ref("jachai/users/" + userUID).on("value", (set) => {
+            db.ref("jachai/users/" + user.uid).on("value", (set) => {
               $(".group").html(
                 `<i class="icofont-ui-user-group"></i> ${set.val().group}`
               );
@@ -1407,11 +1415,55 @@ if (window.location.hash === "") {
           }
         });
       },
-      "/notifications": function(){
+      "/ranks": function(){
+        if($('.rns')[0].classList[3] === undefined){
+          $('.rns').addClass('footerIconActive');
+          $($($('.rns')[0].parentNode)[0].lastElementChild).show();
+        }
         app.innerHTML = `
-        <h5> নোটিফিকেশান</h5>
+        <h5><i class="icofont-users-alt-5"></i> র‍্যাঙ্কস</h5>
+        <div class="ranks"></div>
         `
+      },
+      "/notifications": function(){
+        if($('.ntf')[0].classList[3] === undefined){
+          $('.ntf').addClass('footerIconActive');
+          $($($('.ntf')[0].parentNode)[0].lastElementChild).show();
+        }
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            db.ref("jachai/users/" + user.uid).update({notificationStatus: false});
+          }
+        });
+        app.innerHTML = `
+        <h5><i class="icofont-notification"></i> নোটিফিকেশান</h5>
+        <div class="notifications"></div>
+        `
+
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            db.ref("jachai/users/" + user.uid+'/notification').on("value", (set) => {
+              $('.notifications').html('');
+              let ntfs = [];
+             set.forEach(ntf=>{
+              ntfs.push(ntf.val());
+             })
+
+             for(let n=ntfs.length-1; n>=0; n--){
+               document.querySelector('.notifications').innerHTML += `
+               <div class="notification">
+               <div class="ntf-time">${getRelativeTime(ntfs[n].time)}</div>
+               <div class="ntf-text">${ntfs[n].text}</div>
+               </div>
+               `
+             }
+            })
+          }
+        });
+        
       }
+
+
     };
 
     //Page not found!
@@ -1441,6 +1493,23 @@ if (window.location.hash === "") {
 
   window.addEventListener("load", init, false);
 })(window, Navigo);
+
+
+//notification Status
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    db.ref("jachai/users/" + user.uid).on("value", (set) => {
+     // console.log(set.val().notificationStatus)
+      if(set.val().notificationStatus === true){
+        $('.ntf').attr('id', 'ntfAnim');
+        $('.ntfActive').show();
+      }else{
+        $('.ntfActive').hide();
+        $('.ntf').removeAttr('id');
+      }
+    })
+  }
+});
 
 //first letter picker
 function firstLetter(str) {
@@ -1492,6 +1561,6 @@ $('.footerIcon').click(function(){
   $('.footertext').hide();
   $($($(this)[0].parentNode)[0].lastElementChild).show();
   $('.footerIcon').removeClass('footerIconActive');
-  $(this).addClass('footerIconActive');
+ // $(this).addClass('footerIconActive');
 })
 

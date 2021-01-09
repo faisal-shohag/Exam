@@ -476,6 +476,10 @@ ul li a:active, ul li a:hover {
   height: 55px;
 }
 
+.footer a{
+  color: #9b8888;
+}
+
 .footerMenu{
   margin: 0px px;
   cursor: pointer;
@@ -506,4 +510,70 @@ ul li a:active, ul li a:hover {
  font-weight: bold;
  transition: 0.1s;
  color: var(--danger);
+}
+
+.ntfActive{
+  display: none;
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: var(--danger);
+  top: 10%;
+  right: 0;
+  -webkit-animation: anim-glow 2s ease infinite;
+  animation: anim-glow 2s ease infinite;
+}
+
+@-webkit-keyframes anim-glow {
+  0% {
+    box-shadow: 0 0 var(--danger);
+  }
+  100% {
+    box-shadow: 0 0 10px 8px transparent;
+    border-width: 2px;
+  }
+}
+@keyframes anim-glow {
+  0% {
+    box-shadow: 0 0 var(--danger);
+  }
+  100% {
+    box-shadow: 0 0 10px 8px transparent;
+    border-width: 2px;
+  }
+}
+
+#ntfAnim{
+  animation: ntf 1s linear infinite;
+}
+
+@keyframes ntf {
+  0%{
+      transform: rotate(30deg);
+  }
+  50%{
+    transform: rotate(-30deg);
+}
+100%{
+  transform: rotate(30deg);
+}
+}
+
+.notification{
+  padding: 5px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0, .2);
+}
+
+.ntf-time{
+  /* float: right; */
+  font-size: 10px;
+  color: var(--danger);
+  font-weight: 900;
+}
+
+.ntf-text{
+  font-weight: bold;
 }
