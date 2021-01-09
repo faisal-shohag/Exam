@@ -477,10 +477,11 @@ ul li a:active, ul li a:hover {
 }
 
 .footerMenu{
-  margin: 0px 5px;
+  margin: 0px px;
   cursor: pointer;
   position: relative;
   color: #9b8888;
+  margin-bottom: 10px;
 }
 
 .sz{
@@ -490,12 +491,14 @@ ul li a:active, ul li a:hover {
 .footertext{
   font-weight: bold;
   display: none;
-  font-size: 10px;
+  font-size: 14px;
   padding: 0 0;
   position: absolute;
   width: 100%;
   text-align: center;
-  bottom: -10%;
+  bottom: -20%;
+  font-family: Hind Siliguri;
+  color: var(--danger);
 }
 
 .footerIconActive{
