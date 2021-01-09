@@ -21,7 +21,9 @@ let subName = {
   'english': 'English',
   'ict': 'ICT',
   'civics1': 'পৌরনীতি ১ম পত্র',
-  'civics2': 'পৌরনীতি ২য়  পত্র'
+  'civics2': 'পৌরনীতি ২য়  পত্র',
+  'economics1': 'অর্থনীতি ১ম পত্র',
+  'economics2': 'অর্থনীতি ২য় পত্র'
 }
 
   
@@ -109,7 +111,12 @@ $(document).ready(function(){
         <center><div class="bfontIcon">ত</div></center>
         <div style="text-align: center;">ICT</div>
         </div></div></a>
-         
+
+        <a href="#!/chapter/economics1"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+        <center><div class="bfontIcon">অ</div></center>
+        <div style="text-align: center;">অর্থনীতি ১ম পত্র</div>
+        </div></div></a>
+
         <a href="#!/chapter/civics1"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <center><div class="bfontIcon">প</div></center>
         <div style="text-align: center;">পৌরনীতি ১ম পত্র</div>
@@ -118,16 +125,6 @@ $(document).ready(function(){
         <a href="#!/chapter/civics2"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <center><div class="bfontIcon">প</div></center>
         <div style="text-align: center;">পৌরনীতি ২য়  পত্র</div>
-        </div></div></a>
-
-         <a href="#!"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <center><div class="bfontIcon">সা</div></center>
-        <div style="text-align: center;">সা.জ্ঞান</div>
-        </div></div></a>
-
-        <a href="#!"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <center><div class="bfontIcon">আ</div></center>
-        <div style="text-align: center;">আই.কিউ</div>
         </div></div></a>
 
         <a href="/#!/exams/practice"><div class="item" style="border-top: 2px solid var(--purple);"><div>
@@ -440,10 +437,9 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
             score: score,
             totalQ: questions.length,
             wrong: wrong,
-            userkey: userUID,
+            userKey: userUID,
             username: myusername,
             na: questions.length-(score+wrong),
-            school: college,
             time: {
              min: (initialMin-1)-minute,
              sec: 60-sec
@@ -853,7 +849,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
           <div id="photo-container">
             <img id="photo">
           </div>
-          <a href="/"><i class="icofont-ui-home"></i> হোম পেইজ</a>
+          <a href="https://jachai.netlify.app"><i class="icofont-ui-home"></i> হোম পেইজ</a>
           <div id="name"></div>
           <div id="email"></div>
           <div id="phone" class="phone"></div>
@@ -955,7 +951,7 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
           ui.start('#firebaseui-container', getUiConfig());
         }
 
-          var initApp = function() {
+
     document.getElementById('sign-out').addEventListener('click', function() {
       firebase.auth().signOut();
       window.location.reload();
@@ -965,9 +961,8 @@ db.ref('jachai/exams/'+params.id).on('value', exams=>{
           deleteAccount();
           window.location.reload();
         });
-  };
   
-  window.addEventListener('load', initApp);
+  
 
 
         

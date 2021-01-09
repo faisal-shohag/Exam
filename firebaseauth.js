@@ -171,7 +171,7 @@ function getUiConfig() {
               etotalExam = set.val().totalExam;
               etotalPracExam = set.val().totalPracExam;
               myusername = set.val().username;
-              college = set.val().college;
+              college = set.val().school;
             }
         })
       
