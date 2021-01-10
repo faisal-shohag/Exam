@@ -465,14 +465,15 @@ if (window.location.hash === "") {
           $("#submit")
             .off()
             .click(function () {
+              //console.log(eAddr[0])
               let foundKey = false;
               db.ref(
                 "jachai/users/" +
                   userUID +
-                  "/practiceExams/"+
+                  "/practiceExams/"+eAddr[0]+'/'+
                   eAddr[3]
               ).on("value", (keyMatch) => {
-                console.log(keyMatch.val());
+               // console.log(keyMatch.val());
                 if (keyMatch.val() === null) {
                   foundKey = true;
                 }
