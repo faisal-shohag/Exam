@@ -1337,48 +1337,32 @@ if (window.location.hash === "") {
   </center>
 </div>
  
-  <ul id="practiceItem" class="collapsible">
-    <li>
-    <div class="collap-header"><div class="bfontIcon">ব</div><span> বাংলা </span></div>
-    <div class="collap-body"><span>Lorem ipsum dolor sit amet.</span></div>
-    </li>
-    <li>
-    <div class="collap-header"><div class="bfontIcon">ব</div><span> বাংলা </span></div>
-    <div class="collap-body"><span>Lorem ipsum dolor sit amet.</span></div>
-    </li>
-    <li>
-    <div class="collap-header"><div class="bfontIcon">ব</div><span> বাংলা </span></div>
-    <div class="collap-body"><span>Lorem ipsum dolor sit amet.</span></div>
-    </li>
-  </ul>     
-      
-</div>
         `;
 
-        $('.collap-header').click(function() {
-          $('.collap-body').hide(200);
-          $('.collap-header').removeClass('collap-active');
-          $($($(this)[0].parentNode)[0].children[1]).show(300);
-          $($($(this)[0].parentNode)[0].children[1]).addClass('collap-active');
-          //console.log($($($($(this)[0].parentNode)[0].children[1]))[0].classList[1])
-        });
+        // $('.collap-header').click(function() {
+        //   $('.collap-body').hide(200);
+        //   $('.collap-header').removeClass('collap-active');
+        //   $($($(this)[0].parentNode)[0].children[1]).show(300);
+        //   $($($(this)[0].parentNode)[0].children[1]).addClass('collap-active');
+        //   //console.log($($($($(this)[0].parentNode)[0].children[1]))[0].classList[1])
+        // });
 
       firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
-            var subjects = [];
-            var exams = [];
-            db.ref('jachai/users/'+user.uid+'/practiceExams').on('value', pe=>{
-              pe.forEach(exam=>{
-                subjects.push(exam.key);
-                exams.push(exam.val());
-               // console.log(exam.val());
-              });
+            // var subjects = [];
+            // var exams = [];
+            // db.ref('jachai/users/'+user.uid+'/practiceExams').on('value', pe=>{
+            //   pe.forEach(exam=>{
+            //     subjects.push(exam.key);
+            //     exams.push(exam.val());
+            //    // console.log(exam.val());
+            //   });
 
             
-            ///console.log(exams)
+            // ///console.log(exams)
 
 
-            })
+            // })
             db.ref("jachai/users/" + user.uid).on("value", (set) => {
               $(".group").html(
                 `<i class="icofont-ui-user-group"></i> ${set.val().group}`
@@ -1398,22 +1382,22 @@ if (window.location.hash === "") {
        <div class="state-item">
        <i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${
          set.val().totalExam
-       } </span> 
+       }/${TOTALLIVEEXAM} </span> 
        </div>
        <div class="state-item">
        <i class="icofont-badge"></i> তোমার লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${
          set.val().score
-       } </span> 
+       }/${TOTALLIVESCORE} </span> 
        </div>
        <div class="state-item">
        <i class="icofont-thunder-light"></i> মোট প্রাকটিস এক্সাম দিয়েছোঃ <span class="count ex"> ${
          set.val().totalPracExam
-       } </span> 
+       }/${TOTALPRACTICEEXAM} </span> 
        </div>
        <div class="state-item">
        <i class="icofont-hand-thunder"></i> তোমার প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${
          set.val().practiceScore
-       } </span> 
+       }/${TOTALPRACSCORE} </span> 
        </div>
            `);
             });

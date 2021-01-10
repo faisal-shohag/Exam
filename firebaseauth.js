@@ -28,6 +28,10 @@
  var etotalPracExam =0;
  var myusername='';
  var college='';
+ var TOTALPRACSCORE=0;
+ var TOTALLIVESCORE=0;
+ var TOTALPRACTICEEXAM=0;
+ var TOTALLIVEEXAM=0;
 
 // if(userUID===undefined){
 //      router.navigate('/');
@@ -174,6 +178,13 @@ function getUiConfig() {
               myusername = set.val().username;
               college = set.val().school;
             }
+        });
+
+        db.ref('jachai/total').on('value', s=>{
+           TOTALPRACSCORE = s.val().practiceScore;
+           TOTALLIVESCORE = s.val().liveScore;
+           TOTALPRACTICEEXAM = s.val().practiceExam;
+           TOTALLIVEEXAM = s.val().liveExam;
         })
       
     }else{
