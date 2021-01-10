@@ -25,6 +25,9 @@ $(document).ready(function () {
 $(document).ready(function () {
   $("select").formSelect();
 });
+$(document).ready(function(){
+  $('.collapsible').collapsible();
+});
 
 let subName = {
   bangla: "বাংলা",
@@ -206,17 +209,14 @@ if (window.location.hash === "") {
 
 
         for (let i = allExams.length - 1; i >= 0; i--) {
-             // console.log(params.id+examsKeys[i])
-              //console.log(userExamKey[i]);
               let given = false;
         for(let p=0; p<userExamKey.length; p++){
-                //console.log(userExamKey[p]);
             if(userExamKey[p] === params.id+'|'+examsKeys[i]){
-            //console.log('Given!');
             given = true;
           }
         }
-//console.log(given);
+
+
         if(given){
               document.querySelector(".examLists").innerHTML += `
       <div class="exam">
@@ -246,7 +246,6 @@ if (window.location.hash === "") {
       </div>
       `;
             }else{
-
               document.querySelector(".examLists").innerHTML += `
               <div class="exam">
               <div class="class"><i class="icofont-star"></i> ${
@@ -568,8 +567,8 @@ if (window.location.hash === "") {
                           "/practiceExams/" +
                           myexam.details.sub +
                           "/" +
-                          params.id
-                      ).push({
+                          eAddr[3]
+                      ).update({
                         score: score,
                         totalQ: questions.length,
                         wrong: wrong,
@@ -1414,12 +1413,14 @@ if (window.location.hash === "") {
       "/scores": function () {
         $('.footertext').hide();
         $('.footerIcon').removeClass('footerIconActive');
+
         if($('.scr')[0].classList[3] === undefined){
           $('.scr').addClass('footerIconActive');
           $($($('.scr')[0].parentNode)[0].lastElementChild).show();
         }
+
         app.innerHTML = `
-        <div class="login">
+<div class="login">
         <a href="#!/setprofile"><div style="float:right; color: #000; font-size: 14px; margin-left: 10px;">
         <i class="icofont-edit"></i>প্রোফাইল সেট</div></a> 
         <a href="#!/login"><div style="float:right; color: #000; font-size: 14px;">
@@ -1434,7 +1435,8 @@ if (window.location.hash === "") {
         <span class="school"></span>
         </br>
         <span class="group"></span>
-        </h6>     
+        </h6>  
+
 <div class="state">
   <center>
   <div class="preloader-wrapper active">
@@ -1449,12 +1451,50 @@ if (window.location.hash === "") {
     </div>
   </div>
   </center>
-        </div>
-        </div>
-
+</div>
+ 
+  <ul id="practiceItem" class="collapsible">
+    <li>
+    <div class="collap-header"><div class="bfontIcon">ব</div><span> বাংলা </span></div>
+    <div class="collap-body"><span>Lorem ipsum dolor sit amet.</span></div>
+    </li>
+    <li>
+    <div class="collap-header"><div class="bfontIcon">ব</div><span> বাংলা </span></div>
+    <div class="collap-body"><span>Lorem ipsum dolor sit amet.</span></div>
+    </li>
+    <li>
+    <div class="collap-header"><div class="bfontIcon">ব</div><span> বাংলা </span></div>
+    <div class="collap-body"><span>Lorem ipsum dolor sit amet.</span></div>
+    </li>
+  </ul>     
+      
+</div>
         `;
-        firebase.auth().onAuthStateChanged(function (user) {
+
+        $('.collap-header').click(function() {
+          $('.collap-body').hide(200);
+          $('.collap-header').removeClass('collap-active');
+          $($($(this)[0].parentNode)[0].children[1]).show(300);
+          $($($(this)[0].parentNode)[0].children[1]).addClass('collap-active');
+          //console.log($($($($(this)[0].parentNode)[0].children[1]))[0].classList[1])
+        });
+
+      firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
+            var subjects = [];
+            var exams = [];
+            db.ref('jachai/users/'+user.uid+'/practiceExams').on('value', pe=>{
+              pe.forEach(exam=>{
+                subjects.push(exam.key);
+                exams.push(exam.val());
+               // console.log(exam.val());
+              });
+
+            
+            ///console.log(exams)
+
+
+            })
             db.ref("jachai/users/" + user.uid).on("value", (set) => {
               $(".group").html(
                 `<i class="icofont-ui-user-group"></i> ${set.val().group}`
@@ -1734,6 +1774,7 @@ function validation(string) {
     return true;
   }
 }
+
 
 // $('.footerIcon').click(function(){
 //   // $(this).off();

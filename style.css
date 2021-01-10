@@ -584,3 +584,44 @@ ul li a:active, ul li a:hover {
 .ntf-text{
   font-weight: bold;
 }
+
+ul{
+  background: #fff;
+}
+
+li{
+  width: 100%;
+  background: #fff !important;
+}
+.collap-header{
+  display: flex;
+  padding: 10px 10px;
+  border-bottom: 1px solid #c9c5c5;
+  cursor: pointer;
+}
+.collap-body{
+  display: flex;
+  padding: 10px 10px;
+  border-bottom: 1px solid #c9c5c5;
+  transition: 0.1s;
+  height: auto;
+  display: none;
+}
+.collap-header span{
+  font-size: 20px;
+  padding: 6px 10px;
+}
+
+/* .collap-active{
+  animation: collap 0.1s linear;
+  transition: 0.1s;
+}
+
+@keyframes collap{
+  0%{
+    height: 0;
+  }
+  100%{
+    height: auto;
+  }
+} */
