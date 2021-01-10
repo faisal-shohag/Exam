@@ -138,6 +138,7 @@ if (window.location.hash === "") {
         `;
       },
       "/chapter/:id": function name(params) {
+        $('.footer').show();
         app.innerHTML = `
       <div class="menu-title"><i class="icofont-read-book"></i> ${
         subName[params.id]
@@ -178,6 +179,8 @@ if (window.location.hash === "") {
       },
       //subject EXAM LISTS
       "/chapter/examlist/:id": function (params) {
+        $('.footer').show();
+
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
         var addr = params.id.split("|");
@@ -204,14 +207,13 @@ if (window.location.hash === "") {
                // console.log(ek.key);
                 userExamKey.push(ek.key);
               })
-             
             });
 
 
         for (let i = allExams.length - 1; i >= 0; i--) {
               let given = false;
         for(let p=0; p<userExamKey.length; p++){
-            if(userExamKey[p] === params.id+'|'+examsKeys[i]){
+            if(userExamKey[p] === examsKeys[i]){
             given = true;
           }
         }
@@ -284,7 +286,7 @@ if (window.location.hash === "") {
         });
       },
       "leaderboard/:id": function (params) {
-        // console.log(params.id);
+        $('.footer').show();
         app.innerHTML = `
       <h5><i class="icofont-users-alt-5"></i> স্কোর বোর্ড </h5>
       <small style="color: var(--danger)"><b class="pos"></b></small>
@@ -349,7 +351,7 @@ if (window.location.hash === "") {
       },
       "chapter/exam/:id": function (params) {
         let eAddr = params.id.split("|");
-        //console.log(eAddr);
+        $('.footer').hide();
         db.ref(
           "jachai/exams/" + eAddr[0] + "/" + eAddr[1] + "/exams/" + eAddr[3]
         ).on("value", (exam) => {
@@ -684,6 +686,7 @@ if (window.location.hash === "") {
       },
       //Other EXAM LISTS
       "/exams/:id": function (params) {
+        $('.footer').show();
         db.ref("jachai/exams/" + params.id).on("value", (pracs) => {
           var allExams = [];
           var examsKeys = [];
@@ -725,6 +728,7 @@ if (window.location.hash === "") {
       },
       // other EXAM
       "/exam/:id": function (params) {
+        $('.footer').hide();
         db.ref("jachai/exams/practice/" + params.id).on("value", (exam) => {
           let myexam = exam.val();
           app.innerHTML = `
@@ -836,130 +840,6 @@ if (window.location.hash === "") {
           $("#submit")
             .off()
             .click(function () {
-              let foundKey = false;
-              db.ref(
-                "jachai/users/" +
-                  userUID +
-                  "/practiceExams/" +
-                  myexam.details.sub +
-                  "/" +
-                  params.id
-              ).on("value", (keyMatch) => {
-                //console.log(keyMatch.val());
-                if (keyMatch.val() === null) {
-                  foundKey = true;
-                }
-
-                if (foundKey) {
-                  Swal.fire({
-                    title: `তুমি কি নিশ্চিত?`,
-                    text: `তোমার স্কোর সাবমিট হবে। এই পরীক্ষাটির জন্য দ্বিতীয়বার তোমার স্কোর আর যোগ হবে না!`,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "হ্যাঁ",
-                    cancelButtonText: "না",
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      clearInterval(timer);
-                      $("html, body").animate({ scrollTop: 0 }, "slow");
-                      $("#submit").hide();
-                      $("#again").show();
-                      let e;
-                      $(".explanation").show();
-                      for (let k = 0; k < ans.length; ++k) {
-                        e = k;
-                        e = "#exp-" + e;
-                        $(e).html(
-                          `<b style="color: green;">Solution:</b><br>${exp[k]}`
-                        );
-                        // $('#'+ans[k]).css({'background': 'var(--success)', 'color': 'var(--light)'});
-                        $("#" + ans[k] + " .st").addClass("cr");
-                        $(
-                          $($($("#" + ans[k])[0].parentNode)[0].parentNode)[0]
-                            .children[0]
-                        ).html(
-                          '<div class="not-ans"> <span class="material-icons">error</span></div>'
-                        );
-                      }
-                      for (let i = 0; i < userAns.length; ++i) {
-                        found = false;
-                        for (let j = 0; j < ans.length; ++j) {
-                          if (userAns[i] === ans[j]) {
-                            score++;
-                            // $('#'+userAns[i]).css({'background': 'var(--success)', 'color': 'var(--light)'});
-                            $("#" + userAns[i] + " .st").addClass("cr");
-                            $(
-                              $(
-                                $($("#" + userAns[i])[0].parentNode)[0]
-                                  .parentNode
-                              )[0].children[0]
-                            ).html(
-                              '<div class="correct"> <span class="material-icons">verified</span> </div>'
-                            );
-                            found = true;
-                            break;
-                          } else found = false;
-                        }
-
-                        if (!found) {
-                          wrong++;
-                          // $('#'+userAns[i]).css({'background': 'var(--danger)', 'color': 'var(--light)'});
-                          $("#" + userAns[i] + " .st").addClass("wa");
-                          //console.log($($('#'+userAns[i])[0].parentNode)[0].parentNode)
-                          $(
-                            $(
-                              $($("#" + userAns[i])[0].parentNode)[0].parentNode
-                            )[0].children[0]
-                          ).html(
-                            '<div class="wrong"> <span class="material-icons">highlight_off</span>  </div>'
-                          );
-                        }
-                      }
-
-                      $(".score").show();
-                      $(".mark").html(
-                        `স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
-                      );
-                      $(".score-wa").html(
-                        `ভুল </br> <span class="score-num">${wrong}</span>`
-                      );
-                      $(".score-na").html(
-                        `ফাঁকা </br> <span class="score-num">${
-                          questions.length - (score + wrong)
-                        }</span>`
-                      );
-                      $(".score-time").html(
-                        `সময় <br> <span class="score-num">${
-                          initialMin - 1 - minute
-                        }:${60 - sec}</span>`
-                      );
-
-                      db.ref(
-                        "jachai/users/" +
-                          userUID +
-                          "/practiceExams/" +
-                          myexam.details.sub +
-                          "/" +
-                          params.id
-                      ).push({
-                        score: score,
-                        totalQ: questions.length,
-                        wrong: wrong,
-                        na: questions.length - (score + wrong),
-                        time: {
-                          min: initialMin - 1 - minute,
-                          sec: 60 - sec,
-                        },
-                      });
-                      db.ref("jachai/users/" + userUID).update({
-                        practiceScore: epscore + score,
-                        totalPracExam: etotalPracExam + 1,
-                      });
-                      Swal.fire("সাবমিট হয়েছে!", "", "success");
-                    }
-                  });
-                  //end
-                } else {
                   clearInterval(timer);
                   $("html, body").animate({ scrollTop: 0 }, "slow");
                   $("#submit").hide();
@@ -1036,12 +916,12 @@ if (window.location.hash === "") {
                     icon: "success",
                     confirmButtonText: "আচ্ছা!",
                   });
-                }
-              });
+                
             });
         });
       },
       "/user/:id": function (params) {
+        $('.footer').show();
         app.innerHTML = `
         <div class="login">
         <h5>
@@ -1111,6 +991,7 @@ if (window.location.hash === "") {
       },
 
       "/login": function () {
+        $('.footer').show();
         app.innerHTML = ` 
         <div class="login">
         <h5> <i class="icofont-unlocked"></i> সাইনইন/সাইন আউট</h5>   
@@ -1256,6 +1137,8 @@ if (window.location.hash === "") {
           });
       },
       "/setprofile": function () {
+        $('.footer').show();
+
         app.innerHTML = `
         <div class="login">
         <h5> <i class="icofont-ui-edit"></i>প্রোফাইল সেট</h5>
@@ -1411,6 +1294,7 @@ if (window.location.hash === "") {
         });
       },
       "/scores": function () {
+        $('.footer').show();
         $('.footertext').hide();
         $('.footerIcon').removeClass('footerIconActive');
 
@@ -1537,6 +1421,8 @@ if (window.location.hash === "") {
         });
       },
       "/ranks": function(){
+        $('.footer').show();
+
         $('.footertext').hide();
         $('.footerIcon').removeClass('footerIconActive');
         if($('.rns')[0].classList[3] === undefined){
@@ -1595,6 +1481,8 @@ if (window.location.hash === "") {
       })
       },
       "/notifications": function(){
+        $('.footer').show();
+
         $('.footertext').hide();
         $('.footerIcon').removeClass('footerIconActive');
         if($('.ntf')[0].classList[3] === undefined){
