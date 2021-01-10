@@ -85,21 +85,21 @@ if (window.location.hash === "") {
 
     Router.routes = {
       "/": function () {
+        $('.footertext').hide();
+        $('.footerIcon').removeClass('footerIconActive');
         if($('.hm')[0].classList[3] === undefined){
           $('.hm').addClass('footerIconActive');
           $($($('.hm')[0].parentNode)[0].lastElementChild).show();
         }
         app.innerHTML = `
         <div class="card">
-        <div class="menu-title"><i class="icofont-read-book"></i> বিষয়</div>
+        <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-book"></i> বিষয়</div>
         <div class="menu">
        
         <a href="#!/chapter/bangla"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <div class="bfontIcon">ব</div>
         <div>বাংলা</div>
         </div></div></a>
-
-        
 
         <a href="#!"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <center><div class="bfontIcon">E</div></center>
@@ -231,8 +231,11 @@ if (window.location.hash === "") {
         // console.log(params.id);
         app.innerHTML = `
       <h5><i class="icofont-users-alt-5"></i> স্কোর বোর্ড </h5>
+      <small style="color: var(--danger)"><b class="pos"></b></small>
       <div class="scoreboard"></div>
       `;
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
         db.ref("jachai/leaderboard/" + params.id).on("value", (scores) => {
           let scoreArr = [];
           let scorehtml = document.querySelector(".scoreboard");
@@ -247,6 +250,24 @@ if (window.location.hash === "") {
           });
           for (let s = 0; s < scoreArr.length; s++) {
             let k = s + 1;
+            if(user.uid === scoreArr[s].userKey){
+              $('.pos').html(`তোমার অবস্থান: ${k}`);
+              scorehtml.innerHTML += `
+        <a href="#!/user/${scoreArr[s].userKey}"> <div style="background: var(--danger); color: #fff;" class="scoreboard-score">
+          <div class="position">${k}</div>
+          <div class="logo" style="background: ${logoColor(
+            firstLetter(scoreArr[s].username)
+          )}">${firstLetter(scoreArr[s].username)}</div>
+           <div class="score-details">
+           <div class="score-username">${scoreArr[s].username}</div>
+           <div class="time">${scoreArr[s].time.min}:${
+              scoreArr[s].time.sec
+            }</div>
+           </div>
+           <div class="score-obtained">${scoreArr[s].score}</div>
+          </div></a>
+          `;
+            }else{
             scorehtml.innerHTML += `
         <a href="#!/user/${scoreArr[s].userKey}"> <div class="scoreboard-score">
           <div class="position">${k}</div>
@@ -262,10 +283,13 @@ if (window.location.hash === "") {
            <div class="score-obtained">${scoreArr[s].score}</div>
           </div></a>
           `;
+            }
           }
 
           //console.log(scoreArr)
         });
+      }
+    })
       },
       "chapter/exam/:id": function (params) {
         let eAddr = params.id.split("|");
@@ -1044,7 +1068,7 @@ if (window.location.hash === "") {
           <div id="photo-container">
             <img id="photo">
           </div>
-          <a href="https://jachai.netlify.app"><i class="icofont-ui-home"></i> হোম পেইজ</a>
+          <a href="/"><i class="icofont-ui-home"></i> হোম পেইজ</a>
           <div id="name"></div>
           <div id="email"></div>
           <div id="phone" class="phone"></div>
@@ -1333,7 +1357,9 @@ if (window.location.hash === "") {
           }
         });
       },
-      "/profile": function () {
+      "/scores": function () {
+        $('.footertext').hide();
+        $('.footerIcon').removeClass('footerIconActive');
         if($('.scr')[0].classList[3] === undefined){
           $('.scr').addClass('footerIconActive');
           $($($('.scr')[0].parentNode)[0].lastElementChild).show();
@@ -1371,6 +1397,7 @@ if (window.location.hash === "") {
   </center>
         </div>
         </div>
+
         `;
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
@@ -1416,16 +1443,66 @@ if (window.location.hash === "") {
         });
       },
       "/ranks": function(){
+        $('.footertext').hide();
+        $('.footerIcon').removeClass('footerIconActive');
         if($('.rns')[0].classList[3] === undefined){
           $('.rns').addClass('footerIconActive');
           $($($('.rns')[0].parentNode)[0].lastElementChild).show();
         }
         app.innerHTML = `
         <h5><i class="icofont-users-alt-5"></i> র‍্যাঙ্কস</h5>
-        <div class="ranks"></div>
-        `
+        <small style="color: var(--danger)"><b class="pos"></b></small>
+        <div class="scoreboard"></div>
+        `;
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+          db.ref("jachai/users/").on("value", (scores) => {
+            let scoreArr = [];
+            //let keys = [];
+            let scorehtml = document.querySelector(".scoreboard");
+            scorehtml.innerHTML = "";
+            scores.forEach((score) => {scoreArr.push(score.val());});
+            scoreArr.sort(function (a, b) {return b.practiceScore - a.practiceScore;});
+            for (let s = 0; s < scoreArr.length; s++) {
+              let k = s + 1;
+              if(user.uid === scoreArr[s].key){
+                $('.pos').html(`তোমার অবস্থান: ${k}`);
+                scorehtml.innerHTML += `
+          <a href="#!/user/${scoreArr[s].userKey}"> <div style="background: var(--danger); color: #fff;" class="scoreboard-score">
+            <div class="position">${k}</div>
+            <div class="logo" style="background: ${logoColor(
+              firstLetter(scoreArr[s].username)
+            )}">${firstLetter(scoreArr[s].username)}</div>
+             <div class="score-details">
+             <div class="score-username">${scoreArr[s].username}</div>
+             <div class="time">${scoreArr[s].totalPracExam}</div>
+             </div>
+             <div class="score-obtained">${scoreArr[s].practiceScore}</div>
+            </div></a>
+            `;
+              }else{
+              scorehtml.innerHTML += `
+          <a href="#!/user/${scoreArr[s].userKey}"> <div class="scoreboard-score">
+            <div class="position">${k}</div>
+            <div class="logo" style="background: ${logoColor(
+              firstLetter(scoreArr[s].username)
+            )}">${firstLetter(scoreArr[s].username)}</div>
+             <div class="score-details">
+             <div class="score-username">${scoreArr[s].username}</div>
+             <div class="time">${scoreArr[s].totalPracExam}</div>
+             </div>
+             <div class="score-obtained">${scoreArr[s].practiceScore}</div>
+            </div></a>
+            `;
+              }
+            }
+          });
+        }
+      })
       },
       "/notifications": function(){
+        $('.footertext').hide();
+        $('.footerIcon').removeClass('footerIconActive');
         if($('.ntf')[0].classList[3] === undefined){
           $('.ntf').addClass('footerIconActive');
           $($($('.ntf')[0].parentNode)[0].lastElementChild).show();
@@ -1525,11 +1602,58 @@ function getRelativeTime(date) {
 
 function logoColor(lett) {
   if (lett === "G") return "var(--orange)";
+  if (lett === "A") return "var(--orange)";
+  if (lett === "আ") return "var(--orange)";
   else if (lett === "B") return "var(--success)";
+  else if (lett === "ব") return "var(--success)";
+  else if (lett === "X") return "skyblue";
+  else if (lett === "জ") return "skyblue";
   else if (lett === "E") return "var(--pink)";
+  else if (lett === "ই") return "var(--pink)";
   else if (lett === "O") return "var(--secondary)";
-  else return "var(--teal)";
+  else if (lett === "ও") return "var(--secondary)";
+  else if (lett === "C") return "var(--dark)";
+  else if (lett === "চ") return "var(--dark)";
+  else if (lett === "D") return "var(--danger)";
+  else if (lett === "দ") return "var(--danger)";
+  else if (lett === "J") return "var(--warning)";
+  else if (lett === "য") return "var(--warning)";
+  else if (lett === "F") return "var(--purple)";
+  else if (lett === "ফ") return "var(--purple)";
+  else if (lett === "H") return "var(--info)";
+  else if (lett === "হ") return "var(--info)";
+  else if (lett === "I") return "var(--orange)";
+  else if (lett === "j") return "skyblue";
+  else if (lett === "K") return "var(--indigo)";
+  else if (lett === "ক") return "var(--indigo)";
+  else if (lett === "L") return "var(--cyan)";
+  else if (lett === "ল") return "var(--cyan)";
+  else if (lett === "M") return "var(--success)";
+  else if (lett === "ম") return "var(--success)";
+  else if (lett === "N") return "var(--primary)";
+  else if (lett === "ন") return "var(--primary)";
+  else if (lett === "O") return "var(--teal)";
+  else if (lett === "ও") return "var(--teal)";
+  else if (lett === "P") return "var(--dark)";
+  else if (lett === "প") return "var(--dark)";
+  else if (lett === "Q") return "var(--blue)";
+  else if (lett === "খ") return "var(--blue)";
+  else if (lett === "R") return "orange";
+  else if (lett === "র") return "orange";
+  else if (lett === "S") return "var(--pink)";
+  else if (lett === "স") return "var(--pink)";
+  else if (lett === "শ") return "var(--pink)";
+  else if (lett === "T") return "var(--secondary)";
+  else if (lett === "ত") return "var(--secondary)";
+  else if (lett === "ট") return "var(--secondary)";
+  else if (lett === "U") return "var(--blue)";
+  else if (lett === "ধ") return "var(--blue)";
+  else if (lett === "V") return "var(--danger)";
+  else if (lett === "ভ") return "var(--danger)";
+  else return "red";
 }
+
+
 
 //suffle questions
 function shuffleArray(array) {
@@ -1557,10 +1681,12 @@ function validation(string) {
   }
 }
 
-$('.footerIcon').click(function(){
-  $('.footertext').hide();
-  $($($(this)[0].parentNode)[0].lastElementChild).show();
-  $('.footerIcon').removeClass('footerIconActive');
- // $(this).addClass('footerIconActive');
-})
+// $('.footerIcon').click(function(){
+//   // $(this).off();
+//   $('.footertext').hide();
+//   $($($(this)[0].parentNode)[0].lastElementChild).show();
+//   $('.footerIcon').removeClass('footerIconActive');
+  
+//  // $(this).addClass('footerIconActive');
+// })
 

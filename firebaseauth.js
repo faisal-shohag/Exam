@@ -51,6 +51,7 @@ function getUiConfig() {
                 practiceScore: 0,
                 totalPracExam: 0,
                 totalExam: 0,
+                key:authResult.user.uid,
                 examScoreTotal: 0,
                 notification: {
                   key123:{
