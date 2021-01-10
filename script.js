@@ -1418,7 +1418,7 @@ if (window.location.hash === "") {
               if(user.uid === scoreArr[s].key){
                 $('.pos').html(`তোমার অবস্থান: ${k}`);
                 scorehtml.innerHTML += `
-          <a href="#!/user/${scoreArr[s].userKey}"> <div style="background: var(--danger); color: #fff;" class="scoreboard-score">
+          <a href="#!/user/${scoreArr[s].key}"> <div style="background: var(--danger); color: #fff;" class="scoreboard-score">
             <div class="position">${k}</div>
             <div class="logo" style="background: ${logoColor(
               firstLetter(scoreArr[s].username)
@@ -1432,7 +1432,7 @@ if (window.location.hash === "") {
             `;
               }else{
               scorehtml.innerHTML += `
-          <a href="#!/user/${scoreArr[s].userKey}"> <div class="scoreboard-score">
+          <a href="#!/user/${scoreArr[s].key}"> <div class="scoreboard-score">
             <div class="position">${k}</div>
             <div class="logo" style="background: ${logoColor(
               firstLetter(scoreArr[s].username)
