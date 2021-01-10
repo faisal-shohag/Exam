@@ -32,7 +32,7 @@ $(document).ready(function(){
 let subName = {
   bangla: "বাংলা",
   english: "English",
-  ict: "ICT",
+  ict: "তথ্য ও যোগাযোগ প্রযুক্তি",
   civics1: "পৌরনীতি ১ম পত্র",
   civics2: "পৌরনীতি ২য়  পত্র",
   economics1: "অর্থনীতি ১ম পত্র",
@@ -109,7 +109,7 @@ if (window.location.hash === "") {
         <div style="text-align: center;">English</div>
         </div></div></a>
 
-        <a href="#!"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+        <a href="#!/chapter/ict"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <center><div class="bfontIcon">ত</div></center>
         <div style="text-align: center;">ICT</div>
         </div></div></a>
@@ -1349,20 +1349,6 @@ if (window.location.hash === "") {
 
       firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
-            // var subjects = [];
-            // var exams = [];
-            // db.ref('jachai/users/'+user.uid+'/practiceExams').on('value', pe=>{
-            //   pe.forEach(exam=>{
-            //     subjects.push(exam.key);
-            //     exams.push(exam.val());
-            //    // console.log(exam.val());
-            //   });
-
-            
-            // ///console.log(exams)
-
-
-            // })
             db.ref("jachai/users/" + user.uid).on("value", (set) => {
               $(".group").html(
                 `<i class="icofont-ui-user-group"></i> ${set.val().group}`

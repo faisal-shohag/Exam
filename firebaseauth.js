@@ -59,7 +59,7 @@ function getUiConfig() {
                 examScoreTotal: 0,
                 notification: {
                   key123:{
-                    text: 'Welcome to Jachai!',
+                    text: 'স্বাগতম!',
                     time: getTimea()
                   }
                 },
