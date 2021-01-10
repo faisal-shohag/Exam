@@ -469,12 +469,10 @@ if (window.location.hash === "") {
               db.ref(
                 "jachai/users/" +
                   userUID +
-                  "/practiceExams/" +
-                  myexam.details.sub +
-                  "/" +
+                  "/practiceExams/"+
                   params.id
               ).on("value", (keyMatch) => {
-                //console.log(keyMatch.val());
+                console.log(keyMatch.val());
                 if (keyMatch.val() === null) {
                   foundKey = true;
                 }
