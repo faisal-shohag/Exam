@@ -470,7 +470,7 @@ if (window.location.hash === "") {
                 "jachai/users/" +
                   userUID +
                   "/practiceExams/"+
-                  params.id
+                  eAddr[3]
               ).on("value", (keyMatch) => {
                 console.log(keyMatch.val());
                 if (keyMatch.val() === null) {
