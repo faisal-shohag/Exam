@@ -175,12 +175,16 @@ if (window.location.hash === "") {
       },
       //subject EXAM LISTS
       "/chapter/examlist/:id": function (params) {
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
         var addr = params.id.split("|");
+        //console.log(params)
         db.ref("jachai/exams/" + addr[0] + "/" + addr[1] + "/exams").on(
           "value",
           (pracs) => {
             var allExams = [];
             var examsKeys = [];
+            var userExamKey = [];
             app.innerHTML = `
               <div class="menu-title"><i class="icofont-read-book"></i> ${
                 subName[addr[0]]
@@ -192,16 +196,34 @@ if (window.location.hash === "") {
               examsKeys.push(prac.key);
             });
 
-            for (let i = allExams.length - 1; i >= 0; i--) {
+            db.ref('jachai/users/'+ user.uid+'/practiceExams/'+addr[0]).on('value', examKey=>{
+              examKey.forEach(ek=>{
+               // console.log(ek.key);
+                userExamKey.push(ek.key);
+              })
+             
+            });
+
+
+        for (let i = allExams.length - 1; i >= 0; i--) {
+             // console.log(params.id+examsKeys[i])
+              //console.log(userExamKey[i]);
+              let given = false;
+        for(let p=0; p<userExamKey.length; p++){
+                //console.log(userExamKey[p]);
+            if(userExamKey[p] === params.id+'|'+examsKeys[i]){
+            //console.log('Given!');
+            given = true;
+          }
+        }
+//console.log(given);
+        if(given){
               document.querySelector(".examLists").innerHTML += `
-     
       <div class="exam">
       <div class="class"><i class="icofont-star"></i> ${
         allExams[i].questions.length
       }</div>
-          <div class="logo" style="background: ${logoColor(
-            firstLetter(allExams[i].details.name)
-          )}">${firstLetter(allExams[i].details.name)}</div>
+          <div class="logo" style="color: var(--success); background: none;"><i style="font-size: 60px" class="material-icons">verified</i></div>
           <div class="details">
               <div class="title">${allExams[i].details.name}</div>
               <div class="others">প্রশ্নঃ ${
@@ -223,9 +245,44 @@ if (window.location.hash === "") {
           </div>
       </div>
       `;
+            }else{
+
+              document.querySelector(".examLists").innerHTML += `
+              <div class="exam">
+              <div class="class"><i class="icofont-star"></i> ${
+                allExams[i].questions.length
+              }</div>
+                  <div class="logo" style="background: ${logoColor(
+                    firstLetter(allExams[i].details.name)
+                  )}">${firstLetter(allExams[i].details.name)}</div>
+                  <div class="details">
+                      <div class="title">${allExams[i].details.name}</div>
+                      <div class="others">প্রশ্নঃ ${
+                        allExams[i].questions.length
+                      } টি | সময়ঃ ${allExams[i].details.duration} মিনিট | স্কোরঃ ${
+                        allExams[i].questions.length
+                      } | নেগেটিভঃ ${allExams[i].details.negative}</div>
+                      <small class="author"><i class="icofont-wall-clock"></i> ${getRelativeTime(
+                        allExams[i].details.at
+                      )} <i class="icofont-fountain-pen"></i> <i>author: ${
+                        allExams[i].details.author
+                      }</i></small></br>
+                      <a  href="#!/chapter/exam/${params.id}|${
+                        examsKeys[i]
+                      }"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
+                      <a  href="#!/leaderboard/${
+                        examsKeys[i]
+                      }"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>স্কোর বোর্ড</button> </a>
+                  </div>
+              </div>
+              `;
+            
+            }
             }
           }
         );
+          }
+        });
       },
       "leaderboard/:id": function (params) {
         // console.log(params.id);
@@ -385,11 +442,11 @@ if (window.location.hash === "") {
             sec--;
             if (minute <= 0 && sec <= 0) {
               $("#submit").click();
-              $(".header .title").html(`<small>Ended!</small>`);
+              $(".header .title").html(`<small>সময় শেষ!</small>`);
               clearInterval(timer);
             } else {
               $(".header .title").html(
-                `<div class="timer">${minute} : ${sec}</div>`
+                `<div class="timer"><i class="icofont-wall-clock"></i> ${minute} : ${sec}</div>`
               );
             }
           }, 1000);
@@ -661,9 +718,6 @@ if (window.location.hash === "") {
           <a  href="#!/exam/${
             examsKeys[i]
           }"> <button class="btn red"><i class="icofont-ui-play left"></i>অংশগ্রহণ</button> </a>
-          <a  href="#!/leaderboard/${
-            examsKeys[i]
-          }"> <button class="btn green"><i class="icofont-users-alt-5 left"></i>লিডারবোর্ড</button> </a>
       </div>
   </div>
   `;
