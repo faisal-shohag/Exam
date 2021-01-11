@@ -1445,13 +1445,13 @@ if (window.location.hash === "") {
            `)
            $(function() {
             $('.chart').easyPieChart({
-              size: 160,
+              size: 80,
               barColor: "red",
               scaleLength: 0,
-              lineWidth: 15,
+              lineWidth: 10,
               trackColor: "#373737",
               lineCap: "circle",
-              animate: 2000,
+              animate: 1000,
             });
           });
           })
