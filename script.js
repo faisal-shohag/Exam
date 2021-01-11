@@ -104,11 +104,6 @@ if (window.location.hash === "") {
         <div>বাংলা</div>
         </div></div></a>
 
-        <a href="#!"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <center><div class="bfontIcon">E</div></center>
-        <div style="text-align: center;">English</div>
-        </div></div></a>
-
         <a href="#!/chapter/ict"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <center><div class="bfontIcon">ত</div></center>
         <div style="text-align: center;">ICT</div>
@@ -298,6 +293,16 @@ if (window.location.hash === "") {
           let scoreArr = [];
           let scorehtml = document.querySelector(".scoreboard");
           scorehtml.innerHTML = "";
+          if(scores.val()=== null){
+            scorehtml.innerHTML = `
+            <div class="empty">
+            <div>
+            <div class="emp-icon"><i class="icofont-foot-print"></i></div>
+            <div class="emp-text">কোথাও কেউ নেই!</div>
+            </div>
+            </div>
+            `
+          }
           scores.forEach((score) => {
             //console.log(score.val());
             scoreArr.push(score.val());
@@ -1335,6 +1340,48 @@ if (window.location.hash === "") {
   </div>
   </center>
 </div>
+
+<center><div class="bar-cont">
+
+<div class="container">
+  <div class="box">
+  <div id="pracExam">
+  <div class="preloader-wrapper small active">
+    <div class="spinner-layer spinner-green-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+    <h5>প্রাকটিস এক্সাম প্রোগ্রেস</h5>
+  </div>
+  </div>
+
+<div class="container">
+  <div class="box">
+    <div id="pracScore">
+    <div class="preloader-wrapper small active">
+    <div class="spinner-layer spinner-green-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+    </div>
+    <h5>প্রাকটিস স্কোর প্রোগ্রেস</h5>
+  </div>
+  </div>
+  </div></center>
+  
  
         `;
 
@@ -1363,29 +1410,54 @@ if (window.location.hash === "") {
               $(".school").html(
                 `<i class="icofont-institution"></i> ${set.val().school}`
               );
+              db.ref('jachai/total').on('value', s=>{
+                
+             
               $(".state").html(`
+             
        <div class="state-item">
        <i class="icofont-paperclip"></i> মোট লাইভ এক্সাম দিয়েছোঃ <span class="count ex"> ${
          set.val().totalExam
-       }/${TOTALLIVEEXAM} </span> 
+       }/${s.val().liveExam} </span> 
        </div>
        <div class="state-item">
        <i class="icofont-badge"></i> তোমার লাইভ এক্সাম স্কোরঃ  <span class="count sc"> ${
          set.val().score
-       }/${TOTALLIVESCORE} </span> 
+       }/${s.val().liveScore} </span> 
        </div>
        <div class="state-item">
        <i class="icofont-thunder-light"></i> মোট প্রাকটিস এক্সাম দিয়েছোঃ <span class="count ex"> ${
          set.val().totalPracExam
-       }/${TOTALPRACTICEEXAM} </span> 
+       }/${s.val().practiceExam} </span> 
        </div>
        <div class="state-item">
        <i class="icofont-hand-thunder"></i> তোমার প্রাকটিস এক্সাম স্কোরঃ  <span class="count sc"> ${
          set.val().practiceScore
-       }/${TOTALPRACSCORE} </span> 
+       }/${s.val().practiceScore} </span> 
        </div>
            `);
+           $('#pracScore').html(`
+           <div class="chart" data-percent="${((set.val().practiceScore/s.val().practiceScore)*100)}" data-scale-color="#ffb400">${parseInt((set.val().practiceScore/s.val().practiceScore)*100)}%</div>
+           `)
+
+           $('#pracExam').html(`
+           <div class="chart" data-percent="${((set.val().totalPracExam/s.val().practiceExam)*100)}" data-scale-color="#ffb400">${Math.floor((set.val().totalPracExam/s.val().practiceExam)*100)}%</div>
+           `)
+           $(function() {
+            $('.chart').easyPieChart({
+              size: 160,
+              barColor: "red",
+              scaleLength: 0,
+              lineWidth: 15,
+              trackColor: "#373737",
+              lineCap: "circle",
+              animate: 2000,
             });
+          });
+          })
+            });
+
+            
           }
         });
       },
@@ -1464,27 +1536,50 @@ if (window.location.hash === "") {
           }
         });
         app.innerHTML = `
-        <h5><i class="icofont-notification"></i> নোটিফিকেশান</h5>
+        <h5><i class="icofont-notification"></i> নোটিফিকেশান  <span class="ntf-del-all"><i class="icofont-ui-delete"></i></i></span></h5>
         <div class="notifications"></div>
         `
-
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
             db.ref("jachai/users/" + user.uid+'/notification').on("value", (set) => {
+             //console.log(set.val())
               $('.notifications').html('');
+              if(set.val()=== null){
+                document.querySelector('.notifications').innerHTML = `
+                <div class="empty">
+                <div>
+                <div class="emp-icon"><i class="icofont-dropbox"></i></div>
+                <div class="emp-text">ফাঁকা!</div>
+                </div>
+                </div>
+                `
+              }
               let ntfs = [];
+              let ntfKey = [];
              set.forEach(ntf=>{
               ntfs.push(ntf.val());
+              ntfKey.push(ntf.key);
              })
 
              for(let n=ntfs.length-1; n>=0; n--){
                document.querySelector('.notifications').innerHTML += `
                <div class="notification">
+               <div class="ntf-del" id="${ntfKey[n]}"><i class="icofont-close"></i></i></div>
                <div class="ntf-time">${getRelativeTime(ntfs[n].time)}</div>
                <div class="ntf-text">${ntfs[n].text}</div>
                </div>
                `
              }
+
+             $('.ntf-del').click(function(){
+               let ntfDelKey = $(this)[0].id;
+               db.ref('jachai/users/'+user.uid+'/notification/'+ntfDelKey).remove(); 
+             });
+
+             $('.ntf-del-all').click(function(){
+              db.ref('jachai/users/'+user.uid+'/notification').remove(); 
+            });
+
             })
           }
         });
