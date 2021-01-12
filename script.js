@@ -173,36 +173,21 @@ if (window.location.hash === "") {
 </div>
 `;
         db.ref("jachai/exams/" + params.id).on("value", (exams) => {
-          let chapters = [];
-          let chapterName = [];
-
-         
+          $(".chapterList").html("");
           exams.forEach((exam) => {
-            chapters.push(exam.key);
-            chapterName.push(exam.val().name);
-          });
-
-          for (let i = 0; i < chapters.length; i++) {
-            db.ref(
-              "jachai/exams/" + params.id + "/" + chapters[i] + "/exams"
-            ).on("value", (e) => {
-              $(".chapterList").html("");
-              e.forEach((ee) => {
-                document.querySelector(".chapterList").innerHTML += `
-            <a href="#!/chapter/examlist/${params.id}|${chapters[i]}|${
-                  chapterName[i]
+            document.querySelector(".chapterList").innerHTML += `
+            <a href="#!/chapter/examlist/${params.id}|${exam.key}|${
+                  exam.val().name
                 }">
             <div class="chapters">
             <div class="logo" style="background: ${logoColor(
-              firstLetter(chapterName[i])
-            )}">${firstLetter(chapterName[i])}</div>
+              firstLetter(exam.val().name)
+            )}">${firstLetter(exam.val().name)}</div>
             <div class="details">
-          <div class="title">${chapterName[i]}</div>
+          <div class="title">${exam.val().name}</div>
           </div>
           </div></a>`;
-              });
-            });
-          }
+          });
         });
       },
       //subject EXAM LISTS
@@ -1769,5 +1754,3 @@ function validation(string) {
   
 //  // $(this).addClass('footerIconActive');
 // })
-
-
