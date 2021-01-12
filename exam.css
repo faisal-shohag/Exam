@@ -6,7 +6,7 @@
 
 .questions{
     position: relative;
-    font-family: Google Sans, 'Kalpurush';
+    font-family: Google Sans, 'SiyamRupali';
     margin-bottom: 30px;
 }
 
@@ -27,13 +27,14 @@
 
 .option{
     margin-top: 20px;
-    font-family: Google Sans, 'Kalpurush'; 
+    font-family: Google Sans, 'SiyamRupali'; 
 }
 
 .explanation{
     border: 2px solid var(--success);
     padding: 5px;
     display: none;
+    background: #a9fa99;
 }
 
 
