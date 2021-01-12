@@ -723,6 +723,10 @@ li{
 input{
   font-family: Kalpurush !important;
 }
+
+.swal2-styled{
+  font-family: SiyamRupali;
+}
 /* .collap-active{
   animation: collap 0.1s linear;
   transition: 0.1s;
