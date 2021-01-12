@@ -720,6 +720,9 @@ li{
   padding-left: 50px;
 }
 
+input{
+  font-family: Kalpurush !important;
+}
 /* .collap-active{
   animation: collap 0.1s linear;
   transition: 0.1s;

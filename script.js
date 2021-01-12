@@ -19,15 +19,6 @@ $(".lds-ellipsis div").css(
   Colors[Math.floor(Math.random() * 11)]
 );
 
-$(document).ready(function () {
-  $(".sidenav").sidenav();
-});
-$(document).ready(function () {
-  $("select").formSelect();
-});
-$(document).ready(function(){
-  $('.collapsible').collapsible();
-});
 
 let subName = {
   bangla: "বাংলা",
@@ -43,6 +34,18 @@ var router = new Navigo(null, true, "#!");
 firebase.auth().onAuthStateChanged(function (user) {
   if (!user) {
     router.navigate("/login");
+  }else{
+    $(document).ready(function () {
+      $(".sidenav").sidenav();
+    });
+    
+    $(document).ready(function () {
+      $("select").formSelect();
+    });
+    
+    $(document).ready(function(){
+      $('.collapsible').collapsible();
+    });
   }
 });
 
@@ -96,7 +99,8 @@ if (window.location.hash === "") {
         }
         app.innerHTML = `
         <div class="card">
-        <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-book"></i> বিষয়</div>
+        <div class="input-field col s12">
+        <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-book"></i> বিষয়ভিত্তিক পরীক্ষা </div>
         <div class="menu">
        
         <a href="#!/chapter/bangla"><div class="item" style="border-top: 2px solid var(--purple);"><div>
@@ -131,6 +135,22 @@ if (window.location.hash === "") {
         </div>
         </div>
         `;
+        $(document).ready(function () {
+          $("select").formSelect();
+        });
+
+       
+          
+          
+      
+
+  
+
+        //$('#groupSelect').click(function() {
+      
+       
+        //})
+        
       },
       "/chapter/:id": function name(params) {
         $('.footer').show();
@@ -138,13 +158,25 @@ if (window.location.hash === "") {
       <div class="menu-title"><i class="icofont-read-book"></i> ${
         subName[params.id]
       }</div>
-<div class="chapterList"></div>
+<div class="chapterList">
+<center><div class="preloader-wrapper active">
+<div class="spinner-layer spinner-red-only">
+  <div class="circle-clipper left">
+    <div class="circle"></div>
+  </div><div class="gap-patch">
+    <div class="circle"></div>
+  </div><div class="circle-clipper right">
+    <div class="circle"></div>
+  </div>
+</div>
+</div></center>
+</div>
 `;
         db.ref("jachai/exams/" + params.id).on("value", (exams) => {
           let chapters = [];
           let chapterName = [];
 
-          $(".chapterList").html("");
+         
           exams.forEach((exam) => {
             chapters.push(exam.key);
             chapterName.push(exam.val().name);
@@ -154,6 +186,7 @@ if (window.location.hash === "") {
             db.ref(
               "jachai/exams/" + params.id + "/" + chapters[i] + "/exams"
             ).on("value", (e) => {
+              $(".chapterList").html("");
               e.forEach((ee) => {
                 document.querySelector(".chapterList").innerHTML += `
             <a href="#!/chapter/examlist/${params.id}|${chapters[i]}|${
@@ -217,7 +250,7 @@ if (window.location.hash === "") {
         if(given){
               document.querySelector(".examLists").innerHTML += `
       <div class="exam">
-      <div class="class"><i class="icofont-star"></i> ${
+      <div class="class"><i class="icofont-ui-rate-add"></i> ${
         allExams[i].questions.length
       }</div>
           <div class="logo" style="color: var(--success); background: none;"><i style="font-size: 60px" class="material-icons">verified</i></div>
@@ -245,7 +278,7 @@ if (window.location.hash === "") {
             }else{
               document.querySelector(".examLists").innerHTML += `
               <div class="exam">
-              <div class="class"><i class="icofont-star"></i> ${
+              <div class="class"><i class="icofont-ui-rate-add"></i> ${
                 allExams[i].questions.length
               }</div>
                   <div class="logo" style="background: ${logoColor(
@@ -1736,4 +1769,5 @@ function validation(string) {
   
 //  // $(this).addClass('footerIconActive');
 // })
+
 
