@@ -113,10 +113,6 @@ if (window.location.hash === "") {
         <div style="text-align: center;">ICT</div>
         </div></div></a>
 
-        <a href="#!/chapter/economics1"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <center><div class="bfontIcon">অ</div></center>
-        <div style="text-align: center;">অর্থনীতি ১ম পত্র</div>
-        </div></div></a>
 
         <a href="#!/chapter/civics1"><div class="item" style="border-top: 2px solid var(--purple);"><div>
         <center><div class="bfontIcon">প</div></center>
@@ -934,7 +930,7 @@ if (window.location.hash === "") {
                   );
 
                   Swal.fire({
-                    title: `তুমি পরীক্ষাটি আগেও দিয়েছিলে। এবার আর তোমার স্কোর যোগ হবে না!`,
+                    title: `এই পরীক্ষাটির স্কোর যোগ হবে না!`,
                     icon: "success",
                     confirmButtonText: "আচ্ছা!",
                   });
