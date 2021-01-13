@@ -238,7 +238,7 @@ if (window.location.hash === "") {
       <div class="class"><i class="icofont-ui-rate-add"></i> ${
         allExams[i].questions.length
       }</div>
-          <div class="logo" style="color: var(--success); background: none;"><i style="font-size: 60px" class="material-icons">verified</i></div>
+          <div class="logo" style="color: var(--success); background: none;"><i style="font-size: 40px" class="material-icons">verified</i></div>
           <div class="details">
               <div class="title">${allExams[i].details.name}</div>
               <div class="others">প্রশ্নঃ ${
@@ -1359,6 +1359,9 @@ if (window.location.hash === "") {
   </center>
 </div>
 
+</br>
+<b><i class="icofont-chart-histogram"></i> প্রাকটিস প্রোগ্রেস</b>
+</br>
 <center><div class="bar-cont">
 
 <div class="container">
@@ -1376,7 +1379,7 @@ if (window.location.hash === "") {
     </div>
   </div>
   </div>
-    <h5>প্রাকটিস এক্সাম প্রোগ্রেস</h5>
+    <h5>এক্সাম</h5>
   </div>
   </div>
 
@@ -1395,7 +1398,7 @@ if (window.location.hash === "") {
     </div>
   </div>
     </div>
-    <h5>প্রাকটিস স্কোর প্রোগ্রেস</h5>
+    <h5>স্কোর</h5>
   </div>
   </div>
   </div></center>
