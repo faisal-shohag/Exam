@@ -20,6 +20,7 @@ $(".lds-ellipsis div").css(
 );
 
 
+
 let subName = {
   bangla: "বাংলা",
   english: "English",
@@ -33,8 +34,14 @@ let subName = {
 var router = new Navigo(null, true, "#!");
 firebase.auth().onAuthStateChanged(function (user) {
   if (!user) {
+    setTimeout(function(){
+      $('.splash').hide('fast');
+      }, 2000);
     router.navigate("/login");
   }else{
+    setTimeout(function(){
+      $('.splash').hide('fast');
+      }, 2000);
     $(document).ready(function () {
       $(".sidenav").sidenav();
     });
@@ -91,6 +98,7 @@ if (window.location.hash === "") {
 
     Router.routes = {
       "/": function () {
+        $('.footer').show();
         $('.footertext').hide();
         $('.footerIcon').removeClass('footerIconActive');
         if($('.hm')[0].classList[3] === undefined){
@@ -1009,7 +1017,7 @@ if (window.location.hash === "") {
       },
 
       "/login": function () {
-        $('.footer').show();
+        $('.footer').hide();
         app.innerHTML = ` 
         <div class="login">
         <h5> <i class="icofont-unlocked"></i> সাইনইন/সাইন আউট</h5>   
@@ -1155,7 +1163,7 @@ if (window.location.hash === "") {
           });
       },
       "/setprofile": function () {
-        $('.footer').show();
+        $('.footer').hide();
 
         app.innerHTML = `
         <div class="login">
