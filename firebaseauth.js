@@ -166,9 +166,13 @@ function getUiConfig() {
                 //console.log('User is not ready!');
                 router.navigate('/setprofile');
             }else{
-              $('.avatar').html(`<div class="logo" style="background: ${logoColor(
+              $('.avatar').html(`<div class="logo1" style="background: ${logoColor(
                 firstLetter(set.val().username)
-              )}">${firstLetter(set.val().username)}</div>`)
+              )}">${firstLetter(set.val().username)}</div>`);
+              $('.avatar1').html(`<div class="logo1" style="background: ${logoColor(
+                firstLetter(set.val().username)
+              )}">${firstLetter(set.val().username)}</div>`);
+              $('.avatarName').html(`${set.val().username}`);
               $('.tsc').text(set.val().score);
               $('.psc').text(set.val().practiceScore);
               epscore = set.val().practiceScore;

@@ -230,10 +230,9 @@
 }
 
 .timer{
-    color: var(--light);
-    /* font-weight: bold; */
+    font-family: 'Barlow', sans-serif;    /* font-weight: bold; */
     padding: 5px;
-    font-family: 'Google Sans';
+    color: var(--dark);
 }
 
 @keyframes bar {

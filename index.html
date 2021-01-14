@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
   <link rel="preconnect" href="https://fonts.gstatic.com"> 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans" as="style" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500&display=swap" rel="stylesheet"> 
   <link href="https://fonts.maateen.me/charukola-ultra-light/font.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap" rel="stylesheet" /> 
@@ -27,8 +28,11 @@
 </head>
 <body>
 
+ 
+
+
   <div class="header">
-    <a href="#!/profile"><div class="avatar"></div></a>
+    <a href="#" data-target="slide-out" class="sidenav-trigger"><div class="avatar"></div></a>
     <div class="title"></div>
     <div style="display: flex;">
     <div class="myscore"><i class="icofont-badge"></i><span class="count tsc">...</span></div>
@@ -61,6 +65,26 @@
     <div class="ntfActive"></div>
   </div>
 </div>
+
+
+<ul id="slide-out" class="sidenav">
+
+  
+     <div class="user-views">
+
+      <div>
+
+      <div class="avatar1"></div>
+
+      <div class="avatarName"></div>
+
+    </div>
+ 
+  </div>
+
+
+
+</ul>
 
 
 <!-- partial -->

@@ -13,7 +13,7 @@ let Colors = {
 };
 
 // Random Color
-$(".header").css("background-color", Colors[Math.floor(Math.random() * 11)]);
+// $(".header").css("background-color", Colors[Math.floor(Math.random() * 11)]);
 $(".lds-ellipsis div").css(
   "background-color",
   Colors[Math.floor(Math.random() * 11)]
@@ -466,7 +466,7 @@ if (window.location.hash === "") {
               clearInterval(timer);
             } else {
               $(".header .title").html(
-                `<div class="timer"><i class="icofont-wall-clock"></i> ${minute} : ${sec}</div>`
+                `<div class="timer"><i class="icofont-stopwatch"></i></i> ${minute} : ${sec}</div>`
               );
             }
           }, 1000);

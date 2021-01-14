@@ -44,7 +44,7 @@
 html, body {
   height: 100%;
   margin: 0;
-  background: #f3eeee; 
+  background: rgb(248, 247, 247); 
   font-family: Google Sans, 'Kalpurush';
 
 }
@@ -66,10 +66,12 @@ html, body {
   width: 100%;
   height: 50px;
   padding: 7px;
-  background: var(--teal);
+  background: rgb(248, 247, 247); 
   color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 0px 0px rgba(0,0,0,0.3);
   z-index: 99;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
 
@@ -166,7 +168,15 @@ a{
    margin-right: 20px;
   }
 
-  .avatar .logo{
+  .avatar{
+    margin: 9px;
+  }
+
+  .avatar1{
+    margin: 8.5px;
+  }
+
+  .avatar .logo1{
     height: 40px;
     width: 40px;
     display: flex;
@@ -174,10 +184,24 @@ a{
     align-items: center;
     font-size: 25px;
     border-radius: 50%;
-    border: 2px solid #d4d0d0;
+    /* border: 2px solid #d4d0d0; */
     color: #fff;
     background: var(--teal);
-    margin-right: 20px;
+    margin-right: -25px;
+   }
+
+   .avatar1 .logo1{
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    border-radius: 50%;
+    /* border: 2px solid #d4d0d0; */
+    color: #fff;
+    background: var(--teal);
+    margin-right: -25px;
    }
   
   .exam .title{
@@ -291,6 +315,26 @@ ul li a:link, ul li a:visited {
 ul li a:active, ul li a:hover {
   color: hotpink;
   transition: color 500ms ease-in;
+}
+
+.avatarName{
+  font-weight: bold;
+  font-family: Hind Siliguri;
+  background: rgba(225,225,225,0.9);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.user-views{
+  color: var(--danger);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* text-align: center; */
+  padding: 20px;
+  background: url(/images/sidenavbg.webp);
+  background-size: cover;
+
 }
 
 .menu-title{
@@ -446,7 +490,7 @@ ul li a:active, ul li a:hover {
   margin-right: 5px;
   padding: 3px;
   background: var(--dark);
-  color: #fff;
+  color: #000;
   border-radius: 5px;
   font-size: 10px;
 }
@@ -473,7 +517,7 @@ ul li a:active, ul li a:hover {
   position: fixed;
   width: 100%;
   bottom: 0;
-  z-index: 999;
+  z-index: 99;
   background: #FFF;
   box-shadow: 0 -2px 5px 0px rgba(0,0,0, .2);
   padding: 0px 15px;
@@ -602,14 +646,7 @@ ul li a:active, ul li a:hover {
 }
 
 
-ul{
-  background: #fff;
-}
 
-li{
-  width: 100%;
-  background: #fff !important;
-}
 .collap-header{
   display: flex;
   padding: 10px 10px;
