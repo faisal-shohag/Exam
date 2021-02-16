@@ -55,7 +55,18 @@ html, body {
 }
 
 
+.h{
+  display: flex;
+  justify-content: space-between;
+  padding: 7px;
+  color: #6c757d;
+  font-weight: bold;
+  font-size: 9px;
+}
 
+.hs{
+  padding-left: 102px;
+}
 .header{
   position: fixed;
   display: flex;
@@ -138,7 +149,7 @@ a{
   
   .class{
       position: absolute;
-      left: 0%;
+      right: 0%;
       top: 2%;
       font-size: 11px;
       padding: 2px;
