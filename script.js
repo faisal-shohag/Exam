@@ -19,10 +19,10 @@ $(".lds-ellipsis div").css(
   Colors[Math.floor(Math.random() * 11)]
 );
 
-$(".splash").css(
-  "background-color",
-  Colors[Math.floor(Math.random() * 11)]
-);
+// $(".splash").css(
+//   "background-color",
+//   Colors[Math.floor(Math.random() * 11)]
+// );
 
 
 
@@ -592,18 +592,18 @@ if (window.location.hash === "") {
 
                       $(".score").show();
                       $(".mark").html(
-                        `স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
+                        `<i class="icofont-check-circled"></i><br>স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
                       );
                       $(".score-wa").html(
-                        `ভুল </br> <span class="score-num">${wrong}</span>`
+                        `<i class="icofont-close-circled"></i><br/>ভুল </br> <span class="score-num">${wrong}</span>`
                       );
                       $(".score-na").html(
-                        `ফাঁকা </br> <span class="score-num">${
+                        `<i class="icofont-warning-alt"></i><br />ফাঁকা </br> <span class="score-num">${
                           questions.length - (score + wrong)
                         }</span>`
                       );
                       $(".score-time").html(
-                        `সময় <br> <span class="score-num">${
+                        `<i class="icofont-ui-clock"></i><br />সময় <br> <span class="score-num">${
                           initialMin - 1 - minute
                         }:${60 - sec}</span>`
                       );
@@ -703,18 +703,18 @@ if (window.location.hash === "") {
 
                   $(".score").show();
                   $(".mark").html(
-                    `স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
+                    `<i class="icofont-check-circled"></i><br>স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
                   );
                   $(".score-wa").html(
-                    `ভুল </br> <span class="score-num">${wrong}</span>`
+                    `<i class="icofont-close-circled"></i><br/>ভুল </br> <span class="score-num">${wrong}</span>`
                   );
                   $(".score-na").html(
-                    `ফাঁকা </br> <span class="score-num">${
+                    `<i class="icofont-warning-alt"></i><br />ফাঁকা </br> <span class="score-num">${
                       questions.length - (score + wrong)
                     }</span>`
                   );
                   $(".score-time").html(
-                    `সময় <br> <span class="score-num">${
+                    `<i class="icofont-ui-clock"></i><br />সময় <br> <span class="score-num">${
                       initialMin - 1 - minute
                     }:${60 - sec}</span>`
                   );
@@ -786,10 +786,10 @@ if (window.location.hash === "") {
           <div class="score-na"></div>
           <div class="score-time"></div>
           </div>
-          <div id="again" class="exam-title" onClick="window.location.reload()">আবার দাও!</div>
+          <div id="again" class="exam-title" onClick="window.location.reload()"><i class="icofont-refresh"></i> আবার দাও!</div>
           <div class="exam-nb"></div>
           <div class="questions"></div>
-          <div class="submit" id="submit">সাবমিট করো! </div>
+          <div class="submit" id="submit"> <i class="icofont-location-arrow"></i> সাবমিট করো! </div>
           </div>
       `;
           $(".exam-title").css(

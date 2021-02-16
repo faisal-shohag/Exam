@@ -708,7 +708,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--danger);
+    background: rgba(0,0,0,.5);
     position: fixed;
     width: 100%;
     top: 0;
