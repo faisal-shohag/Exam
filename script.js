@@ -36,7 +36,10 @@ let subName = {
   economics2: "অর্থনীতি ২য় পত্র",
 };
 
-var router = new Navigo(null, true, "#!");
+var root = null;
+var useHash = true; // Defaults to: false
+var hash = '#!'; // Defaults to: '#'
+var router = new Navigo(root, useHash, hash);
 firebase.auth().onAuthStateChanged(function (user) {
   if (!user) {
     setTimeout(function(){
@@ -62,105 +65,106 @@ firebase.auth().onAuthStateChanged(function (user) {
 });
 
 if (window.location.hash === "") {
-  window.location.hash = "#!";
+ // window.location.hash = "#!";
 }
 
-(function (window, Navigo) {
-  const Router = (function (root, useHash, hash, Navigo) {
-    class Router extends Navigo {
-      constructor(root, useHash, hash) {
-        super(root, useHash, hash);
-        this.init();
-      }
+// (function (window, Navigo) {
+//   const Router = (function (root, useHash, hash, Navigo) {
+//     class Router extends Navigo {
+//       constructor(root, useHash, hash) {
+//         super(root, useHash, hash);
+//         this.init();
+//       }
 
-      init() {
-        document.body.addEventListener(
-          "click",
-          (e) => {
-            if (e.target !== e.currentTarget && e.target.nodeName === "A") {
-              e.preventDefault();
-              this.navigate(e.target.pathname);
-            }
+//       init() {
+//         document.body.addEventListener(
+//           "click",
+//           (e) => {
+//             if (e.target !== e.currentTarget && e.target.nodeName === "A") {
+//               e.preventDefault();
+//               this.navigate(e.target.pathname);
+//             }
 
-            e.stopPropagation();
-          },
-          false
-        );
-      }
+//             e.stopPropagation();
+//           },
+//           false
+//         );
+//       }
 
-      set routes(routes) {
-        routes = routes || {};
-        this.on(routes);
-        this.resolve();
-      }
-    }
+//       set routes(routes) {
+//         routes = routes || {};
+//         this.on(routes);
+//         this.resolve();
+//       }
+//     }
 
-    return new Router(root, useHash, hash);
-  })(null, true, "#!", Navigo);
+//     return new Router(root, useHash, hash);
+//   })(null, true, "#!", Navigo);
 
-  const init = () => {
+  //const init = () => {
     const app = document.getElementById("app");
 
-    Router.routes = {
-      "/": function () {
-        $('.footer').show();
-        $('.footertext').hide();
-        $('.footerIcon').removeClass('footerIconActive');
-        if($('.hm')[0].classList[3] === undefined){
-          $('.hm').addClass('footerIconActive');
-          $($($('.hm')[0].parentNode)[0].lastElementChild).show();
-        }
-        app.innerHTML = `
-        <div class="card">
-        <div class="input-field col s12">
-        <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-book"></i> বিষয়ভিত্তিক পরীক্ষা </div>
-        <div class="menu">
-       
-        <a href="#!/chapter/bangla"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <div class="bfontIcon">ব</div>
-        <div>বাংলা</div>
-        </div></div></a>
+    router.on(function () {
+      $('.footer').show();
+      $('.footertext').hide();
+      $('.footerIcon').removeClass('footerIconActive');
+      if($('.hm')[0].classList[3] === undefined){
+        $('.hm').addClass('footerIconActive');
+        $($($('.hm')[0].parentNode)[0].lastElementChild).show();
+      }
+      app.innerHTML = `
+      <div class="card">
+      <div class="input-field col s12">
+      <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-book"></i> বিষয়ভিত্তিক পরীক্ষা </div>
+      <div class="menu">
+     
+      <a href="#!/chapter/bangla"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+      <div class="bfontIcon">ব</div>
+      <div>বাংলা</div>
+      </div></div></a>
 
-        <a href="#!/chapter/ict"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <center><div class="bfontIcon">ত</div></center>
-        <div style="text-align: center;">ICT</div>
-        </div></div></a>
+      <a href="#!/chapter/ict"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+      <center><div class="bfontIcon">ত</div></center>
+      <div style="text-align: center;">ICT</div>
+      </div></div></a>
 
 
-        <a href="#!/chapter/civics1"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <center><div class="bfontIcon">প</div></center>
-        <div style="text-align: center;">পৌরনীতি ১ম পত্র</div>
-        </div></div></a>
+      <a href="#!/chapter/civics1"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+      <center><div class="bfontIcon">প</div></center>
+      <div style="text-align: center;">পৌরনীতি ১ম পত্র</div>
+      </div></div></a>
 
-        <a href="#!/chapter/civics2"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <center><div class="bfontIcon">প</div></center>
-        <div style="text-align: center;">পৌরনীতি ২য়  পত্র</div>
-        </div></div></a>
+      <a href="#!/chapter/civics2"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+      <center><div class="bfontIcon">প</div></center>
+      <div style="text-align: center;">পৌরনীতি ২য়  পত্র</div>
+      </div></div></a>
 
-        <a href="/#!/exams/practice"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-        <center><div class="bfontIcon">অ</div></center>
-        <div style="text-align: center;">অন্যান্য</div>
-        </div></div></a>
-        </div>
-        </div>
-        `;
-        $(document).ready(function () {
-          $("select").formSelect();
-        });
+      <a href="/#!/exams/practice"><div class="item" style="border-top: 2px solid var(--purple);"><div>
+      <center><div class="bfontIcon">অ</div></center>
+      <div style="text-align: center;">অন্যান্য</div>
+      </div></div></a>
+      </div>
+      </div>
+      `;
+      $(document).ready(function () {
+        $("select").formSelect();
+      });
 
-       
-          
-          
-      
-
-  
-
-        //$('#groupSelect').click(function() {
-      
-       
-        //})
+     
         
-      },
+        
+    
+
+
+
+      //$('#groupSelect').click(function() {
+    
+     
+      //})
+      
+    }, ).resolve();
+
+    router.on({
       "/chapter/:id": function name(params) {
         $('.footer').show();
         app.innerHTML = `
@@ -382,6 +386,10 @@ if (window.location.hash === "") {
     })
       },
       "chapter/exam/:id": function (params) {
+        
+       
+         //document.getElementsByTagName('head')[0].appendChild(sr); 
+         $('#mj').remove();
         let eAddr = params.id.split("|");
         $('.footer').hide();
         db.ref(
@@ -402,6 +410,7 @@ if (window.location.hash === "") {
               <div class="questions"></div>
               <div class="submit" id="submit">সাবমিট করো! </div>
               </div>
+
           `;
           $(".exam-title").css(
             "background",
@@ -425,6 +434,7 @@ if (window.location.hash === "") {
             $(".score").hide();
             ans.push((questions[q].ans + q * 4).toString());
             exp.push(questions[q].ex);
+            var elem = document.querySelector(".exam-container .questions");
             document.querySelector(".exam-container .questions").innerHTML += `
                <div class="q-wrap">
                       <div class="q-logo"></div>
@@ -449,6 +459,25 @@ if (window.location.hash === "") {
               </div>
                `;
           }
+
+          (function () {
+            $('#mjax').remove();
+            if (document.body.querySelector('math') ||
+                document.body.textContent.match(/(?:\$|\\\(|\\\[|\\begin\{.*?})/)) {
+              if (!window.MathJax) {
+                window.MathJax = {
+                  tex: {
+                    inlineMath: {'[+]': [['$', '$']]}
+                  }
+                };
+              }
+              var script = document.createElement('script');
+              script.id ="mjax";
+              script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+              document.head.appendChild(script);
+            }
+          })();
+          
 
           $(".opt").on("click", function () {
             userAns.push($(this)[0].id);
@@ -493,6 +522,7 @@ if (window.location.hash === "") {
               });
             }
           });
+
 
           $("#submit")
             .off()
@@ -714,6 +744,7 @@ if (window.location.hash === "") {
               });
             });
         });
+        
       },
       //Other EXAM LISTS
       "/exams/:id": function (params) {
@@ -1617,15 +1648,16 @@ if (window.location.hash === "") {
       }
 
 
-    };
+    }).resolve();
 
     //Page not found!
     // Router.notFound(function () {
     //   app.innerHTML = `404; Opps! You're in a wrong place!`;
     // });
 
-    //Hooks
-    Router.hooks({
+   // Hooks
+   
+    router.hooks({
       before: function (done, params) {
         // let Hash = (window.location.hash).split('/');
         // Hash = Hash[Hash.length-1];
@@ -1642,10 +1674,10 @@ if (window.location.hash === "") {
         //window.location.reload();
       },
     });
-  };
+ ///};
 
-  window.addEventListener("load", init, false);
-})(window, Navigo);
+//   window.addEventListener("load", init, false);
+// })(window, Navigo);
 
 
 //notification Status

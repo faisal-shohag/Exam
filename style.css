@@ -502,7 +502,7 @@ ul li a:active, ul li a:hover {
   margin-right: 5px;
   padding: 3px;
   background: var(--dark);
-  color: #000;
+  color: var(--light);
   border-radius: 5px;
   font-size: 10px;
 }
