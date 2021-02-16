@@ -19,10 +19,7 @@ $(".lds-ellipsis div").css(
   Colors[Math.floor(Math.random() * 11)]
 );
 
-// $(".splash").css(
-//   "background-color",
-//   Colors[Math.floor(Math.random() * 11)]
-// );
+
 
 
 
