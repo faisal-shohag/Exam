@@ -183,9 +183,7 @@ a{
     margin: 9px;
   }
 
-  .avatar1{
-    margin: 8.5px;
-  }
+ 
 
   .avatar .logo1{
     height: 40px;
@@ -212,7 +210,8 @@ a{
     /* border: 2px solid #d4d0d0; */
     color: #fff;
     background: var(--teal);
-    margin-right: -25px;
+    /* margin-right: -25px; */
+    margin-bottom: 10px;
    }
   
   .exam .title{
@@ -307,26 +306,7 @@ main{
   position: relative;
 }
 
-ul {
-  background: rgb(33, 33, 33);
-  list-style: none;
-  padding: 0;
-}
 
-ul li {
-  display: inline-block;
-}
-
-ul li a:link, ul li a:visited {
-  color: lightgray;
-  display: block;
-  padding: 1rem;
-}
-
-ul li a:active, ul li a:hover {
-  color: hotpink;
-  transition: color 500ms ease-in;
-}
 
 .sidenavFooter{
   font-weight: bold;
@@ -346,6 +326,7 @@ ul li a:active, ul li a:hover {
   background: rgba(225,225,225,0.9);
   padding: 5px;
   border-radius: 5px;
+  text-align: center;
 }
 
 .user-views{
