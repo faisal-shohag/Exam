@@ -110,11 +110,39 @@ if (window.location.hash === "") {
         $($($('.hm')[0].parentNode)[0].lastElementChild).show();
       }
       app.innerHTML = `
-      <div class="card">
+      <div class="subj-card">
+      <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-world"></i>বাংলাদেশ বিষয়াবলী</div>
+      <div class="chap-list">
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের জাতীয় বিষয়াবলী</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের কৃষিজ সম্পদ</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i>বাংলাদেশের জনসংখ্যা</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের অর্থনীতি</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের শিল্প ও বাণিজ্য</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের সংবিধান</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের সরকার ব্যবস্থা</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের জাতীয় অর্জন</a> </div>
+      </div>
+      </div>
+
+
+      <div class="subj-card">
+      <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-world"></i>আন্তর্জাতিক বিষয়াবলী</div>
+      <div class="chap-list">
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বৈশ্বিক ইতিহাস</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> আঞ্চলিক ও আন্তর্জাতিক ব্যবস্থা</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> ভু-রাজনীতি</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> আন্তর্জাতিক নিরাপত্তা ও আন্তরাষ্ট্রীয় ক্ষমতা সম্পর্ক</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বিশ্বের সাম্প্রতিক ও চলমান ঘটনাপ্রবাহ</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> আন্তর্জাতিক পরিবেশগত ইস্যু ও কূটনীতি</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> আন্তর্জাতিক সংগঠনসমূহ এবং বৈশ্বিক অর্থনৈতিক</a> </div>
+      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> প্রতিষ্ঠানাদি</a> </div>
+      </div>
+      </div>
+
+      <div class="subj-card">
       <div class="input-field col s12">
       <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-book"></i> বিষয়ভিত্তিক পরীক্ষা </div>
       <div class="menu">
-     
       <a href="#!/chapter/bangla"><div class="item" style="border-top: 2px solid var(--purple);"><div>
       <div class="bfontIcon">ব</div>
       <div>বাংলা</div>
@@ -1220,6 +1248,7 @@ if (window.location.hash === "") {
         <option value="" disabled selected>Select your Class:</option>
           <option value="11">Eleven</option>
           <option value="12">Twelve</option>
+          <option value="BCS">Bangladesh Civil Service(BCS)</option>
         </select>
         <label>Class</label>
       </div>
@@ -1348,10 +1377,6 @@ if (window.location.hash === "") {
 
         app.innerHTML = `
 <div class="login">
-        <a href="#!/setprofile"><div style="float:right; color: #000; font-size: 14px; margin-left: 10px;">
-        <i class="icofont-edit"></i>প্রোফাইল সেট</div></a> 
-        <a href="#!/login"><div style="float:right; color: #000; font-size: 14px;">
-        <i class="icofont-logout"></i> সাইনআউট </div></a>
         <h5>
         </span>
         <i class="icofont-bars"></i>প্রোফাইল পরিসংখ্যান</h5>

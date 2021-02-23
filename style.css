@@ -183,7 +183,23 @@ a{
     margin: 9px;
   }
 
- 
+ .subj-card{
+   font-size: 15px;
+ }
+
+ .chap-list a{
+  color: #000;
+ }
+
+ .chap{
+   padding: 5px;
+   padding-left: 20px;
+   background: #fff;
+   margin: 5px 5px;
+   border-radius: 5px;
+   box-shadow: 0 2px 8px rgba(0,0,0, .2);
+   font-size: 18px;
+ }
 
   .avatar .logo1{
     height: 40px;
