@@ -1539,7 +1539,7 @@ if (window.location.hash === "") {
         }
         app.innerHTML = `
         <h5><i class="icofont-users-alt-5"></i> র‍্যাঙ্কস</h5>
-        <small style="color: var(--danger)"><b class="pos"></b></small>
+        <center><small style="color: var(--danger)"><b class="pos"></b></small></center>
         <div class="h">
         <div >Rank</div>
          <div >Name</div>
