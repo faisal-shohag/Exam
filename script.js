@@ -31,6 +31,7 @@ let subName = {
   civics2: "পৌরনীতি ২য়  পত্র",
   economics1: "অর্থনীতি ১ম পত্র",
   economics2: "অর্থনীতি ২য় পত্র",
+  gk1: "বাংলাদেশের জাতীয় বিষয়াবলী",
 };
 
 var root = null;
@@ -110,66 +111,11 @@ if (window.location.hash === "") {
         $($($('.hm')[0].parentNode)[0].lastElementChild).show();
       }
       app.innerHTML = `
-      <div class="subj-card">
-      <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-world"></i>বাংলাদেশ বিষয়াবলী</div>
-      <div class="chap-list">
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের জাতীয় বিষয়াবলী</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের কৃষিজ সম্পদ</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i>বাংলাদেশের জনসংখ্যা</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের অর্থনীতি</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের শিল্প ও বাণিজ্য</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের সংবিধান</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের সরকার ব্যবস্থা</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বাংলাদেশের জাতীয় অর্জন</a> </div>
-      </div>
-      </div>
+      <div style="font-size: 18px;" class="menu-title"><i style="font-size: 20px;" class="icofont-world"></i>সাধারণ জ্ঞান</div>
+      <a href="#!/chapter/gk1"><div class="select-menu"><i class="icofont-square-right"></i> বাংলাদেশ বিষয়াবলী</div></a>
+      <a href="#!/"><div class="select-menu"><i class="icofont-square-right"></i> আন্তর্জাতিক বিষয়াবলী</div></a>
 
-
-      <div class="subj-card">
-      <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-world"></i>আন্তর্জাতিক বিষয়াবলী</div>
-      <div class="chap-list">
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বৈশ্বিক ইতিহাস</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> আঞ্চলিক ও আন্তর্জাতিক ব্যবস্থা</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> ভু-রাজনীতি</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> আন্তর্জাতিক নিরাপত্তা ও আন্তরাষ্ট্রীয় ক্ষমতা সম্পর্ক</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> বিশ্বের সাম্প্রতিক ও চলমান ঘটনাপ্রবাহ</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> আন্তর্জাতিক পরিবেশগত ইস্যু ও কূটনীতি</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> আন্তর্জাতিক সংগঠনসমূহ এবং বৈশ্বিক অর্থনৈতিক</a> </div>
-      <div class="chap"> <a href="#!/"><i class="icofont-hand-drawn-right"></i> প্রতিষ্ঠানাদি</a> </div>
-      </div>
-      </div>
-
-      <div class="subj-card">
-      <div class="input-field col s12">
-      <div style="font-size: 21px;" class="menu-title"><i style="font-size: 30px;" class="icofont-book"></i> বিষয়ভিত্তিক পরীক্ষা </div>
-      <div class="menu">
-      <a href="#!/chapter/bangla"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-      <div class="bfontIcon">ব</div>
-      <div>বাংলা</div>
-      </div></div></a>
-
-      <a href="#!/chapter/ict"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-      <center><div class="bfontIcon">ত</div></center>
-      <div style="text-align: center;">ICT</div>
-      </div></div></a>
-
-
-      <a href="#!/chapter/civics1"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-      <center><div class="bfontIcon">প</div></center>
-      <div style="text-align: center;">পৌরনীতি ১ম পত্র</div>
-      </div></div></a>
-
-      <a href="#!/chapter/civics2"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-      <center><div class="bfontIcon">প</div></center>
-      <div style="text-align: center;">পৌরনীতি ২য়  পত্র</div>
-      </div></div></a>
-
-      <a href="/#!/exams/practice"><div class="item" style="border-top: 2px solid var(--purple);"><div>
-      <center><div class="bfontIcon">অ</div></center>
-      <div style="text-align: center;">অন্যান্য</div>
-      </div></div></a>
-      </div>
-      </div>
+      
       `;
     }, ).resolve();
 
@@ -435,7 +381,10 @@ if (window.location.hash === "") {
             score = 0,
             wrong = 0,
             na = 0,
+            neg = parseFloat(myexam.details.negative);
+            
             questions = shuffleArray(myexam.questions);
+            //console.log(neg);
 
           $(".exam-nb").html(`${myexam.details.nb}`);
 
@@ -617,10 +566,10 @@ if (window.location.hash === "") {
 
                       $(".score").show();
                       $(".mark").html(
-                        `<i class="icofont-check-circled"></i><br>স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
+                        `<i class="icofont-check-circled"></i><br>স্কোর</br> <small>সঠিকঃ ${score} টি</small> <br/> <span class="score-num">${score-(wrong*neg)}/${questions.length}</span>`
                       );
                       $(".score-wa").html(
-                        `<i class="icofont-close-circled"></i><br/>ভুল </br> <span class="score-num">${wrong}</span>`
+                        `<i class="icofont-close-circled"></i><br/>ভুল </br><small>নেগেটিভঃ ${wrong*neg}</small><br/> <span class="score-num">${wrong}</span>`
                       );
                       $(".score-na").html(
                         `<i class="icofont-warning-alt"></i><br />ফাঁকা </br> <span class="score-num">${
@@ -641,7 +590,8 @@ if (window.location.hash === "") {
                           "/" +
                           eAddr[3]
                       ).update({
-                        score: score,
+                        score: score-(wrong*neg),
+                        cr: score,
                         totalQ: questions.length,
                         wrong: wrong,
                         na: questions.length - (score + wrong),
@@ -651,12 +601,13 @@ if (window.location.hash === "") {
                         },
                       });
                       db.ref("jachai/users/" + userUID).update({
-                        practiceScore: epscore + score,
+                        practiceScore: epscore + (score-(wrong*neg)),
                         totalPracExam: etotalPracExam + 1,
                       });
 
                       db.ref("jachai/leaderboard/" + eAddr[3]).push({
-                        score: score,
+                        score: score-(wrong*neg),
+                        cr: score,
                         totalQ: questions.length,
                         wrong: wrong,
                         userKey: userUID,
@@ -731,7 +682,7 @@ if (window.location.hash === "") {
                     `<i class="icofont-check-circled"></i><br>স্কোর </br> <span class="score-num">${score}/${questions.length}</span>`
                   );
                   $(".score-wa").html(
-                    `<i class="icofont-close-circled"></i><br/>ভুল </br> <span class="score-num">${wrong}</span>`
+                    `<i class="icofont-close-circled"></i><br/>ভুল </br> <span class="score-num">${wrong} টি</span>`
                   );
                   $(".score-na").html(
                     `<i class="icofont-warning-alt"></i><br />ফাঁকা </br> <span class="score-num">${

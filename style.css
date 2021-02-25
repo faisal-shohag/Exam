@@ -798,3 +798,11 @@ input{
     height: auto;
   }
 } */
+
+.select-menu{
+ padding: 10px;
+ font-size: 17px;
+ margin: 5px 5px;
+ box-shadow: 0px 1px 8px rgba(0,0,0, .2);
+ font-weight: bold;
+}
